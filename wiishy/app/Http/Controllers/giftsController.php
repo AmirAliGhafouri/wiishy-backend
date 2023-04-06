@@ -44,8 +44,9 @@ class giftsController extends Controller
         ->join('gifts','gifts.id','=','giftuser.gift_id')
         ->where('userfollowings.user_id',$id )
         ->select('giftName','giftUrl','giftImageUrl','gift_like','giftuser.created_at as giftuser_created_at','name','family','userImageUrl')
-        ->get()->sortBy('giftuser_created_at')->reverse();
+        ->get()->sortByDesc('giftuser_created_at')->values();
         $count=$gifts->count();
+        // $giftssort=$gifts->all();
         return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$gifts]);
     }
 }
