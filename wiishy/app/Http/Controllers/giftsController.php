@@ -46,7 +46,6 @@ class giftsController extends Controller
         ->select('giftName','giftUrl','giftImageUrl','gift_like','giftuser.created_at as giftuser_created_at','name','family','userImageUrl')
         ->get()->sortByDesc('giftuser_created_at')->values();
         $count=$gifts->count();
-        // $giftssort=$gifts->all();
         return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$gifts]);
     }
 }
