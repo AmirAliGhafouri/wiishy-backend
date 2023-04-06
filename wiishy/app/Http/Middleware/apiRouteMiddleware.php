@@ -16,7 +16,7 @@ class apiRouteMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if($request->getHost() != 'www.wiishy.com')
+        if($request->getHost() != 'https://www.wiishy.com')
         {
             return response(['message'=>'Error!'], 400);
         }
