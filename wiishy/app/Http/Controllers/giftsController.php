@@ -29,7 +29,7 @@ class giftsController extends Controller
         ->join('users','users.id','=','giftuser.user_id')
         ->join('gifts','gifts.id','=','giftuser.gift_id')
         ->where(['giftuser.user_id'=>$user_id , 'giftuser.gift_id'=>$gift_id , 'users.status'=>1 , 'gifts.status'=>1])
-        ->select('giftName','giftPrice','giftDesc','giftUrl','giftImageUrl','gift_like','gift_view','shared','desire_rate','giftuser.created_at','name','family','userImageUrl')
+        ->select('user_id','gift_id','giftName','giftPrice','giftDesc','giftUrl','giftImageUrl','gift_like','gift_view','shared','desire_rate','giftuser.created_at','name','family','userImageUrl')
         ->get();
         /* if(!$gift_detail->all())
             return response(['message'=>'Not found'] , 500); */
