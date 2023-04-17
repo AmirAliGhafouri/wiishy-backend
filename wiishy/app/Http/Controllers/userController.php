@@ -43,12 +43,13 @@ class userController extends Controller
     }
 //_____________________ User Profile
     function user_profile($user_id){
-        try{
+       /*  try{
             $user=User::findOrFail($user_id);
         }
         catch(\Exception $exception){
             return response(['message'=>'user not found'] , 500);
-        }
+        } */
+        $user=User::where(['id'=>$user_id,'status'=>1])->first();
         return response(['user'=>$user]);
     }
 
