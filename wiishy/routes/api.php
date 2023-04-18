@@ -31,12 +31,3 @@ Route::controller(userController::class)->group(function(){
     Route::get('/followinglist/{id}', 'user_followings');
     Route::get('/userprofile/{id}', 'user_profile');
 });
-
-// Route::get('/usergifts/{id}',[giftsController::class,'user_gifts']);
-// Route::get('/followerlist/{id}',[userController::class,'user_followers']);
-// Route::get('/followinglist/{id}',[userController::class,'user_followings']);
-// Route::get('/userprofile/{id}',[userController::class,'user_profile']);
-// Route::get('/giftdetail/{giftid}/{userid}',[giftsController::class,'gift_detail']);
-// Route::get('/followingsgifts/{id}',[giftsController::class,'followings_gift']);
-
-// Route::post('/adduser',[giftsController::class,'adduser']);
