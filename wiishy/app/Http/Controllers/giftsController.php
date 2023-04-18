@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\userfollowingcount;
-use App\Models\userFollwerCount;
+use App\Models\gift;
+use App\Models\giftUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -43,5 +42,35 @@ class giftsController extends Controller
         ->get()->sortByDesc('giftuser_created_at')->values();
         $count=$gifts->count();
         return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$gifts]);
+    }
+
+//_____________________ Add New Gift
+    function add_gift(Request $req , $user_id){
+        $req->validate([
+            'g_name'=>'required',
+            'g_price'=>'required | numeric',
+            'g_desc'=>'required',
+            'g_image'=>'required'
+        ]);
+        $gift=gift::create([
+            'giftName'=>$req->g_name,
+            'giftPrice'=>$req->g_price,
+            'giftDesc'=>$req->g_desc,
+            'giftUrl'=>$req->g_link,
+            'status'=>1,
+            'giftImageUrl'=>$req->g_image
+        ]);
+
+        giftUser::create([
+            'user_id'=>$user_id,
+            'gift_id'=>$gift->id,
+            'desire_rate'=>$req->g_rate,
+            'gift_like'=>0,
+            'gift_view'=>0,
+            'shared'=>0,
+            'date_register'=>date('y,m,d')
+        ]);
+
+        return response(['message'=>"The gift has been successfully added"]);
     }
 }

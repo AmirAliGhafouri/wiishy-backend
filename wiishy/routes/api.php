@@ -26,6 +26,7 @@ Route::controller(giftsController::class)->group(function(){
     Route::get('/usergifts/{id}', 'user_gifts');
     Route::get('/giftdetail/{giftid}/{userid}', 'gift_detail');
     Route::get('/followingsgifts/{id}', 'followings_gift');
+    Route::post('/addgift/{id}', 'add_gift');
 });
 
 Route::controller(userController::class)->group(function(){
