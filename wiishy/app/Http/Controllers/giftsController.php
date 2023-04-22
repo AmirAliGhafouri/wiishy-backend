@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\userfollowingcount;
-use App\Models\userFollwerCount;
+use App\Models\gift;
+use App\Models\giftUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -18,8 +17,6 @@ class giftsController extends Controller
         ->where(['giftuser.user_id'=>$user_id , 'status'=>1])
         ->select('giftuser.gift_id' , 'giftuser.gift_view' , 'giftuser.gift_like' , 'giftuser.desire_rate' , 'giftuser.created_at' , 'giftName' , 'giftPrice' , 'giftDesc' , 'giftUrl')
         ->get();
-        /* if(!$gifts->all())
-            return response(['message'=>'no gifts found'],500); */
         return response(['gifts'=>$gifts]);
     }
 
@@ -29,10 +26,8 @@ class giftsController extends Controller
         ->join('users','users.id','=','giftuser.user_id')
         ->join('gifts','gifts.id','=','giftuser.gift_id')
         ->where(['giftuser.user_id'=>$user_id , 'giftuser.gift_id'=>$gift_id , 'users.status'=>1 , 'gifts.status'=>1])
-        ->select('giftName','giftPrice','giftDesc','giftUrl','giftImageUrl','gift_like','gift_view','shared','desire_rate','giftuser.created_at','name','family','userImageUrl')
+        ->select('user_id','gift_id','giftName','giftPrice','giftDesc','giftUrl','giftImageUrl','gift_like','gift_view','shared','desire_rate','giftuser.created_at','name','family','userImageUrl')
         ->get();
-        /* if(!$gift_detail->all())
-            return response(['message'=>'Not found'] , 500); */
         return response(['gift_detail'=>$gift_detail]);
     }
 
@@ -43,9 +38,39 @@ class giftsController extends Controller
         ->join('userfollowings','giftuser.user_id','=','userfollowings.following_id')
         ->join('gifts','gifts.id','=','giftuser.gift_id')
         ->where('userfollowings.user_id',$id )
-        ->select('giftName','giftUrl','giftImageUrl','gift_like','giftuser.created_at as giftuser_created_at','name','family','userImageUrl')
+        ->select('giftuser.user_id','giftuser.gift_id','giftName','giftUrl','giftImageUrl','gift_like','giftuser.created_at as giftuser_created_at','name','family','userImageUrl')
         ->get()->sortByDesc('giftuser_created_at')->values();
         $count=$gifts->count();
         return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$gifts]);
+    }
+
+//_____________________ Add New Gift
+    function add_gift(Request $req , $user_id){
+        $req->validate([
+            'g_name'=>'required',
+            'g_price'=>'required | numeric',
+            'g_desc'=>'required',
+            'g_image'=>'required'
+        ]);
+        $gift=gift::create([
+            'giftName'=>$req->g_name,
+            'giftPrice'=>$req->g_price,
+            'giftDesc'=>$req->g_desc,
+            'giftUrl'=>$req->g_link,
+            'status'=>1,
+            'giftImageUrl'=>$req->g_image
+        ]);
+
+        giftUser::create([
+            'user_id'=>$user_id,
+            'gift_id'=>$gift->id,
+            'desire_rate'=>$req->g_rate,
+            'gift_like'=>0,
+            'gift_view'=>0,
+            'shared'=>0,
+            'date_register'=>date('y,m,d')
+        ]);
+
+        return response(['message'=>"The gift has been successfully added"]);
     }
 }
