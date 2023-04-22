@@ -47,18 +47,26 @@ class giftsController extends Controller
 //_____________________ Add New Gift
     function add_gift(Request $req , $user_id){
         $req->validate([
-            'g_name'=>'required',
-            'g_price'=>'required | numeric',
+            'g_name'=>'required | max:100',
+            'g_price'=>'required | numeric | max:60',
             'g_desc'=>'required',
-            'g_image'=>'required'
+            'g_rate'=>'required | max:2',
+            'g_image'=>'required | image'
         ]);
+
+        //Save Image
+        $file=$req->file('g_image');
+        $filename=$file->getClientOriginalName();
+        $dstPath=public_path()."/images/gifts";
+        $file->move($dstPath,$filename);
+
         $gift=gift::create([
             'giftName'=>$req->g_name,
             'giftPrice'=>$req->g_price,
             'giftDesc'=>$req->g_desc,
             'giftUrl'=>$req->g_link,
             'status'=>1,
-            'giftImageUrl'=>$req->g_image
+            'giftImageUrl'=>"http://wiishy-backend.ir/images/gifts/".$filename
         ]);
 
         giftUser::create([
