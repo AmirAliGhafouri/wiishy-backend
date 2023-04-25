@@ -96,7 +96,7 @@ class giftsController extends Controller
         return response(['message'=>'no']);
     }
 
-//_____________________ DisLike?
+//_____________________ DisLike
     function dislike($gift_id , $user_id){
         $like=giftlike::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->first();
         if(!$like){
@@ -105,5 +105,11 @@ class giftsController extends Controller
         giftlike::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->delete();
         giftUser::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->decrement('gift_like');
         return response(['message'=>'The gift has successfully disliked']);
+    }
+
+//_____________________ View ???????????
+    function view($gift_id){
+        giftUser::where('gift_id',$gift_id)->increment('gift_view');
+        return response(['message'=>'view increased']);
     }
 }
