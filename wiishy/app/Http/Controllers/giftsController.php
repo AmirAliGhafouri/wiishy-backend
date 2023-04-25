@@ -87,4 +87,12 @@ class giftsController extends Controller
         giftUser::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->increment('gift_like');
         return response(['message'=>'The gift has successfully liked']);
     }
+
+//_____________________ Is Like?
+    function islike($gift_id , $user_id){
+        $like=giftlike::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->first();
+        if($like)
+            return response(['message'=>'yes']);
+        return response(['message'=>'no']);
+    }
 }
