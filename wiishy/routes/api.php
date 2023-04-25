@@ -28,6 +28,7 @@ Route::controller(giftsController::class)->group(function(){
     Route::get('/followingsgifts/{id}', 'followings_gift');
     Route::get('/gift-like/{giftid}/{userid}', 'like');
     Route::get('/islike/{giftid}/{userid}', 'islike');
+    Route::delete('/gift-dislike/{giftid}/{userid}', 'dislike');
     Route::post('/gift-add/{id}', 'add_gift');
 });
 
