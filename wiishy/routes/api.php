@@ -37,6 +37,7 @@ Route::controller(userController::class)->group(function(){
     Route::get('/userprofile/{id}', 'user_profile');
     Route::get('/isfollow/{userid}/{followid}', 'isfollow');
     Route::get('/follow/{userid}/{followid}', 'follow');
+    Route::get('/unfollow/{userid}/{followid}', 'unfollow');
 });
 
 Route::controller(followersController::class)->group(function(){

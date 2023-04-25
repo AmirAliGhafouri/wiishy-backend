@@ -17,10 +17,15 @@ class userController extends Controller
 
 //_____________________ Follow Check
     function followcheck($user_id,$follow_id){
-        return userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();
+        $follow=userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();
+        $unfollowed=userfollow::where(['user_id'=>$user_id,'follow_id'=>$follow_id])->where('follow_status',0)->first();
+        if(!$follow || $unfollowed)
+            return false;
+        return true;
+
     }
 
-//_____________________ Follow
+//_____________________ IS Follow?
     function isfollow($user_id,$follow_id){
         $follow=$this->followcheck($user_id,$follow_id);
         if($follow)
@@ -43,7 +48,18 @@ class userController extends Controller
         User::where('id',$user_id)->increment('followings');
         User::where('id',$follow_id)->increment('followers');
         return response(['message'=>'The follow process has done successfully']);
+    }
 
+//_____________________ UnFollow
+    function unfollow($user_id,$follow_id){
+        // $unfollowed=userfollow::where(['user_id'=>$user_id,'follow_id'=>$follow_id])->where('follow_status',0)->first();
+        $follow=$this->followcheck($user_id,$follow_id);
+        if(!$follow)
+            return response(['message'=>'user hasnt been followed'],400);
+        userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->update(['follow_status'=>0]);
+        User::where('id',$user_id)->decrement('followings');
+        User::where('id',$follow_id)->decrement('followers');
+        return response(['message'=>'The Unfollow process has done successfully']);
     }
 
 }
