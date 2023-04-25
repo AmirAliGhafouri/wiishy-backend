@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\gift;
+use App\Models\giftlike;
 use App\Models\giftUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -72,5 +73,18 @@ class giftsController extends Controller
         ]);
 
         return response(['message'=>"The gift has been successfully added"]);
+    }
+
+//_____________________ Like a gift
+    function like($gift_id , $user_id){
+        $like=giftlike::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->first();
+        if($like)
+            return response(['message'=>'The gift has liked before'],400);
+        giftlike::create([
+            'user_id'=>$user_id,
+            'gift_id'=>$gift_id
+        ]);
+        giftUser::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->increment('gift_like');
+        return response(['message'=>'The gift has successfully liked']);
     }
 }
