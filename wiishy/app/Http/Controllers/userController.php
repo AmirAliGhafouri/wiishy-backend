@@ -15,9 +15,23 @@ class userController extends Controller
         return response(['user'=>$user]);
     }
 
+//_____________________ Follow Check
+    function followcheck($user_id,$follow_id){
+        return userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();
+    }
+
+//_____________________ Follow
+    function isfollow($user_id,$follow_id){
+        $follow=$this->followcheck($user_id,$follow_id);
+        if($follow)
+            return response(['message'=>'yes']);
+        return response(['message'=>'no']);
+    }
+
+
 //_____________________ Follow
     function follow($user_id,$follow_id){
-        $follow=userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();
+        $follow=$this->followcheck($user_id,$follow_id);
         if($follow)
             return response(['message'=>'user has been already followed'],400);
         //Insert into table
