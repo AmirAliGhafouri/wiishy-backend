@@ -107,6 +107,23 @@ class giftsController extends Controller
         return response(['message'=>'The gift has successfully disliked']);
     }
 
+//_____________________ Likes List
+    function likeslist($gift_id){       
+        try{
+            $count=giftUser::where(['gift_id'=>$gift_id , 'gift_status'=>1])->first()->gift_like;
+        }
+        catch(\Exception $exception){
+            return response(['message'=>'Gift not found'] , 400);
+        }
+        $likers=DB::table('giftlike')
+        ->join('users','giftlike.user_id','=','users.id')
+        ->where('giftlike.gift_id',$gift_id)
+        ->select('user_id','name','family','userImageUrl','giftlike.created_at as like_date')
+        ->get()->sortByDesc('like_date')->values();
+        return response(['likes'=>$count,'users'=>$likers]);
+    }
+
+
 //_____________________ View ???????????
     function view($gift_id){
         giftUser::where('gift_id',$gift_id)->increment('gift_view');

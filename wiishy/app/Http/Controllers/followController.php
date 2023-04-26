@@ -17,12 +17,12 @@ class followController extends Controller
         ->select('userfollows.user_id','userImageUrl' , 'name' , 'family')
         ->get();
         try{
-            $followers_counte=User::where('id' , $user_id)->first()->followers;
+            $followers_count=User::where('id' , $user_id)->first()->followers;
         }
         catch(\Exception $exception){
             return response(['message'=>'user not found'] , 400);
         }
-        return response(['followers_count'=>$followers_counte , 'followers'=>$followers]);
+        return response(['followers_count'=>$followers_count , 'followers'=>$followers]);
     }  
     
 //_____________________ All the following of a user 
@@ -33,13 +33,13 @@ class followController extends Controller
         ->select('follow_id as user_id','userImageUrl' , 'name' , 'family')
         ->get();
         try{
-            $followings_counte=User::where('id' , $user_id)->first()->followings;
+            $followings_count=User::where('id' , $user_id)->first()->followings;
         }
         catch(\Exception $exception){
                 return response(['message'=>'user not found'] , 400);
         }
         
-        return response(['followings_count'=>$followings_counte , 'followings'=>$followings]);
+        return response(['followings_count'=>$followings_count , 'followings'=>$followings]);
     }
 
 //_____________________ Follow Check
@@ -51,7 +51,6 @@ class followController extends Controller
         if(!$unfollowed->follow_status)
             return false;
         return true;
-
     }
 
 //_____________________ IS Follow?
@@ -81,11 +80,12 @@ class followController extends Controller
 
 //_____________________ UnFollow
     function unfollow($user_id,$follow_id){
-        // $unfollowed=userfollow::where(['user_id'=>$user_id,'follow_id'=>$follow_id])->where('follow_status',0)->first();
         $follow=$this->followcheck($user_id,$follow_id);
         if(!$follow)
             return response(['message'=>'user hasnt been followed'],400);
+         //update table
         userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->update(['follow_status'=>0]);
+        //decrease followers & followings
         User::where('id',$user_id)->decrement('followings');
         User::where('id',$follow_id)->decrement('followers');
         return response(['message'=>'The Unfollow process has done successfully']);
