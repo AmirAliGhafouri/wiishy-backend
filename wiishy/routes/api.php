@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\followController;
 use App\Http\Controllers\followersController;
 use App\Http\Controllers\followingsController;
 use App\Http\Controllers\giftsController;
@@ -35,15 +36,12 @@ Route::controller(giftsController::class)->group(function(){
 
 Route::controller(userController::class)->group(function(){
     Route::get('/userprofile/{id}', 'user_profile');
+});
+
+Route::controller(followController::class)->group(function(){
+    Route::get('/followerlist/{id}', 'user_followers');
+    Route::get('/followinglist/{id}', 'user_followings');
     Route::get('/isfollow/{userid}/{followid}', 'isfollow');
     Route::get('/follow/{userid}/{followid}', 'follow');
     Route::get('/unfollow/{userid}/{followid}', 'unfollow');
-});
-
-Route::controller(followersController::class)->group(function(){
-    Route::get('/followerlist/{id}', 'user_followers');
-});
-
-Route::controller(followingsController::class)->group(function(){
-    Route::get('/followinglist/{id}', 'user_followings');
 });
