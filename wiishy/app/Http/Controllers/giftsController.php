@@ -154,4 +154,24 @@ class giftsController extends Controller
         return response(['message'=>'The gift has removed successfully']);
     }
 
+//_____________________ Update TEST & COMMIT
+    function update_gift(Request $req){
+        $gift=giftUser::where(['gift_id'=>$req->giftid , 'user_id'=>$req->userid , 'gift_status'=>1])->first();
+        if(!$gift)
+            return response(['message'=>'Gift not found'],400);
+        if($req->g_name)
+            gift::where('id',$req->giftid)->update(['giftName'=>$req->g_name]);
+        if($req->g_price)
+            gift::where('id',$req->giftid)->update(['giftPrice'=>$req->g_price]);
+        if($req->g_desc)
+            gift::where('id',$req->giftid)->update(['giftDesc'=>$req->g_desc]);
+        if($req->g_link)
+            gift::where('id',$req->giftid)->update(['giftUrl'=>$req->g_link]);
+        if($req->g_image)
+            gift::where('id',$req->giftid)->update(['giftImageUrl'=>$req->g_image]);
+        if($req->g_rate)
+            giftUser::where(['gift_id'=>$req->giftid,'user_id'=>$req->userid])->update(['desire_rate'=>$req->g_rate]);
+        return response(['message'=>'The gift has updated successfully']);
+    }
+
 }

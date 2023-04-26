@@ -35,6 +35,7 @@ Route::controller(giftsController::class)->group(function(){
     Route::get('/gift-islike/{giftid}/{userid}', 'islike');
     Route::delete('/gift-dislike/{giftid}/{userid}', 'dislike');
     Route::post('/gift-add/{id}', 'add_gift');
+    Route::put('/gift-update/{giftid}/{userid}', 'update_gift');
 });
 
 Route::controller(userController::class)->group(function(){
