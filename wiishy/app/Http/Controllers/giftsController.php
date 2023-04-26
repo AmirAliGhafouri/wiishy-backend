@@ -138,4 +138,11 @@ class giftsController extends Controller
         giftUser::where('gift_id',$gift_id)->increment('gift_view');
         return response(['message'=>'view increased']);
     }
+
+//_____________________ share
+    function share($gift_id){
+        giftUser::where('gift_id',$gift_id)->increment('shared');
+        return response(['message'=>'share increased']);
+    }
+
 }

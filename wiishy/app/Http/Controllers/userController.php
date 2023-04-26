@@ -52,7 +52,6 @@ class userController extends Controller
 
 //_____________________ UnFollow
     function unfollow($user_id,$follow_id){
-        // $unfollowed=userfollow::where(['user_id'=>$user_id,'follow_id'=>$follow_id])->where('follow_status',0)->first();
         $follow=$this->followcheck($user_id,$follow_id);
         if(!$follow)
             return response(['message'=>'user hasnt been followed'],400);

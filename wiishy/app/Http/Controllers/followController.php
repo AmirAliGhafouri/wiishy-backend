@@ -11,34 +11,33 @@ class followController extends Controller
 {
 //_____________________ All the followers of a user 
     function user_followers($user_id){
-        $followers=DB::table('users')
-        ->join('userfollows','users.id','=','userfollows.user_id')
-        ->where(['userfollows.follow_id'=>$user_id , 'follow_status'=>1])
-        ->select('userfollows.user_id','userImageUrl' , 'name' , 'family')
-        ->get();
         try{
             $followers_count=User::where('id' , $user_id)->first()->followers;
         }
         catch(\Exception $exception){
             return response(['message'=>'user not found'] , 400);
         }
+        $followers=DB::table('users')
+        ->join('userfollows','users.id','=','userfollows.user_id')
+        ->where(['userfollows.follow_id'=>$user_id , 'follow_status'=>1])
+        ->select('userfollows.user_id','userImageUrl' , 'name' , 'family')
+        ->get();
         return response(['followers_count'=>$followers_count , 'followers'=>$followers]);
     }  
     
 //_____________________ All the following of a user 
     function user_followings($user_id){
-        $followings=DB::table('users')
-        ->join('userfollows','users.id','=','userfollows.follow_id')
-        ->where(['userfollows.user_id'=>$user_id , 'follow_status'=>1])
-        ->select('follow_id as user_id','userImageUrl' , 'name' , 'family')
-        ->get();
         try{
             $followings_count=User::where('id' , $user_id)->first()->followings;
         }
         catch(\Exception $exception){
                 return response(['message'=>'user not found'] , 400);
         }
-        
+        $followings=DB::table('users')
+        ->join('userfollows','users.id','=','userfollows.follow_id')
+        ->where(['userfollows.user_id'=>$user_id , 'follow_status'=>1])
+        ->select('follow_id as user_id','userImageUrl' , 'name' , 'family')
+        ->get();       
         return response(['followings_count'=>$followings_count , 'followings'=>$followings]);
     }
 
