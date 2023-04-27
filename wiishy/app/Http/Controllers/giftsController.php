@@ -50,7 +50,7 @@ class giftsController extends Controller
     function add_gift(Request $req , $user_id){
         $req->validate([
             'g_name'=>'required | max:100',
-            'g_price'=>'required | numeric | max:60',
+            'g_price'=>'required | numeric',
             'g_desc'=>'required',
             'g_rate'=>'required | max:1',
             'g_image'=>'required'
@@ -66,12 +66,13 @@ class giftsController extends Controller
         ]);
 
         //insert into giftuser
-        giftUser::create([
+        $giftUser=giftUser::create([
             'user_id'=>$user_id,
             'gift_id'=>$gift->id,
             'desire_rate'=>$req->g_rate
         ]);
-
+        if(!$gift || !$giftUser)
+            return response(['message'=>"Fail to add gift"],400);
         return response(['message'=>"The gift has been successfully added"]);
     }
 
