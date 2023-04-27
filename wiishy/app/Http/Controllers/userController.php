@@ -36,8 +36,8 @@ class userController extends Controller
             'userImageUrl'=>$req->user_image,
             'userCode'=>$req->user_code
         ]);
-        if(!$add)
-            return response(['message'=>'Fail to add user'],400);
+        /* if(!$add)
+            return response(['message'=>'Fail to add user'],400); */
         return response(['message'=>'User has added successfully']);
     }
 
