@@ -159,6 +159,12 @@ class giftsController extends Controller
         $gift=giftUser::where(['gift_id'=>$req->giftid , 'user_id'=>$req->userid , 'gift_status'=>1])->first();
         if(!$gift)
             return response(['message'=>'Gift not found'],400);
+        $req->validate([
+            'g_name'=>'max:100',
+            'g_price'=>'numeric | max:60',
+            'g_rate'=>'max:1'
+        ]);
+
         if($req->g_name)
             gift::where('id',$req->giftid)->update(['giftName'=>$req->g_name]);
         if($req->g_price)
