@@ -41,6 +41,7 @@ Route::controller(giftsController::class)->group(function(){
 Route::controller(userController::class)->group(function(){
     Route::get('/userprofile/{id}', 'user_profile');
     Route::get('/user-remove/{id}', 'remove');
+    Route::put('/user-update/{userid}', 'update');
     Route::post('/user-add', 'add_user');
 });
 

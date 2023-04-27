@@ -52,7 +52,7 @@ class giftsController extends Controller
             'g_name'=>'required | max:100',
             'g_price'=>'required | numeric',
             'g_desc'=>'required',
-            'g_rate'=>'required | max:1',
+            'g_rate'=>'required',
             'g_image'=>'required'
         ]);
 
@@ -160,16 +160,19 @@ class giftsController extends Controller
         $gift=giftUser::where(['gift_id'=>$req->giftid , 'user_id'=>$req->userid , 'gift_status'=>1])->first();
         if(!$gift)
             return response(['message'=>'Gift not found'],400);
-        $req->validate([
-            'g_name'=>'max:100',
-            'g_price'=>'numeric | max:60',
-            'g_rate'=>'max:1'
-        ]);
 
-        if($req->g_name)
+        if($req->g_name){
+            $req->validate([
+                'g_name'=>'max:100'
+            ]);
             gift::where('id',$req->giftid)->update(['giftName'=>$req->g_name]);
-        if($req->g_price)
+        }
+        if($req->g_price){
+            $req->validate([
+                'g_price'=>'numeric | max:60'
+            ]);
             gift::where('id',$req->giftid)->update(['giftPrice'=>$req->g_price]);
+        }
         if($req->g_desc)
             gift::where('id',$req->giftid)->update(['giftDesc'=>$req->g_desc]);
         if($req->g_link)
