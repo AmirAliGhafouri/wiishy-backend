@@ -15,50 +15,12 @@ class userController extends Controller
         return response(['user'=>$user]);
     }
 
-//_____________________ Follow Check
-    function followcheck($user_id,$follow_id){
-        $follow=userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();
-        $unfollowed=userfollow::where(['user_id'=>$user_id,'follow_id'=>$follow_id])->where('follow_status',0)->first();
-        if(!$follow || $unfollowed)
-            return false;
-        return true;
-
-    }
-
-//_____________________ IS Follow?
-    function isfollow($user_id,$follow_id){
-        $follow=$this->followcheck($user_id,$follow_id);
-        if($follow)
-            return response(['message'=>'yes']);
-        return response(['message'=>'no']);
-    }
-
-
-//_____________________ Follow
-    function follow($user_id,$follow_id){
-        $follow=$this->followcheck($user_id,$follow_id);
-        if($follow)
-            return response(['message'=>'user has been already followed'],400);
-        //Insert into table
-        userfollow::create([
-            'user_id'=>$user_id,
-            'follow_id'=>$follow_id
-        ]);
-        //increase followers & followings
-        User::where('id',$user_id)->increment('followings');
-        User::where('id',$follow_id)->increment('followers');
-        return response(['message'=>'The follow process has done successfully']);
-    }
-
-//_____________________ UnFollow
-    function unfollow($user_id,$follow_id){
-        $follow=$this->followcheck($user_id,$follow_id);
-        if(!$follow)
-            return response(['message'=>'user hasnt been followed'],400);
-        userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->update(['follow_status'=>0]);
-        User::where('id',$user_id)->decrement('followings');
-        User::where('id',$follow_id)->decrement('followers');
-        return response(['message'=>'The Unfollow process has done successfully']);
+//_____________________ User Profile
+    function remove($user_id){
+        $user=User::where(['id'=>$user_id,'status'=>1])->update(['status'=>0]);
+        if(!$user)
+            return response(['message'=>'User not found'],400);
+        return response(['message'=>'User has removed successfully']);
     }
 
 }

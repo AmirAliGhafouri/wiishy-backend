@@ -20,7 +20,7 @@ class followController extends Controller
         $followers=DB::table('users')
         ->join('userfollows','users.id','=','userfollows.user_id')
         ->where(['userfollows.follow_id'=>$user_id , 'follow_status'=>1])
-        ->select('userfollows.user_id','userImageUrl' , 'name' , 'family')
+        ->select('userfollows.user_id','userImageUrl' , 'name' , 'family' , 'status as user_status')
         ->get();
         return response(['followers_count'=>$followers_count , 'followers'=>$followers]);
     }  
@@ -36,7 +36,7 @@ class followController extends Controller
         $followings=DB::table('users')
         ->join('userfollows','users.id','=','userfollows.follow_id')
         ->where(['userfollows.user_id'=>$user_id , 'follow_status'=>1])
-        ->select('follow_id as user_id','userImageUrl' , 'name' , 'family')
+        ->select('follow_id as user_id','userImageUrl' , 'name' , 'family' , 'status as user_status')
         ->get();       
         return response(['followings_count'=>$followings_count , 'followings'=>$followings]);
     }
