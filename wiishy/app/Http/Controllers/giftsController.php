@@ -29,7 +29,8 @@ class giftsController extends Controller
         ->where(['giftuser.user_id'=>$user_id , 'giftuser.gift_id'=>$gift_id , 'users.status'=>1 , 'gift_status'=>1])
         ->select('user_id','gift_id','giftName','giftPrice','giftDesc','giftUrl','giftImageUrl','gift_like','gift_view','shared','desire_rate','giftuser.created_at','name','family','userImageUrl')
         ->get();
-        return response(['gift_detail'=>$gift_detail]);
+        $like=$this->like_check($gift_id , $user_id);
+        return response(['like'=>$like,'gift_detail'=>$gift_detail]);
     }
 
 //_____________________ All the gifts of the users followings
