@@ -169,7 +169,7 @@ class giftsController extends Controller
         }
         if($req->g_price){
             $req->validate([
-                'g_price'=>'numeric | max:60'
+                'g_price'=>'numeric'
             ]);
             gift::where('id',$req->giftid)->update(['giftPrice'=>$req->g_price]);
         }
