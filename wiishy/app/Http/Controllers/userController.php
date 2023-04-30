@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
 use App\Repositories\userRepository;
 use Illuminate\Http\Request;
@@ -15,29 +16,11 @@ class userController extends Controller
     }
 
 //_____________________ ADD User
-    function add_user(Request $req){
-        $req->validate([
-            'user_name'=>'required | max:60',
-            'user_family'=>'required | max:60',
-            'user_birthday'=>'required | date',
-            'user_location'=>'required | integer',
-            'user_gender'=>'required | integer',
-            'user_description'=>'required',
-            'user_code'=>'required'
-        ]);
-        $add=User::create([
-            'name'=>$req->user_name,
-            'family'=>$req->user_family,
-            'userBirthday'=>$req->user_birthday,
-            'userLocationid'=>$req->user_location,
-            'userGender'=>$req->user_gender,
-            'userDescription'=>$req->user_description,
-            'userImageUrl'=>$req->user_image,
-            'userCode'=>$req->user_code
-        ]);
-        if(!$add)
+    function add_user(CreateUserRequest $req){
+        $user=userRepository::create($req);
+        if(!$user)
             return response(['message'=>'Fail to add user'],400);
-        return response(['message'=>'User has added successfully']);
+        return response(['message'=>'User has added successfully'],200);
     }
 
 //_____________________ Remove User
@@ -45,7 +28,7 @@ class userController extends Controller
         $user=userRepository::destroy($user_id);
         if(!$user)
             return response(['message'=>'User not found'],400);
-        return response(['message'=>'User has removed successfully']);
+        return response(['message'=>'User has removed successfully'],200);
     }
 
 //_____________________ ADD User
