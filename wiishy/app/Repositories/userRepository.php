@@ -25,4 +25,12 @@ class userRepository
             'userCode'=>$req->user_code
         ]);
     }
+
+    static function get($id){
+        return User::where(['id'=>$id,'status'=>1])->first();
+    }
+
+    static function update($id, $req, $field){
+        User::where('id',$id)->update([$field=>$req]);
+    }
 }
