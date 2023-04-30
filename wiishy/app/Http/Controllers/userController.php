@@ -42,7 +42,7 @@ class userController extends Controller
 
 //_____________________ Remove User
     function remove($user_id){
-        $user=User::where(['id'=>$user_id,'status'=>1])->update(['status'=>0]);
+        $user=userRepository::destroy($user_id);
         if(!$user)
             return response(['message'=>'User not found'],400);
         return response(['message'=>'User has removed successfully']);
