@@ -32,7 +32,7 @@ class userController extends Controller
         return response(['message'=>'User has removed successfully'],200);
     }
 
-//_____________________ ADD User
+//_____________________ Update User
     function update(Request $req){
         $user=userRepository::get($req->userid);
         if(!$user)

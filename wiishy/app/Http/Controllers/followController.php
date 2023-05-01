@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\userfollow;
+use App\Repositories\followRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,32 +13,24 @@ class followController extends Controller
 //_____________________ All the followers of a user 
     function user_followers($user_id){
         try{
-            $followers_count=User::where('id' , $user_id)->first()->followers;
+            $followers_count=followRepository::count($user_id,'followers');
         }
         catch(\Exception $exception){
             return response(['message'=>'user not found'] , 400);
         }
-        $followers=DB::table('users')
-        ->join('userfollows','users.id','=','userfollows.user_id')
-        ->where(['userfollows.follow_id'=>$user_id , 'follow_status'=>1])
-        ->select('userfollows.user_id','userImageUrl' , 'name' , 'family' , 'status as user_status')
-        ->get();
+        $followers=followRepository::list($user_id,'userfollows.user_id','userfollows.follow_id');
         return response(['followers_count'=>$followers_count , 'followers'=>$followers]);
     }  
     
 //_____________________ All the following of a user 
     function user_followings($user_id){
         try{
-            $followings_count=User::where('id' , $user_id)->first()->followings;
+            $followings_count=followRepository::count($user_id,'followings');
         }
         catch(\Exception $exception){
                 return response(['message'=>'user not found'] , 400);
         }
-        $followings=DB::table('users')
-        ->join('userfollows','users.id','=','userfollows.follow_id')
-        ->where(['userfollows.user_id'=>$user_id , 'follow_status'=>1])
-        ->select('follow_id as user_id','userImageUrl' , 'name' , 'family' , 'status as user_status')
-        ->get();       
+        $followings=followRepository::list($user_id,'userfollows.follow_id','userfollows.user_id');  
         return response(['followings_count'=>$followings_count , 'followings'=>$followings]);
     }
 
