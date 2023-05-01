@@ -8,18 +8,18 @@ class likeController extends Controller
 {
 //_____________________ Like a gift
     function like($gift_id , $user_id){
-        $like=likeRepository::like_check($gift_id , $user_id);
+        $like=likeRepository::check($gift_id , $user_id);
         if($like)
             return response(['message'=>'The gift has been liked before'],400);
 
         likeRepository::like($gift_id , $user_id);
-        likeRepository::like_increase($gift_id , $user_id);
+        likeRepository::increase($gift_id , $user_id);
         return response(['message'=>'The gift has successfully liked'],200);
     }
 
 //_____________________ Is Like?
     function islike($gift_id , $user_id){
-        $like=likeRepository::like_check($gift_id , $user_id);
+        $like=likeRepository::check($gift_id , $user_id);
         if($like)
             return response(['message'=>'yes']);
         return response(['message'=>'no']);
@@ -27,12 +27,12 @@ class likeController extends Controller
 
 //_____________________ DisLike
     function dislike($gift_id , $user_id){
-        $like=likeRepository::like_check($gift_id , $user_id);
+        $like=likeRepository::check($gift_id , $user_id);
         if(!$like){
             return response(['message'=>'The gift hasnt been liked before'],400);
         }
-        giftlike::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->delete();
-        giftUser::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->decrement('gift_like');
+        likeRepository::dislike($gift_id , $user_id);
+        likeRepository::decrease($gift_id , $user_id);      
         return response(['message'=>'The gift has successfully disliked']);
     }
 
