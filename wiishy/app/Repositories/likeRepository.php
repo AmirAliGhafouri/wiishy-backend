@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\giftlike;
 use App\Models\giftUser;
+use Illuminate\Support\Facades\DB;
 
 class likeRepository
 {
@@ -30,5 +31,17 @@ class likeRepository
 
     static function decrease($gift_id , $user_id){
         giftUser::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->decrement('gift_like');
+    }
+
+    static function count($gift_id){
+        return giftUser::where(['gift_id'=>$gift_id , 'gift_status'=>1])->first()->gift_like;
+    }
+
+    static function list($gift_id){
+        DB::table('giftlike')
+        ->join('users','giftlike.user_id','=','users.id')
+        ->where('giftlike.gift_id',$gift_id)
+        ->select('user_id','name','family','userImageUrl','giftlike.created_at as like_date')
+        ->get()->sortByDesc('like_date')->values();
     }
 }
