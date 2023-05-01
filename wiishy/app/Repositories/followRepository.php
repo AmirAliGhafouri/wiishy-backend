@@ -47,22 +47,4 @@ class followRepository
     static function decrease($id , $field){
         User::where('id',$id)->decrement($field);
     }
-//__________________________________________________
-    static function all($user_id){
-        return User::where(['id'=>$user_id,'status'=>1])->first();
-    }
-
-    static function destroy($user_id){
-        return User::where(['id'=>$user_id,'status'=>1])->update(['status'=>0]);
-    }
-
-    
-
-    static function get($id){
-        return User::where(['id'=>$id,'status'=>1])->first();
-    }
-
-    static function update($id, $req, $field){
-        User::where('id',$id)->update([$field=>$req]);
-    }
 }

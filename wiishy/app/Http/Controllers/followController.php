@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Models\userfollow;
 use App\Repositories\followRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class followController extends Controller
 {

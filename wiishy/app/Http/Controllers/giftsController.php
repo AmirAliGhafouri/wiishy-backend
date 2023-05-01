@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\gift;
 use App\Models\giftlike;
 use App\Models\giftUser;
+use App\Repositories\giftRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -77,18 +78,9 @@ class giftsController extends Controller
         return response(['message'=>"The gift has been successfully added"]);
     }
 
-//_____________________ Like Check
-    function like_check($gift_id , $user_id){
-        $like=giftlike::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->first();
-        if($like)
-            return true;
-        return false;
-    }
-
-
 //_____________________ Like a gift
     function like($gift_id , $user_id){
-        $like=$this->like_check($gift_id , $user_id);
+        $like=giftRepository::like_check($gift_id , $user_id);
         if($like)
             return response(['message'=>'The gift has been liked before'],400);
         giftlike::create([
@@ -101,7 +93,7 @@ class giftsController extends Controller
 
 //_____________________ Is Like?
     function islike($gift_id , $user_id){
-        $like=$this->like_check($gift_id , $user_id);
+        $like=giftRepository::like_check($gift_id , $user_id);
         if($like)
             return response(['message'=>'yes']);
         return response(['message'=>'no']);
@@ -109,7 +101,7 @@ class giftsController extends Controller
 
 //_____________________ DisLike
     function dislike($gift_id , $user_id){
-        $like=$this->like_check($gift_id , $user_id);
+        $like=giftRepository::like_check($gift_id , $user_id);
         if(!$like){
             return response(['message'=>'The gift hasnt been liked before'],400);
         }
