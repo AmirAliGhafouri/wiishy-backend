@@ -34,20 +34,9 @@ class followController extends Controller
         return response(['followings_count'=>$followings_count , 'followings'=>$followings]);
     }
 
-//_____________________ Follow Check
-    function followcheck($user_id,$follow_id){
-        $follow=userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();
-        if(!$follow)
-            return false;
-        $unfollowed=userfollow::where(['user_id'=>$user_id,'follow_id'=>$follow_id])->latest()->first();
-        if(!$unfollowed->follow_status)
-            return false;
-        return true;
-    }
-
 //_____________________ IS Follow?
     function isfollow($user_id,$follow_id){
-        $follow=$this->followcheck($user_id,$follow_id);
+        $follow=followRepository::check($user_id,$follow_id);
         if($follow)
             return response(['message'=>'yes']);
         return response(['message'=>'no']);

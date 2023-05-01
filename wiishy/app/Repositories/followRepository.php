@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\userfollow;
 use Illuminate\Support\Facades\DB;
 
 class followRepository
@@ -16,6 +17,16 @@ class followRepository
         ->where([$field=>$user_id , 'follow_status'=>1])
         ->select("$join as user_id",'userImageUrl' , 'name' , 'family' , 'status as user_status')
         ->get();
+    }
+
+    static function check($user_id,$follow_id){
+        $follow=userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();
+        if(!$follow)
+            return false;
+        $unfollowed=userfollow::where(['user_id'=>$user_id,'follow_id'=>$follow_id])->latest()->first();
+        if(!$unfollowed->follow_status)
+            return false;
+        return true;
     }
 
     static function all($user_id){
