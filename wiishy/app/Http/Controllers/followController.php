@@ -45,17 +45,14 @@ class followController extends Controller
 
 //_____________________ Follow
     function follow($user_id,$follow_id){
-        $follow=$this->followcheck($user_id,$follow_id);
+        $follow=followRepository::check($user_id,$follow_id);
         if($follow)
             return response(['message'=>'user has been already followed'],400);
-        //Insert into table
-        userfollow::create([
-            'user_id'=>$user_id,
-            'follow_id'=>$follow_id
-        ]);
-        //increase followers & followings
-        User::where('id',$user_id)->increment('followings');
-        User::where('id',$follow_id)->increment('followers');
+
+        followRepository::create($user_id,$follow_id);
+
+        followRepository::increase($user_id,'followings');
+        followRepository::increase($follow_id,'followers');
         return response(['message'=>'The follow process has done successfully']);
     }
 

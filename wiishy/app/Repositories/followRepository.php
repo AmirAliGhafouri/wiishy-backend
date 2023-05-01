@@ -29,6 +29,17 @@ class followRepository
         return true;
     }
 
+    static function create($user_id,$follow_id){
+        userfollow::create([
+            'user_id'=>$user_id,
+            'follow_id'=>$follow_id
+        ]);
+    }
+
+    static function increase($id , $field){
+        User::where('id',$id)->increment($field);
+    }
+//__________________________________________________
     static function all($user_id){
         return User::where(['id'=>$user_id,'status'=>1])->first();
     }
@@ -37,18 +48,7 @@ class followRepository
         return User::where(['id'=>$user_id,'status'=>1])->update(['status'=>0]);
     }
 
-    static function create($req){
-        return User::create([
-            'name'=>$req->user_name,
-            'family'=>$req->user_family,
-            'userBirthday'=>$req->user_birthday,
-            'userLocationid'=>$req->user_location,
-            'userGender'=>$req->user_gender,
-            'userDescription'=>$req->user_description,
-            'userImageUrl'=>$req->user_image,
-            'userCode'=>$req->user_code
-        ]);
-    }
+    
 
     static function get($id){
         return User::where(['id'=>$id,'status'=>1])->first();
