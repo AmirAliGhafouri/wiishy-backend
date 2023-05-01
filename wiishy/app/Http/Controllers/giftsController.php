@@ -80,13 +80,13 @@ class giftsController extends Controller
 
 //_____________________ View ???????????
     function view($gift_id){
-        giftUser::where('gift_id',$gift_id)->increment('gift_view');
+        giftRepository::increase($gift_id,'gift_view');
         return response(['message'=>'view increased']);
     }
 
 //_____________________ share
     function share($gift_id){
-        giftUser::where('gift_id',$gift_id)->increment('shared');
+        giftRepository::increase($gift_id,'shared');
         return response(['message'=>'share increased']);
     }
 
