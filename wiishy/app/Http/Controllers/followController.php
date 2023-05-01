@@ -49,7 +49,7 @@ class followController extends Controller
         if($follow)
             return response(['message'=>'user has been already followed'],400);
 
-        followRepository::create($user_id,$follow_id);
+        followRepository::follow($user_id,$follow_id);
 
         followRepository::increase($user_id,'followings');
         followRepository::increase($follow_id,'followers');
@@ -58,14 +58,14 @@ class followController extends Controller
 
 //_____________________ UnFollow
     function unfollow($user_id,$follow_id){
-        $follow=$this->followcheck($user_id,$follow_id);
+        $follow=followRepository::check($user_id,$follow_id);
         if(!$follow)
             return response(['message'=>'user hasnt been followed'],400);
-         //update table
-        userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->update(['follow_status'=>0]);
-        //decrease followers & followings
-        User::where('id',$user_id)->decrement('followings');
-        User::where('id',$follow_id)->decrement('followers');
+
+        followRepository::unfollow($user_id,$follow_id);
+
+        followRepository::decrease($user_id,'followings');
+        followRepository::decrease($follow_id,'followers');    
         return response(['message'=>'The Unfollow process has done successfully']);
     }
 }

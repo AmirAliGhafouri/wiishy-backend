@@ -29,15 +29,23 @@ class followRepository
         return true;
     }
 
-    static function create($user_id,$follow_id){
+    static function follow($user_id,$follow_id){
         userfollow::create([
             'user_id'=>$user_id,
             'follow_id'=>$follow_id
         ]);
     }
 
+    static function unfollow($user_id,$follow_id){
+        userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->update(['follow_status'=>0]);
+    }
+
     static function increase($id , $field){
         User::where('id',$id)->increment($field);
+    }
+
+    static function decrease($id , $field){
+        User::where('id',$id)->decrement($field);
     }
 //__________________________________________________
     static function all($user_id){
