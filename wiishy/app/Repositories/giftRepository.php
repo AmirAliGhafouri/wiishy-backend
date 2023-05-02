@@ -65,4 +65,8 @@ class giftRepository
             'desire_rate'=>$req->g_rate
         ]);
     }
+
+    static function update($gift_id, $req, $field){
+        gift::where('id',$gift_id)->update([$field=>$req]);
+    }
 }
