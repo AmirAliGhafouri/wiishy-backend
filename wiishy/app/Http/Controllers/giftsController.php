@@ -7,6 +7,7 @@ use App\Models\gift;
 use App\Models\giftlike;
 use App\Models\giftUser;
 use App\Repositories\giftRepository;
+use App\Repositories\giftUserRepository;
 use App\Repositories\likeRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -36,35 +37,35 @@ class giftsController extends Controller
 
 //_____________________ Add New Gift
     function add_gift(CreateGiftRequest $req , $user_id){
-        $gift=giftRepository::gift_create($req);
-        giftRepository::giftuser_create($req,$gift->id);
+        $gift=giftRepository::create($req);
+        giftUserRepository::create($req,$gift->id);
         return response(['message'=>"The gift has been successfully added"]);
     }
 
 //_____________________ View ???????????
     function view($gift_id){
-        giftRepository::increase($gift_id,'gift_view');
+        giftUserRepository::increase($gift_id,'gift_view');
         return response(['message'=>'view increased']);
     }
 
 //_____________________ share
     function share($gift_id){
-        giftRepository::increase($gift_id,'shared');
+        giftUserRepository::increase($gift_id,'shared');
         return response(['message'=>'share increased']);
     }
 
 //_____________________ Remove
     function gift_remove($gift_id , $user_id){
-        $gift=giftRepository::get($gift_id , $user_id);
+        $gift=giftUserRepository::get($gift_id , $user_id);
         if(!$gift)
             return response(['message'=>'Gift not found'],400);
-        giftRepository::destroy($gift_id , $user_id);
+            giftUserRepository::destroy($gift_id , $user_id);
         return response(['message'=>'The gift has removed successfully']);
     }
 
 //_____________________ Update
     function update_gift(Request $req){
-        $gift=giftRepository::get($req->giftid , $req->userid);
+        $gift=giftUserRepository::get($req->giftid , $req->userid);
         if(!$gift)
             return response(['message'=>'Gift not found'],400);
 
@@ -87,7 +88,7 @@ class giftsController extends Controller
         if($req->g_image)
             giftRepository::update($req->giftid, $req->g_image, 'giftImageUrl');
         if($req->g_rate)
-            giftUser::where(['gift_id'=>$req->giftid,'user_id'=>$req->userid])->update(['desire_rate'=>$req->g_rate]);
+            giftUserRepository::update($req->giftid, $req->g_image, 'giftImageUrl');
         return response(['message'=>'The gift has updated successfully']);
     }
 
