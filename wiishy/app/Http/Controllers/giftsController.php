@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateGiftRequest;
 use App\Models\gift;
 use App\Models\giftlike;
 use App\Models\giftUser;
@@ -49,32 +50,9 @@ class giftsController extends Controller
     }
 
 //_____________________ Add New Gift
-    function add_gift(Request $req , $user_id){
-        $req->validate([
-            'g_name'=>'required | max:100',
-            'g_price'=>'required | numeric',
-            'g_desc'=>'required',
-            'g_rate'=>'required',
-            'g_image'=>'required'
-        ]);
-
-        //insert into gifts
-        $gift=gift::create([
-            'giftName'=>$req->g_name,
-            'giftPrice'=>$req->g_price,
-            'giftDesc'=>$req->g_desc,
-            'giftUrl'=>$req->g_link,
-            'giftImageUrl'=>$req->g_name
-        ]);
-
-        //insert into giftuser
-        $giftUser=giftUser::create([
-            'user_id'=>$user_id,
-            'gift_id'=>$gift->id,
-            'desire_rate'=>$req->g_rate
-        ]);
-        if(!$gift || !$giftUser)
-            return response(['message'=>"Fail to add gift"],400);
+    function add_gift(CreateGiftRequest $req , $user_id){
+        $gift=giftRepository::gift_create($req);
+        giftRepository::giftuser_create($req,$gift->id);
         return response(['message'=>"The gift has been successfully added"]);
     }
 
