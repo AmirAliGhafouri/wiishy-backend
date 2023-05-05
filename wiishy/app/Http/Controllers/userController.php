@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\userRepository;
 use Illuminate\Http\Request;
 
@@ -31,40 +32,21 @@ class userController extends Controller
     }
 
 //_____________________ Update User
-    function update(Request $req){
+    function update(UpdateUserRequest $req){
         $user=userRepository::get($req->userid);
         if(!$user)
             return response(['message'=>'User not found'],400);
-        if($req->user_name){
-            $req->validate([
-                'user_name'=>'max:60'
-            ]);
+            
+        if($req->user_name)
             userRepository::update($req->userid, $req->user_name, 'name');       
-        }
-        if($req->user_family){
-            $req->validate([
-                'user_family'=>'max:60'
-            ]);
+        if($req->user_family)
             userRepository::update($req->userid, $req->user_family, 'family');
-        }
-        if($req->user_birthday){
-            $req->validate([
-                'user_birthday'=>'date'
-            ]);
+        if($req->user_birthday)
             userRepository::update($req->userid, $req->user_birthday, 'userBirthday');
-        }
-        if($req->user_location){
-            $req->validate([
-                'user_location'=>'integer'
-            ]);
+        if($req->user_location)
             userRepository::update($req->userid, $req->user_location, 'userLocationid');
-        }
-        if($req->user_gender){
-            $req->validate([
-                'user_gender'=>'integer'
-            ]);
+        if($req->user_gender)
             userRepository::update($req->userid, $req->user_gender, 'userGender');
-        }
         if($req->user_description)
             userRepository::update($req->userid, $req->user_description, 'userDescription');
         if($req->user_image)
