@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('userfollows', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('user_id');
+            $table->bigInteger('follow_id');
+            $table->integer('follow_status')->default(1);
             $table->timestamps();
         });
     }
