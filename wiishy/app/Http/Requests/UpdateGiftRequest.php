@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateGiftRequest extends FormRequest
+class UpdateGiftRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,14 +21,14 @@ class CreateGiftRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules():array
+    public function rules()
     {
         return [
-            'g_name'=>'required|string|max:100',
-            'g_price'=>'required|numeric',
-            'g_desc'=>'required|string',
-            'g_rate'=>'required|max_digits:2',
-            'g_image'=>'required|string'
+            'g_name'=>'sometimes|Nullable|string|max:100',
+            'g_price'=>'sometimes|Nullable|numeric',
+            'g_desc'=>'sometimes|Nullable|string',
+            'g_rate'=>'sometimes|Nullable|max_digits:2',
+            'g_image'=>'sometimes|Nullable|string'
         ];
     }
 }

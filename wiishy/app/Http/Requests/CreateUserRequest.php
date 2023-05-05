@@ -28,7 +28,7 @@ class CreateUserRequest extends FormRequest
             'user_family'=>'required|string|max:60',
             'user_birthday'=>'required|date',
             'user_location'=>'required | integer',
-            'user_gender'=>'required | integer',
+            'user_gender'=>'required|integer|max_digits:2',
             'user_description'=>'required|string',
             'user_code'=>'required|unique:users,userCode'
         ];

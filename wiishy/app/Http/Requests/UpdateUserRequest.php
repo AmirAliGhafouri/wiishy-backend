@@ -28,7 +28,7 @@ class UpdateUserRequest extends FormRequest
             'user_family'=>'sometimes|Nullable|string|max:60',
             'user_birthday'=>'sometimes|Nullable|date',
             'user_location'=>'sometimes|Nullable|integer',
-            'user_gender'=>'sometimes|Nullable|integer',
+            'user_gender'=>'sometimes|Nullable|integer|max_digits:2',
             'user_description'=>'sometimes|Nullable|string',
             'user_code'=>'sometimes|Nullable|unique:users,userCode'
         ];

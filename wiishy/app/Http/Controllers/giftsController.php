@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGiftRequest;
+use App\Http\Requests\UpdateGiftRequest;
 use App\Models\gift;
 use App\Models\giftlike;
 use App\Models\giftUser;
@@ -64,23 +65,15 @@ class giftsController extends Controller
     }
 
 //_____________________ Update
-    function update_gift(Request $req){
+    function update_gift(UpdateGiftRequest $req){
         $gift=giftUserRepository::get($req->giftid , $req->userid);
         if(!$gift)
             return response(['message'=>'Gift not found'],400);
 
-        if($req->g_name){
-            $req->validate([
-                'g_name'=>'max:100'
-            ]);
+        if($req->g_name)
             giftRepository::update($req->giftid, $req->g_name, 'giftName');
-        }
-        if($req->g_price){
-            $req->validate([
-                'g_price'=>'numeric'
-            ]);
+        if($req->g_price)        
             giftRepository::update($req->giftid, $req->g_price, 'giftPrice');
-        }
         if($req->g_desc)
             giftRepository::update($req->giftid, $req->g_desc, 'giftDesc');
         if($req->g_link)
