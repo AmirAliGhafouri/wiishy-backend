@@ -24,13 +24,13 @@ class CreateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_name'=>'required | max:60',
-            'user_family'=>'required | max:60',
-            'user_birthday'=>'required | date',
+            'user_name'=>'required|string|max:60',
+            'user_family'=>'required|string|max:60',
+            'user_birthday'=>'required|date',
             'user_location'=>'required | integer',
             'user_gender'=>'required | integer',
-            'user_description'=>'required',
-            'user_code'=>'required'
+            'user_description'=>'required|string',
+            'user_code'=>'required|unique:users,userCode'
         ];
     }
 }
