@@ -3,10 +3,9 @@
 namespace App\Http\Resources;
 
 use App\Repositories\followRepository;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class followerListResource extends JsonResource
+class followingListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +13,9 @@ class followerListResource extends JsonResource
      * @param  \Illuminate\Http\Request  $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request): array
+    public function toArray($request)
     {
         return [
-            'isfollow'=>followRepository::check($this->id,$this->user_id),
             'user_id'=>$this->user_id,
             'userImageUrl'=>$this->userImageUrl,
             'name'=>$this->name,
