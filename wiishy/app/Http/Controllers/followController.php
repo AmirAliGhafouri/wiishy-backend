@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\followerListResource;
 use App\Repositories\followRepository;
 use Illuminate\Http\Request;
 
@@ -17,7 +18,8 @@ class followController extends Controller
             return response(['message'=>'user not found'] , 400);
         }
         $followers=followRepository::list($user_id,'userfollows.user_id','userfollows.follow_id');
-        return response(['followers_count'=>$followers_count , 'followers'=>$followers]);
+        $list= followerListResource::collection($followers);
+        return response(['followers_count'=>$followers_count , 'followers'=>$list]);
     }  
     
 //_____________________ All the following of a user 
