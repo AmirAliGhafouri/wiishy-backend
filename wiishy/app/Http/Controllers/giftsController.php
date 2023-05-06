@@ -4,14 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
-use App\Models\gift;
-use App\Models\giftlike;
-use App\Models\giftUser;
 use App\Repositories\giftRepository;
 use App\Repositories\giftUserRepository;
 use App\Repositories\likeRepository;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class giftsController extends Controller
 {

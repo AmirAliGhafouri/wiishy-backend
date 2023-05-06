@@ -33,7 +33,7 @@ class likeController extends Controller
         }
         likeRepository::dislike($gift_id , $user_id);
         likeRepository::decrease($gift_id , $user_id);      
-        return response(['message'=>'The gift has successfully disliked']);
+        return response(['message'=>'The gift has successfully disliked'],200);
     }
 
 //_____________________ Likes List
@@ -45,7 +45,7 @@ class likeController extends Controller
             return response(['message'=>'Gift not found'] , 400);
         }
         $likers=likeRepository::list($gift_id);
-        return response(['likes'=>$count,'users'=>$likers]);
+        return response(['likes'=>$count,'users'=>$likers],200);
     }
 
 }
