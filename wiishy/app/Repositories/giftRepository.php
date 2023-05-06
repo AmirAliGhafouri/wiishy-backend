@@ -11,7 +11,7 @@ class giftRepository
         return DB::table('giftuser')
         ->join('gifts','giftuser.gift_id','=','gifts.id')
         ->where(['giftuser.user_id'=>$user_id , 'gift_status'=>1])
-        ->select('giftuser.gift_id' , 'giftuser.gift_view' , 'giftuser.gift_like' , 'giftuser.desire_rate' , 'giftuser.created_at' , 'giftName' , 'giftPrice' , 'giftDesc' , 'giftUrl')
+        ->select('giftuser.gift_id' , 'giftuser.gift_view' , 'giftuser.gift_like' , 'giftuser.desire_rate' , 'giftuser.created_at as giftuserCreated_at' , 'giftName' , 'giftPrice' , 'giftDesc' , 'giftUrl')
         ->get();
     }
 

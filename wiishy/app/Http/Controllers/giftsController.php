@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
+use App\Http\Resources\UserGiftResource;
 use App\Models\gift;
 use App\Models\giftlike;
 use App\Models\giftUser;
@@ -17,9 +18,10 @@ class giftsController extends Controller
 {
     
 //_____________________ All the gifts of a user
-    function user_gifts($user_id){
+    function user_gifts($user_id,$id){
         $gifts=giftRepository::user_gift($user_id);
-        return response(['gifts'=>$gifts]);
+        $gift_user=UserGiftResource::collection($gifts,$id);
+        return response(['gifts'=>$gift_user]);
     }
 
 //_____________________ A complete gift detail of a user
