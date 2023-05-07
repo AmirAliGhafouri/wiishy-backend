@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
+use App\Http\Resources\followingsGiftResource;
+use App\Http\Resources\UserGiftResource;
+use App\Models\gift;
+use App\Models\giftlike;
+use App\Models\giftUser;
 use App\Repositories\giftRepository;
 use App\Repositories\giftUserRepository;
 use App\Repositories\likeRepository;
@@ -13,9 +18,10 @@ class giftsController extends Controller
 {
     
 //_____________________ All the gifts of a user
-    function user_gifts($user_id){
+    function user_gifts($user_id,$id){
         $gifts=giftRepository::user_gift($user_id);
-        return response(['gifts'=>$gifts]);
+        $gift_user=UserGiftResource::collection($gifts,$id);
+        return response(['gifts'=>$gift_user]);
     }
 
 //_____________________ A complete gift detail of a user
@@ -28,8 +34,9 @@ class giftsController extends Controller
 //_____________________ All the gifts of the users followings
     function followings_gift($id){
         $gifts=giftRepository::followings_gift($id);
+        $followings_gift=followingsGiftResource::collection($gifts,$id);
         $count=$gifts->count();
-        return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$gifts]);
+        return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$followings_gift]);
     }
 
 //_____________________ Add New Gift
@@ -61,23 +68,18 @@ class giftsController extends Controller
     }
 
 //_____________________ Update
-    function update_gift(UpdateGiftRequest $req){
+    function update_gift(UpdateGiftRequest $req){      
         $gift=giftUserRepository::get($req->giftid , $req->userid);
         if(!$gift)
             return response(['message'=>'Gift not found'],400);
+  
+        $request =collect($req->validated())->filter(function($item){
+            return $item != null;
+        })->except('desire_rate')->toArray();
 
-        if($req->g_name)
-            giftRepository::update($req->giftid, $req->g_name, 'giftName');
-        if($req->g_price)        
-            giftRepository::update($req->giftid, $req->g_price, 'giftPrice');
-        if($req->g_desc)
-            giftRepository::update($req->giftid, $req->g_desc, 'giftDesc');
-        if($req->g_link)
-            giftRepository::update($req->giftid, $req->g_link, 'giftUrl');
-        if($req->g_image)
-            giftRepository::update($req->giftid, $req->g_image, 'giftImageUrl');
-        if($req->g_rate)
-            giftUserRepository::update($req->giftid, $req->g_image, 'giftImageUrl');
+        giftRepository::update($req->giftid, $request);
+        if($req->desire_rate)
+            giftUserRepository::update($req->giftid,$req->desire_rate,'desire_rate');
         return response(['message'=>'The gift has updated successfully']);
     }
 
