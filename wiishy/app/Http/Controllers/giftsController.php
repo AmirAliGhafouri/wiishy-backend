@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
+use App\Http\Resources\followingsGiftResource;
 use App\Http\Resources\UserGiftResource;
 use App\Models\gift;
 use App\Models\giftlike;
@@ -34,8 +35,9 @@ class giftsController extends Controller
 //_____________________ All the gifts of the users followings
     function followings_gift($id){
         $gifts=giftRepository::followings_gift($id);
+        $followings_gift=followingsGiftResource::collection($gifts,$id);
         $count=$gifts->count();
-        return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$gifts]);
+        return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$followings_gift]);
     }
 
 //_____________________ Add New Gift
