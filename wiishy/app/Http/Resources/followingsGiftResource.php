@@ -18,9 +18,9 @@ class followingsGiftResource extends JsonResource
         return [
             'user_id'=>$this->user_id,
             'gift_id'=>$this->gift_id,
-            'giftName'=>$this->giftName,
-            'giftUrl'=>$this->giftUrl,
-            'userImageUrl'=>$this->userImageUrl,
+            'gift_name'=>$this->gift_name,
+            'gift_url'=>$this->gift_url,
+            'gift_image_url'=>$this->gift_image_url,
             'islike'=>likeRepository::check($this->gift_id,$request->id),
             'gift_like'=>$this->gift_like,
             'giftuser_created_at'=>$this->giftuser_created_at,

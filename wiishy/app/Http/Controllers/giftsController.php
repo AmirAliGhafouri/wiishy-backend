@@ -76,10 +76,11 @@ class giftsController extends Controller
   
         $request =collect($req->validated())->filter(function($item){
             return $item != null;
-        })->toArray();
+        })->except('desire_rate')->toArray();
 
         giftRepository::update($req->giftid, $request);
-        
+        if($req->desire_rate)
+            giftUserRepository::update($req->giftid,$req->desire_rate,'desire_rate');
         return response(['message'=>'The gift has updated successfully']);
     }
 

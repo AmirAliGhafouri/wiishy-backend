@@ -21,10 +21,10 @@ class UserGiftResource extends JsonResource
             'gift_like'=>$this->gift_like,
             'desire_rate'=>$this->desire_rate,
             'created_at'=>$this->giftuserCreated_at,
-            'giftName'=>$this->giftName,
-            'giftPrice'=>$this->giftPrice,
-            'giftDesc'=>$this->giftDesc,
-            'giftUrl'=>$this->giftUrl,
+            'gift_name'=>$this->gift_name,
+            'gift_price'=>$this->gift_price,
+            'gift_desc'=>$this->gift_desc,
+            'gift_url'=>$this->gift_url,
             'islike'=>likeRepository::check($this->gift_id,$request->id),
         ];
     }

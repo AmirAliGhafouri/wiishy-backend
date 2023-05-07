@@ -24,11 +24,11 @@ class CreateGiftRequest extends FormRequest
     public function rules():array
     {
         return [
-            'g_name'=>'required|string|max:100',
-            'g_price'=>'required|numeric',
-            'g_desc'=>'required|string',
-            'g_rate'=>'required|max_digits:2',
-            'g_image'=>'required|string'
+            'gift_name'=>'required|string|max:100',
+            'gift_price'=>'required|numeric',
+            'gift_desc'=>'required|string',
+            'desire_rate'=>'required|max_digits:2',
+            'gift_image_url'=>'required|string'
         ];
     }
 }
