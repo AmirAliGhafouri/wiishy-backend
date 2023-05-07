@@ -24,11 +24,11 @@ class UpdateGiftRequest extends FormRequest
     public function rules()
     {
         return [
-            'g_name'=>'sometimes|Nullable|string|max:100',
-            'g_price'=>'sometimes|Nullable|numeric',
-            'g_desc'=>'sometimes|Nullable|string',
-            'g_rate'=>'sometimes|Nullable|max_digits:2',
-            'g_image'=>'sometimes|Nullable|string'
+            'gift_name'=>'sometimes|string|max:100',
+            'gift_price'=>'sometimes|numeric',
+            'gift_desc'=>'sometimes|string',
+            'desire_rate'=>'sometimes|max_digits:2',
+            'gift_image_url'=>'sometimes|string'
         ];
     }
 }
