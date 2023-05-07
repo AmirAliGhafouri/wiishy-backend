@@ -36,13 +36,7 @@ class giftRepository
     }
 
     static function create($req){
-        return gift::create([
-            'gift_name'=>$req->g_name,
-            'gift_price'=>$req->g_price,
-            'gift_desc'=>$req->g_desc,
-            'gift_url'=>$req->g_link,
-            'gift_image_url'=>$req->g_name
-        ]);
+        return gift::create($req); 
     }
 
 

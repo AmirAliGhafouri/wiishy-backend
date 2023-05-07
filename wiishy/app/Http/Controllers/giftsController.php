@@ -41,7 +41,9 @@ class giftsController extends Controller
 
 //_____________________ Add New Gift
     function add_gift(CreateGiftRequest $req , $user_id){
-        $gift=giftRepository::create($req);
+        $request=collect($req)->except('desire_rate')->toArray();
+        dd($request);
+        $gift=giftRepository::create($request);
         giftUserRepository::create($req,$gift->id);
         return response(['message'=>"The gift has been successfully added"]);
     }
