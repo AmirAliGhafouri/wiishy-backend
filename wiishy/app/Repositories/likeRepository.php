@@ -38,7 +38,7 @@ class likeRepository
     }
 
     static function list($gift_id){
-        DB::table('giftlike')
+        return DB::table('giftlike')
         ->join('users','giftlike.user_id','=','users.id')
         ->where('giftlike.gift_id',$gift_id)
         ->select('user_id','name','family','user_image_url','giftlike.created_at as like_date')
