@@ -24,12 +24,12 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_name'=>'sometimes|Nullable|string|max:60',
-            'user_family'=>'sometimes|Nullable|string|max:60',
+            'name'=>'sometimes|Nullable|string|max:60',
+            'family'=>'sometimes|Nullable|string|max:60',
             'user_birthday'=>'sometimes|Nullable|date',
-            'user_location'=>'sometimes|Nullable|integer',
+            'user_location_id'=>'sometimes|Nullable|integer',
             'user_gender'=>'sometimes|Nullable|integer|max_digits:2',
-            'user_description'=>'sometimes|Nullable|string',
+            'user_desc'=>'sometimes|Nullable|string',
             'user_code'=>'sometimes|Nullable|unique:users,userCode'
         ];
     }

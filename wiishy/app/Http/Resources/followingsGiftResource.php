@@ -26,7 +26,7 @@ class followingsGiftResource extends JsonResource
             'giftuser_created_at'=>$this->giftuser_created_at,
             'name'=>$this->name,
             'family'=>$this->family,
-            'userImageUrl'=>$this->userImageUrl,
+            'user_image_url'=>$this->user_image_url,
         ];
     }
 }

@@ -15,14 +15,14 @@ class userRepository
 
     static function create($req){
         return User::create([
-            'name'=>$req->user_name,
-            'family'=>$req->user_family,
-            'userBirthday'=>$req->user_birthday,
-            'userLocationid'=>$req->user_location,
-            'userGender'=>$req->user_gender,
-            'userDescription'=>$req->user_description,
-            'userImageUrl'=>$req->user_image,
-            'userCode'=>$req->user_code
+            'name'=>$req->name,
+            'family'=>$req->family,
+            'user_birthday'=>$req->user_birthday,
+            'user_location_id'=>$req->user_location_id,
+            'user_gender'=>$req->user_gender,
+            'user_desc'=>$req->user_desc,
+            'user_image_url'=>$req->user_image_url,
+            'user_code'=>$req->user_code
         ]);
     }
 

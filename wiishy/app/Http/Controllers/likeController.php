@@ -45,7 +45,7 @@ class likeController extends Controller
             return response(['message'=>'Gift not found'] , 400);
         }
         $likers=likeRepository::list($gift_id);
-        return response(['likes'=>$count,'users'=>$likers],200);
+        return response(['like_count'=>$count,'users'=>$likers],200);
     }
 
 }

@@ -19,7 +19,7 @@ class followerListResource extends JsonResource
         return [
             'isfollow'=>followRepository::check($this->id,$this->user_id),
             'user_id'=>$this->user_id,
-            'userImageUrl'=>$this->userImageUrl,
+            'user_image_url'=>$this->user_image_url,
             'name'=>$this->name,
             'family'=>$this->family,
             'user_status'=>$this->user_status,

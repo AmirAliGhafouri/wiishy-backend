@@ -20,7 +20,7 @@ class giftRepository
         ->join('users','users.id','=','giftuser.user_id')
         ->join('gifts','gifts.id','=','giftuser.gift_id')
         ->where(['giftuser.user_id'=>$user_id , 'giftuser.gift_id'=>$gift_id , 'users.status'=>1 , 'gift_status'=>1])
-        ->select('user_id','gift_id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','giftuser.created_at','name','family','userImageUrl')
+        ->select('user_id','gift_id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','giftuser.created_at','name','family','user_image_url')
         ->get();
     }
 
@@ -31,7 +31,7 @@ class giftRepository
         ->join('gifts','gifts.id','=','giftuser.gift_id')
         ->where('userfollows.user_id',$id )
         ->where(['follow_status'=>1 , 'gift_status'=>1])
-        ->select('giftuser.user_id','giftuser.gift_id','gift_name','gift_url','gift_image_url','gift_like','giftuser.created_at as giftuser_created_at','name','family','userImageUrl')
+        ->select('giftuser.user_id','giftuser.gift_id','gift_name','gift_url','gift_image_url','gift_like','giftuser.created_at as giftuser_created_at','name','family','user_image_url')
         ->get()->sortByDesc('giftuser_created_at')->values();
     }
 

@@ -15,7 +15,7 @@ class followRepository
         return DB::table('users')
         ->join('userfollows','users.id','=',$join)
         ->where([$field=>$user_id , 'follow_status'=>1])
-        ->select("$join as user_id",'userImageUrl' , 'name' , 'family' , 'status as user_status' , "$field as id")
+        ->select("$join as user_id",'user_image_url' , 'name' , 'family' , 'status as user_status' , "$field as id")
         ->get();
     }
 

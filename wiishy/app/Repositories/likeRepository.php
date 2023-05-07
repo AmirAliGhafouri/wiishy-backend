@@ -41,7 +41,7 @@ class likeRepository
         DB::table('giftlike')
         ->join('users','giftlike.user_id','=','users.id')
         ->where('giftlike.gift_id',$gift_id)
-        ->select('user_id','name','family','userImageUrl','giftlike.created_at as like_date')
+        ->select('user_id','name','family','user_image_url','giftlike.created_at as like_date')
         ->get()->sortByDesc('like_date')->values();
     }
 }

@@ -17,7 +17,7 @@ class followingListResource extends JsonResource
     {
         return [
             'user_id'=>$this->user_id,
-            'userImageUrl'=>$this->userImageUrl,
+            'user_image_url'=>$this->user_image_url,
             'name'=>$this->name,
             'family'=>$this->family,
             'user_status'=>$this->user_status,

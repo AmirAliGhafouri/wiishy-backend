@@ -22,7 +22,7 @@ class giftUserRepository
         giftUser::create([
             'user_id'=>$req->id,
             'gift_id'=>$id,
-            'desire_rate'=>$req->g_rate
+            'desire_rate'=>$req->desire_rate
         ]);
     }
 
