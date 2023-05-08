@@ -36,21 +36,10 @@ class userController extends Controller
         $user=userRepository::get($req->userid);
         if(!$user)
             return response(['message'=>'User not found'],400);
-            
-        if($req->user_name)
-            userRepository::update($req->userid, $req->user_name, 'name');       
-        if($req->user_family)
-            userRepository::update($req->userid, $req->user_family, 'family');
-        if($req->user_birthday)
-            userRepository::update($req->userid, $req->user_birthday, 'userBirthday');
-        if($req->user_location)
-            userRepository::update($req->userid, $req->user_location, 'userLocationid');
-        if($req->user_gender)
-            userRepository::update($req->userid, $req->user_gender, 'userGender');
-        if($req->user_description)
-            userRepository::update($req->userid, $req->user_description, 'userDescription');
-        if($req->user_image)
-            userRepository::update($req->userid, $req->user_image, 'userImageUrl');
+        $request =collect($req->validated())->filter(function($item){
+            return $item != null;
+        })->toArray();
+        userRepository::update($req->userid, $request);       
         return response(['message'=>'UserProfile has updated successfully']);
     }
 

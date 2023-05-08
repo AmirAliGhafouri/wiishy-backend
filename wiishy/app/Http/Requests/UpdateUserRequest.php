@@ -30,7 +30,7 @@ class UpdateUserRequest extends FormRequest
             'user_location_id'=>'sometimes|Nullable|integer',
             'user_gender'=>'sometimes|Nullable|integer|max_digits:2',
             'user_desc'=>'sometimes|Nullable|string',
-            'user_code'=>'sometimes|Nullable|unique:users,userCode'
+            'user_code'=>'sometimes|Nullable|unique:users,user_code'
         ];
     }
 }

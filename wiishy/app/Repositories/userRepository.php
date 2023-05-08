@@ -21,7 +21,7 @@ class userRepository
         return User::where(['id'=>$id,'status'=>1])->first();
     }
 
-    static function update($id, $req, $field){
-        User::where('id',$id)->update([$field=>$req]);
+    static function update($id,$request){
+        User::where('id',$id)->update($request);
     }
 }
