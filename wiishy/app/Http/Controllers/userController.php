@@ -17,7 +17,7 @@ class userController extends Controller
 
 //_____________________ ADD User
     function add_user(CreateUserRequest $req){
-        $user=userRepository::create($req);
+        $user=userRepository::create($req->toArray());
         if(!$user)
             return response(['message'=>'Fail to add user'],400);
         return response(['message'=>'User has added successfully'],200);

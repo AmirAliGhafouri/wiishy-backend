@@ -14,16 +14,7 @@ class userRepository
     }
 
     static function create($req){
-        return User::create([
-            'name'=>$req->name,
-            'family'=>$req->family,
-            'user_birthday'=>$req->user_birthday,
-            'user_location_id'=>$req->user_location_id,
-            'user_gender'=>$req->user_gender,
-            'user_desc'=>$req->user_desc,
-            'user_image_url'=>$req->user_image_url,
-            'user_code'=>$req->user_code
-        ]);
+        return User::create($req);
     }
 
     static function get($id){

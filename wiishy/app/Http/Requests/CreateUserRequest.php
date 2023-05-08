@@ -30,7 +30,7 @@ class CreateUserRequest extends FormRequest
             'user_location_id'=>'required | integer',
             'user_gender'=>'required|integer|max_digits:2',
             'user_desc'=>'required|string',
-            'user_code'=>'required|unique:users,userCode'
+            'user_code'=>'required|unique:users,user_code'
         ];
     }
 }
