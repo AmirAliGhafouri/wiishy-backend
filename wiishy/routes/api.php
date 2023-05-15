@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\followController;
-use App\Http\Controllers\followersController;
-use App\Http\Controllers\followingsController;
 use App\Http\Controllers\giftsController;
 use App\Http\Controllers\likeController;
 use App\Http\Controllers\userController;
@@ -31,6 +29,7 @@ Route::controller(giftsController::class)->group(function(){
     Route::get('/gift-remove/{giftid}/{user_id}','gift_remove');
     Route::get('/gift-view/{giftid}', 'view');
     Route::get('/gift-share/{giftid}', 'share');
+    Route::post('/gift-search', 'search');
     Route::post('/gift-add/{id}', 'add_gift');
     Route::put('/gift-update/{giftid}/{userid}', 'update_gift');
 });

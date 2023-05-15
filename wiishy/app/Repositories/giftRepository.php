@@ -43,4 +43,8 @@ class giftRepository
     static function update($gift_id, $request){
         gift::where('id',$gift_id)->update($request);
     }
+
+    static function search($request){
+        return gift::where('gift_name','like','%'.$request.'%')->get();
+    }
 }
