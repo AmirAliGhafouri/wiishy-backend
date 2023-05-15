@@ -39,9 +39,7 @@ class followController extends Controller
 //_____________________ IS Follow?
     function isfollow($user_id,$follow_id){
         $follow=followRepository::check($user_id,$follow_id);
-        if($follow)
-            return response(['message'=>'yes']);
-        return response(['message'=>'no']);
+        return response(['isfollow'=>$follow]);
     }
 
 

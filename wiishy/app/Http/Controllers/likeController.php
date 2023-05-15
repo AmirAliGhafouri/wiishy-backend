@@ -19,7 +19,6 @@ class likeController extends Controller
 
 //_____________________ Is Like?
     function islike($gift_id , $user_id){
-        
         $like=likeRepository::check($gift_id , $user_id);
         return response(['islike'=>$like],200);
     }
