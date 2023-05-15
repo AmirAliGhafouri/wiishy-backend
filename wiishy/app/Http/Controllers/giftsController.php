@@ -6,9 +6,6 @@ use App\Http\Requests\CreateGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
 use App\Http\Resources\followingsGiftResource;
 use App\Http\Resources\UserGiftResource;
-use App\Models\gift;
-use App\Models\giftlike;
-use App\Models\giftUser;
 use App\Repositories\giftRepository;
 use App\Repositories\giftUserRepository;
 use App\Repositories\likeRepository;
@@ -47,7 +44,7 @@ class giftsController extends Controller
         return response(['message'=>"The gift has been successfully added"]);
     }
 
-//_____________________ View ???????????
+//_____________________ View
     function view($gift_id){
         giftUserRepository::increase($gift_id,'gift_view');
         return response(['message'=>'view increased']);

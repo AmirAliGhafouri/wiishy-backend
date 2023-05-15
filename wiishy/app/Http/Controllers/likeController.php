@@ -19,10 +19,9 @@ class likeController extends Controller
 
 //_____________________ Is Like?
     function islike($gift_id , $user_id){
+        
         $like=likeRepository::check($gift_id , $user_id);
-        if($like)
-            return response(['message'=>'yes']);
-        return response(['message'=>'no']);
+        return response(['islike'=>$like],200);
     }
 
 //_____________________ DisLike
