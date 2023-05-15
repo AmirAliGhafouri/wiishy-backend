@@ -4,6 +4,7 @@ use App\Http\Controllers\followController;
 use App\Http\Controllers\followersController;
 use App\Http\Controllers\followingsController;
 use App\Http\Controllers\giftsController;
+use App\Http\Controllers\likeController;
 use App\Http\Controllers\userController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,18 +25,21 @@ use Illuminate\Support\Facades\Route;
 }); */
 
 Route::controller(giftsController::class)->group(function(){
-    Route::get('/usergifts/{id}', 'user_gifts');
+    Route::get('/usergifts/{userid}/{id}', 'user_gifts');
     Route::get('/giftdetail/{giftid}/{userid}', 'gift_detail');
     Route::get('/followingsgifts/{id}', 'followings_gift');
     Route::get('/gift-remove/{giftid}/{user_id}','gift_remove');
     Route::get('/gift-view/{giftid}', 'view');
     Route::get('/gift-share/{giftid}', 'share');
+    Route::post('/gift-add/{id}', 'add_gift');
+    Route::put('/gift-update/{giftid}/{userid}', 'update_gift');
+});
+
+Route::controller(likeController::class)->group(function(){
     Route::get('/gift-likeslist/{giftid}', 'likeslist');
     Route::get('/gift-like/{giftid}/{userid}', 'like');
     Route::get('/gift-islike/{giftid}/{userid}', 'islike');
     Route::delete('/gift-dislike/{giftid}/{userid}', 'dislike');
-    Route::post('/gift-add/{id}', 'add_gift');
-    Route::put('/gift-update/{giftid}/{userid}', 'update_gift');
 });
 
 Route::controller(userController::class)->group(function(){
