@@ -20,7 +20,7 @@ class giftUserRepository
 
     static function create($req,$id){
         giftUser::create([
-            'user_id'=>$req->id,
+            'user_id'=>$req->userid,
             'gift_id'=>$id,
             'desire_rate'=>$req->desire_rate
         ]);

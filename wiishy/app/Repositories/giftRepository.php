@@ -2,11 +2,15 @@
 namespace App\Repositories;
 
 use App\Models\gift;
-use App\Models\giftUser;
 use Illuminate\Support\Facades\DB;
 
 class giftRepository
 {
+    
+    static function get($gift_id){
+        return gift::where('id',$gift_id)->first();
+    }
+
     static function user_gift($user_id){
         return DB::table('giftuser')
         ->join('gifts','giftuser.gift_id','=','gifts.id')

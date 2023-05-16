@@ -81,13 +81,26 @@ class giftsController extends Controller
         return response(['message'=>'The gift has updated successfully']);
     }
 
-//_____________________ Update
+//_____________________ Search a gift
     function search(Request $req){
         $gift_search=str_replace(" ",'%',$req->gift_search);
         $search=giftRepository::search($gift_search);
         if(!$search->all())
             return response(['message'=>"not found"],400);
         return response(['search'=>$search]);
+    }
+
+//_____________________ Own a gift
+    function own_gift(Request $req){
+        $gift=giftRepository::get($req->giftid);
+        if(!$gift)
+            return response(['message'=>'gift not found'],400);
+        $newgift=collect($gift)->except(['id','created_at','updated_at'])->toArray();
+        $add_gift=giftRepository::create($newgift);
+        if(!$add_gift)
+            return response(['message'=>"faild to add gift"],400);
+        giftUserRepository::create($req,$add_gift->id);
+        return response(['message'=>"The desired gift has been added to your gifts"],200);
     }
 
 }

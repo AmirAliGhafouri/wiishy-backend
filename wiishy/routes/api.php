@@ -30,8 +30,9 @@ Route::controller(giftsController::class)->group(function(){
     Route::get('/gift-view/{giftid}', 'view');
     Route::get('/gift-share/{giftid}', 'share');
     Route::post('/gift-search', 'search');
-    Route::post('/gift-add/{id}', 'add_gift');
+    Route::post('/gift-add/{userid}', 'add_gift');
     Route::put('/gift-update/{giftid}/{userid}', 'update_gift');
+    Route::get('/own-gift/{giftid}/{userid}', 'own_gift');
 });
 
 Route::controller(likeController::class)->group(function(){
