@@ -20,14 +20,13 @@ class giftRepository
     }
 
     static function followings_gift($id){
-        return DB::table('giftuser')
-        ->join('users','giftuser.user_id','=','users.id')
-        ->join('userfollows','giftuser.user_id','=','userfollows.follow_id')
-        ->join('gifts','gifts.id','=','giftuser.gift_id')
+        return DB::table('gifts')
+        ->join('users','gifts.user_id','=','users.id')
+        ->join('userfollows','gifts.user_id','=','userfollows.follow_id')
         ->where('userfollows.user_id',$id )
         ->where(['follow_status'=>1 , 'gift_status'=>1])
-        ->select('giftuser.user_id','giftuser.gift_id','gift_name','gift_url','gift_image_url','gift_like','giftuser.created_at as giftuser_created_at','name','family','user_image_url')
-        ->get()->sortByDesc('giftuser_created_at')->values();
+        ->select('gifts.user_id','gifts.id','gift_name','gift_url','gift_image_url','gift_like','gifts.created_at as gifts_created_at','name','family','user_image_url')
+        ->get()->sortByDesc('gifts_created_at')->values();
     }
 
     static function create($req){

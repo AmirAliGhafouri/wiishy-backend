@@ -17,13 +17,13 @@ class followingsGiftResource extends JsonResource
     {
         return [
             'user_id'=>$this->user_id,
-            'gift_id'=>$this->gift_id,
+            'gift_id'=>$this->id,
             'gift_name'=>$this->gift_name,
             'gift_url'=>$this->gift_url,
             'gift_image_url'=>$this->gift_image_url,
-            'islike'=>likeRepository::check($this->gift_id,$request->id),
+            'islike'=>likeRepository::check($this->id,$request->id),
             'gift_like'=>$this->gift_like,
-            'giftuser_created_at'=>$this->giftuser_created_at,
+            'gifts_created_at'=>$this->gifts_created_at,
             'name'=>$this->name,
             'family'=>$this->family,
             'user_image_url'=>$this->user_image_url,
