@@ -7,22 +7,15 @@ use Illuminate\Support\Facades\DB;
 
 class giftRepository
 {
-    static function user_gift($user_id){
-       /*  return DB::table('giftuser')
-        ->join('gifts','giftuser.gift_id','=','gifts.id')
-        ->where(['giftuser.user_id'=>$user_id , 'gift_status'=>1])
-        ->select('giftuser.gift_id' , 'giftuser.gift_view' , 'giftuser.gift_like' , 'giftuser.desire_rate' , 'giftuser.created_at as giftuserCreated_at' , 'gift_name' , 'gift_price' , 'gift_desc' , 'gift_url')
-        ->get(); */
-
+    static function all($user_id){
         return gift::where(['user_id'=>$user_id , 'gift_status'=>1])->get();
     }
 
     static function gift_details($gift_id , $user_id){
-        return DB::table('giftuser')
-        ->join('users','users.id','=','giftuser.user_id')
-        ->join('gifts','gifts.id','=','giftuser.gift_id')
-        ->where(['giftuser.user_id'=>$user_id , 'giftuser.gift_id'=>$gift_id , 'users.status'=>1 , 'gift_status'=>1])
-        ->select('user_id','gift_id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','giftuser.created_at','name','family','user_image_url')
+        return DB::table('gifts')
+        ->join('users','users.id','=','gifts.user_id')
+        ->where(['gifts.user_id'=>$user_id , 'gifts.id'=>$gift_id , 'users.status'=>1 , 'gift_status'=>1])
+        ->select('user_id','gifts.id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','gifts.created_at','name','family','user_image_url')
         ->get();
     }
 

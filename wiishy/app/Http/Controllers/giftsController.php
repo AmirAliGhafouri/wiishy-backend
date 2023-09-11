@@ -16,7 +16,7 @@ class giftsController extends Controller
     
 //_____________________ All the gifts of a user
     function user_gifts($user_id,$id){
-        $gifts=giftRepository::user_gift($user_id);
+        $gifts=giftRepository::all($user_id);
         $gift_user=UserGiftResource::collection($gifts,$id);
         return response(['gifts'=>$gift_user]);
     }
