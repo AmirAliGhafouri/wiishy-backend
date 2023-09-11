@@ -1,8 +1,8 @@
 <?php
 namespace App\Repositories;
 
+use App\Models\gift;
 use App\Models\giftlike;
-use App\Models\giftUser;
 use Illuminate\Support\Facades\DB;
 
 class likeRepository
@@ -26,15 +26,15 @@ class likeRepository
     }
 
     static function increase($gift_id , $user_id){
-        giftUser::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->increment('gift_like');
+        gift::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->increment('like');
     }
 
     static function decrease($gift_id , $user_id){
-        giftUser::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->decrement('gift_like');
+        gift::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->decrement('like');
     }
 
     static function count($gift_id){
-        return giftUser::where(['gift_id'=>$gift_id , 'gift_status'=>1])->first()->gift_like;
+        return gift::where(['gift_id'=>$gift_id , 'gift_status'=>1])->first()->like;
     }
 
     static function list($gift_id){
