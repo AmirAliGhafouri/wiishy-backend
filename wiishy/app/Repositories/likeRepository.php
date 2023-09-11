@@ -26,15 +26,15 @@ class likeRepository
     }
 
     static function increase($gift_id , $user_id){
-        gift::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->increment('like');
+        gift::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->increment('gift_like');
     }
 
     static function decrease($gift_id , $user_id){
-        gift::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->decrement('like');
+        gift::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->decrement('gift_like');
     }
 
     static function count($gift_id){
-        return gift::where(['gift_id'=>$gift_id , 'gift_status'=>1])->first()->like;
+        return gift::where(['gift_id'=>$gift_id , 'gift_status'=>1])->first()->gift_like;
     }
 
     static function list($gift_id){

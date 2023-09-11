@@ -8,11 +8,13 @@ use Illuminate\Support\Facades\DB;
 class giftRepository
 {
     static function user_gift($user_id){
-        return DB::table('giftuser')
+       /*  return DB::table('giftuser')
         ->join('gifts','giftuser.gift_id','=','gifts.id')
         ->where(['giftuser.user_id'=>$user_id , 'gift_status'=>1])
         ->select('giftuser.gift_id' , 'giftuser.gift_view' , 'giftuser.gift_like' , 'giftuser.desire_rate' , 'giftuser.created_at as giftuserCreated_at' , 'gift_name' , 'gift_price' , 'gift_desc' , 'gift_url')
-        ->get();
+        ->get(); */
+
+        return gift::where(['user_id'=>$user_id , 'gift_status'=>1])->get();
     }
 
     static function gift_details($gift_id , $user_id){
