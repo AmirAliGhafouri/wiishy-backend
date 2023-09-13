@@ -52,7 +52,7 @@ class giftsController extends Controller
 
 //_____________________ share
     function share($gift_id){
-        giftUserRepository::increase($gift_id,'shared');
+        giftRepository::increase($gift_id,'shared');
         return response(['message'=>'share increased']);
     }
 
