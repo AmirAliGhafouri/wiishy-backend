@@ -46,7 +46,7 @@ class giftsController extends Controller
 
 //_____________________ View
     function view($gift_id){
-        giftUserRepository::increase($gift_id,'gift_view');
+        giftRepository::increase($gift_id,'gift_view');
         return response(['message'=>'view increased']);
     }
 

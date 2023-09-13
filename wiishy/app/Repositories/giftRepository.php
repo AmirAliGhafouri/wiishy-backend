@@ -29,10 +29,13 @@ class giftRepository
         ->get()->sortByDesc('gifts_created_at')->values();
     }
 
+    static function increase($gift_id , $field){
+        gift::where('id',$gift_id)->increment($field);
+    }
+
     static function create($req){
         return gift::create($req); 
     }
-
 
     static function update($gift_id, $request){
         gift::where('id',$gift_id)->update($request);
