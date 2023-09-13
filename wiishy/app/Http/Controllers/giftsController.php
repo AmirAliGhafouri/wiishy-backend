@@ -58,10 +58,10 @@ class giftsController extends Controller
 
 //_____________________ Remove
     function gift_remove($gift_id , $user_id){
-        $gift=giftUserRepository::get($gift_id , $user_id);
+        $gift=giftRepository::get($gift_id , $user_id);
         if(!$gift)
             return response(['message'=>'Gift not found'],400);
-            giftUserRepository::destroy($gift_id , $user_id);
+        giftRepository::destroy($gift_id , $user_id);
         return response(['message'=>'The gift has removed successfully']);
     }
 
