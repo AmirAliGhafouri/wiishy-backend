@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateGiftRequest;
 use App\Http\Resources\followingsGiftResource;
 use App\Http\Resources\UserGiftResource;
 use App\Repositories\giftRepository;
-use App\Repositories\giftUserRepository;
 use App\Repositories\likeRepository;
 use Illuminate\Http\Request;
 

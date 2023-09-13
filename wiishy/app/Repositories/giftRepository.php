@@ -2,7 +2,6 @@
 namespace App\Repositories;
 
 use App\Models\gift;
-use App\Models\giftUser;
 use Illuminate\Support\Facades\DB;
 
 class giftRepository
@@ -38,7 +37,7 @@ class giftRepository
     }
 
     static function destroy($gift_id , $user_id){
-        giftUser::where(['id'=>$gift_id , 'user_id'=>$user_id , 'gift_status'=>1])->update(['gift_status'=>0]);
+        gift::where(['id'=>$gift_id , 'user_id'=>$user_id , 'gift_status'=>1])->update(['gift_status'=>0]);
 
     }
 
