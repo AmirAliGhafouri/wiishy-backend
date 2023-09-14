@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use App\Repositories\userRepository;
 use Illuminate\Http\Request;
 
@@ -42,5 +43,6 @@ class userController extends Controller
         userRepository::update($req->userid, $request);       
         return response(['message'=>'UserProfile has updated successfully']);
     }
+
 
 }

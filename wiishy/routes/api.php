@@ -55,3 +55,5 @@ Route::controller(followController::class)->group(function(){
     Route::get('/follow/{userid}/{followid}', 'follow');
     Route::get('/unfollow/{userid}/{followid}', 'unfollow');
 });
+
+
