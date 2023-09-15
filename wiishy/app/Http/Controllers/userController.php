@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\provider;
 use App\Models\User;
 use App\Repositories\userRepository;
 use Illuminate\Http\Request;
@@ -44,5 +45,29 @@ class userController extends Controller
         return response(['message'=>'UserProfile has updated successfully']);
     }
 
+//_____________________ Auth
+    function auth(CreateUserRequest $req ,$provider){
+        $user_provider=userRepository::provider($provider);;
+        if(!$user_provider)
+            return response(['message'=>'Wrong provider'],400);
+        $user=userRepository::check($req,$user_provider->id);
+        if(!$user){
+            $req['provider_id']=$user_provider->id;
+            $register=userRepository::create($req->toArray());
+            $token= userRepository::token($register);
+            // $token = $register->createToken('wiishy_token')->plainTextToken;
+            return response([
+                'message'=>'new user has registered',
+                'token'=>$token,
+                'user'=>$register
+            ],200);
+        }
+        // $token = $user->createToken('wiishy_token')->plainTextToken;
+        $token= userRepository::token($user);
+        return response([
+            'token'=>$token,
+            'user'=>$user
+        ],200);       
+    }
 
 }

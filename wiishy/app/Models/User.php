@@ -26,6 +26,7 @@ class User extends Authenticatable
         'user_desc',
         'user_image_url',
         'user_code',
+        'provider_id',
         'email',
         'password',
     ];
