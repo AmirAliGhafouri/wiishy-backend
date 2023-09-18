@@ -55,7 +55,9 @@ class userController extends Controller
             $register=userRepository::create($req->toArray());
             $token= userRepository::token($register);
             return response([
-                'message'=>'new user has registered',
+                'status'=>'success',
+                'new_user'=>true,
+                'message'=>'Registration is done successfully',
                 'token'=>$token,
                 'user'=>$register
             ],200);
@@ -63,6 +65,9 @@ class userController extends Controller
 
         $token= userRepository::token($user);
         return response([
+            'status'=>'success',
+            'new_user'=>false,
+            'message'=>'User logged in successfully',
             'token'=>$token,
             'user'=>$user
         ],200);       
