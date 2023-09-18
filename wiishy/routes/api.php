@@ -23,6 +23,9 @@ use Illuminate\Support\Facades\Route;
 }); */
 
 Route::post('/auth/{provider}',[userController::class,'auth']);
+Route::get('/Unauthenticated',[userController::class,'Unauthenticated'])->name('login');
+
+
 Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::controller(giftsController::class)->group(function(){
         Route::get('/usergifts/{userid}/{id}', 'user_gifts');

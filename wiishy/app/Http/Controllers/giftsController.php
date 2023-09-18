@@ -78,7 +78,7 @@ class giftsController extends Controller
         return response(['message'=>'The gift has updated successfully']);
     }
 
-//_____________________ Update
+//_____________________ search
     function search(Request $req){
         $gift_search=str_replace(" ",'%',$req->gift_search);
         $search=giftRepository::search($gift_search);
