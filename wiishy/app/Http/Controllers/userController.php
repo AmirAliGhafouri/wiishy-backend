@@ -16,19 +16,25 @@ class userController extends Controller
     }
 
 //_____________________ ADD User
-    function add_user(CreateUserRequest $req){
+    /* function add_user(CreateUserRequest $req){
         $user=userRepository::create($req->toArray());
         if(!$user)
             return response(['message'=>'Fail to add user'],400);
         return response(['message'=>'User has added successfully'],200);
-    }
+    } */
 
 //_____________________ Remove User
     function remove($user_id){
         $user=userRepository::destroy($user_id);
         if(!$user)
-            return response(['message'=>'User not found'],400);
-        return response(['message'=>'User has removed successfully'],200);
+            return response([
+                'status'=>'Error',
+                'message'=>'User not found'
+            ],400);
+        return response([
+            'status'=>'success',
+            'message'=>'User is removed successfully'
+        ],200);
     }
 
 //_____________________ Update User
