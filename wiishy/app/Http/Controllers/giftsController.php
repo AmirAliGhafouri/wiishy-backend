@@ -85,14 +85,20 @@ class giftsController extends Controller
     function update_gift(UpdateGiftRequest $req){      
         $gift=giftRepository::get($req->giftid , $req->userid);
         if(!$gift)
-            return response(['message'=>'Gift not found'],400);
+            return response([
+                'status'=>'Error',
+                'message'=>'Gift not found'
+            ],400);
   
         $request =collect($req->validated())->filter(function($item){
             return $item != null;
         })->toArray();
 
         giftRepository::update($req->giftid, $request);
-        return response(['message'=>'The gift has updated successfully']);
+        return response([
+            'status'=>'success',
+            'message'=>'The gift is updated successfully'
+        ],200);
     }
 
 //_____________________ search
