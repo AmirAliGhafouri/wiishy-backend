@@ -16,11 +16,18 @@ class followController extends Controller
             $followers_count=followRepository::count($user_id,'followers');
         }
         catch(\Exception $exception){
-            return response(['message'=>'user not found'] , 400);
+            return response([
+                'status'=>'Error',
+                'message'=>'user not found'
+            ] , 400);
         }
         $followers=followRepository::list($user_id,'userfollows.user_id','userfollows.follow_id');
         $list= followerListResource::collection($followers);
-        return response(['followers_count'=>$followers_count , 'followers'=>$list]);
+        return response([
+            'status'=>'success',
+            'followers_count'=>$followers_count ,
+            'followers'=>$list
+        ],200);
     }  
     
 //_____________________ All the following of a user 
