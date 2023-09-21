@@ -33,11 +33,17 @@ class likeController extends Controller
     function dislike($gift_id , $user_id){
         $like=likeRepository::check($gift_id , $user_id);
         if(!$like){
-            return response(['message'=>'The gift hasnt been liked before'],400);
+            return response([
+                'status'=>'Error',
+                'message'=>'The gift hasnt been liked before'
+            ],400);
         }
         likeRepository::dislike($gift_id , $user_id);
         likeRepository::decrease($gift_id , $user_id);      
-        return response(['message'=>'The gift has successfully disliked'],200);
+        return response([
+            'status'=>'success',
+            'message'=>'The gift is disliked successfully'
+        ],200);
     }
 
 //_____________________ Likes List
