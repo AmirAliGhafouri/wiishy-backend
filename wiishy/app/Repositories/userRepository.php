@@ -31,10 +31,14 @@ class userRepository
     }
 
     static function check($req , $provider_id){
-        return User::where(['name'=>$req->name ,'family'=>$req->family ,'provider_id'=>$provider_id ,'status'=>1])->first();
+        return User::where(['email'=>$req->email ,'provider_id'=>$provider_id ,'status'=>1])->first();
     }
 
     static function token($user){
         return $user->createToken('wiishy_token')->plainTextToken;
     }
+
+    /* static function provider_id_return($id){
+        return User::where('id',$id)->first()->provider_id;
+    } */
 }

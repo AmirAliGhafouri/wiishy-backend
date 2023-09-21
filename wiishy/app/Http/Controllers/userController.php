@@ -33,21 +33,37 @@ class userController extends Controller
 
 //_____________________ Update User
     function update(UpdateUserRequest $req){
+        if(!$req->all()){
+            return response([
+                'status'=>'Error',
+                'message'=>'Empty request'
+            ],400);
+        }
+
         $user=userRepository::get($req->userid);
         if(!$user)
-            return response(['message'=>'User not found'],400);
+            return response([
+                'status'=>'Error',
+                'message'=>'User not found'
+            ],400);
         $request =collect($req->validated())->filter(function($item){
             return $item != null;
         })->toArray();
         userRepository::update($req->userid, $request);       
-        return response(['message'=>'UserProfile has updated successfully']);
+        return response([
+            'status'=>'success',
+            'message'=>'UserProfile updated is done successfully'
+        ]);
     }
 
 //_____________________ Auth
     function auth(CreateUserRequest $req ,$provider){
         $user_provider=userRepository::provider($provider);;
         if(!$user_provider)
-            return response(['message'=>'Wrong provider'],400);
+            return response([
+                'status'=>'Error',
+                'message'=>'Wrong provider'
+            ],400);
 
         $user=userRepository::check($req,$user_provider->id);
         if(!$user){

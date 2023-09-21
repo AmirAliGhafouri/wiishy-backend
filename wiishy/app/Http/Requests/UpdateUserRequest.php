@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Repositories\userRepository;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -26,6 +28,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name'=>'sometimes|Nullable|string|max:60',
             'family'=>'sometimes|Nullable|string|max:60',
+            'email'=>'sometimes|Nullable|email',         
             'user_birthday'=>'sometimes|Nullable|date',
             'user_location_id'=>'sometimes|Nullable|integer',
             'user_gender'=>'sometimes|Nullable|integer|max_digits:2',
