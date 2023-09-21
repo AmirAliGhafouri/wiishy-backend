@@ -89,7 +89,14 @@ class giftsController extends Controller
                 'status'=>'Error',
                 'message'=>'Gift not found'
             ],400);
-  
+            
+        if(!$req->all()){
+            return response([
+                'status'=>'Error',
+                'message'=>'Empty request'
+            ],400);
+        }
+
         $request =collect($req->validated())->filter(function($item){
             return $item != null;
         })->toArray();
@@ -106,8 +113,14 @@ class giftsController extends Controller
         $gift_search=str_replace(" ",'%',$req->gift_search);
         $search=giftRepository::search($gift_search);
         if(!$search->all())
-            return response(['message'=>"not found"],400);
-        return response(['search'=>$search]);
+            return response([
+                'status'=>'Error',
+                'message'=>"not found"
+            ],400);
+        return response([
+            'status'=>'success',
+            'search'=>$search
+        ]);
     }
 
 }

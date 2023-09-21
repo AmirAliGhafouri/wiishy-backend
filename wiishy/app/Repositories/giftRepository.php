@@ -33,7 +33,7 @@ class giftRepository
     }
 
     static function get($gift_id , $user_id){
-        return gift::where(['id'=>$gift_id , 'user_id'=>$user_id , 'gift_status'=>1])->first();
+        return gift::where(['id'=>$gift_id ,'user_id'=>$user_id ,'gift_status'=>1])->first();
     }
 
     static function destroy($gift_id , $user_id){
