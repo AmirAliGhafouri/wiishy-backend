@@ -80,12 +80,18 @@ class followController extends Controller
     function unfollow($user_id,$follow_id){
         $follow=followRepository::check($user_id,$follow_id);
         if(!$follow)
-            return response(['message'=>'user hasnt been followed'],400);
+            return response([
+                'status'=>'Error',
+                'message'=>'user hasnt been followed'
+            ],400);
 
         followRepository::unfollow($user_id,$follow_id);
 
         followRepository::decrease($user_id,'followings');
         followRepository::decrease($follow_id,'followers');    
-        return response(['message'=>'The Unfollow process has done successfully']);
+        return response([
+            'status'=>'success',
+            'message'=>'The Unfollow process is done successfully'
+        ]);
     }
 }
