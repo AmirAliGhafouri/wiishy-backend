@@ -40,7 +40,18 @@ class giftsController extends Controller
         $request=collect($req)->toArray();
         $request['user_id']=$user_id;
         $gift=giftRepository::create($request);
-        return response(['message'=>"The gift has been successfully added"]);
+        if(!$gift){
+            return response([
+                'status'=>'Error',
+                'message'=>"Failed to add gift"
+            ]);
+        }
+
+        return response([
+            'status'=>'success',
+            'message'=>'The gift has been successfully added',
+            'gift'=>$gift
+        ]);
     }
 
 //_____________________ View
