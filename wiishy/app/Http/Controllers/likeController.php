@@ -52,10 +52,17 @@ class likeController extends Controller
             $count=likeRepository::count($gift_id);
         }
         catch(\Exception $exception){
-            return response(['message'=>'Gift not found'] , 400);
+            return response([
+                'status'=>'Error',
+                'message'=>'Gift not found'
+            ] , 400);
         }
         $likers=likeRepository::list($gift_id);
-        return response(['like_count'=>$count,'users'=>$likers],200);
+        return response([
+            'status'=>'success',
+            'like_count'=>$count,
+            'users'=>$likers
+        ],200);
     }
 
 }
