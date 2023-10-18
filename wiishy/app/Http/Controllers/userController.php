@@ -6,6 +6,9 @@ use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\userRepository;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class userController extends Controller
 {
@@ -14,14 +17,6 @@ class userController extends Controller
         $user=userRepository::all($user_id);
         return response(['user'=>$user]);
     }
-
-//_____________________ ADD User
-    /* function add_user(CreateUserRequest $req){
-        $user=userRepository::create($req->toArray());
-        if(!$user)
-            return response(['message'=>'Fail to add user'],400);
-        return response(['message'=>'User has added successfully'],200);
-    } */
 
 //_____________________ Remove User
     function remove($user_id){
@@ -38,7 +33,7 @@ class userController extends Controller
     }
 
 //_____________________ Update User
-    function update(UpdateUserRequest $req){
+   /*  function update(UpdateUserRequest $req){
         if(!$req->all()){
             return response([
                 'status'=>'Error',
@@ -61,6 +56,41 @@ class userController extends Controller
             'message'=>'UserProfile updated is done successfully'
         ]);
     }
+ */
+
+//_____________________ Update User
+function update(UpdateUserRequest $req){
+    Log::debug('updateUserRequest',[$req->all()]);
+    if(!$req->all()){
+        return response([
+            'status'=>'Error',
+            'message'=>'Empty request'
+        ],400);
+    }
+    $user=userRepository::get($req->userid);
+    if(!$user)
+        return response([
+            'status'=>'Error',
+            'message'=>'User not found'
+        ],400);
+    $request =collect($req->validated())->filter(function($item){
+        return $item != null;
+    })->toArray();
+    if($req->image){
+        $fileName = $req->user()->id.'.'.$req->image->getClientOriginalExtension();
+        Storage::disk('public')->putFileAs('/users',$req->image,$fileName);
+        unset($request['image']);
+        $request['user_image_url'] = '/uploads/users/' . $fileName.'?t='.Carbon::now()->getTimestamp();
+    }
+    userRepository::update($req->userid, $request);       
+    return response([
+        'status'=>'success',
+        'message'=>'UserProfile has updated successfully'
+    ]);
+}
+
+
+
 
 //_____________________ Auth
     function auth(CreateUserRequest $req ,$provider){

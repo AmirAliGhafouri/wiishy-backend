@@ -28,12 +28,12 @@ class UpdateUserRequest extends FormRequest
         return [
             'name'=>'sometimes|Nullable|string|max:60',
             'family'=>'sometimes|Nullable|string|max:60',
-            'email'=>'sometimes|Nullable|email',         
             'user_birthday'=>'sometimes|Nullable|date',
             'user_location_id'=>'sometimes|Nullable|integer',
             'user_gender'=>'sometimes|Nullable|integer|max_digits:2',
             'user_desc'=>'sometimes|Nullable|string',
-            'user_code'=>'sometimes|Nullable|unique:users,user_code'
+            'user_code'=>'sometimes|Nullable|unique:users,user_code',
+            'image' => 'sometimes|image|dimensions:max_width=250,max_height=250|max:2048'
         ];
     }
 }
