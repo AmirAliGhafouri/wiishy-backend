@@ -49,7 +49,7 @@ class giftsController extends Controller
 
         return response([
             'status'=>'success',
-            'message'=>'The gift has been successfully added',
+            'message'=>'The gift is added successfully',
             'gift'=>$gift
         ]);
     }
