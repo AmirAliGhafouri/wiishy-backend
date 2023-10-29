@@ -8,6 +8,8 @@ use App\Http\Resources\followingsGiftResource;
 use App\Http\Resources\UserGiftResource;
 use App\Repositories\giftRepository;
 use App\Repositories\likeRepository;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class giftsController extends Controller
@@ -36,9 +38,15 @@ class giftsController extends Controller
     }
 
 //_____________________ Add New Gift
-    function add_gift(CreateGiftRequest $req , $user_id){
+    function add_gift(CreateGiftRequest $req , $user_id){ 
         $request=collect($req)->toArray();
-        $request['user_id']=$user_id;
+
+        $file_name= $req->image->getClientOriginalName();
+        Storage::disk('public')->putFileAs('/gifts',$req->image,$file_name);
+        unset($request['image']);
+        $request['gift_image_url'] = '/uploads/gifts/' . $file_name.'?t='.Carbon::now()->getTimestamp();
+
+        $request['user_id'] = $user_id;
         $gift=giftRepository::create($request);
         if(!$gift){
             return response([
@@ -112,15 +120,16 @@ class giftsController extends Controller
     function search(Request $req){
         $gift_search=str_replace(" ",'%',$req->gift_search);
         $search=giftRepository::search($gift_search);
-        if(!$search->all())
+        if(!$search->all()){
             return response([
                 'status'=>'Error',
                 'message'=>"not found"
             ],400);
+        }
         return response([
             'status'=>'success',
             'search'=>$search
-        ]);
+        ],200);
     }
 
 }
