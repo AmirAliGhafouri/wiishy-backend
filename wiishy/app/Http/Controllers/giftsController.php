@@ -109,10 +109,19 @@ class giftsController extends Controller
             return $item != null;
         })->toArray();
 
+        if($req->image){
+            $file_name= $req->image->getClientOriginalName();
+            Storage::disk('public')->putFileAs('/gifts',$req->image,$file_name);
+            unset($request['image']);
+            $request['gift_image_url'] = '/uploads/gifts/' . $file_name.'?t='.Carbon::now()->getTimestamp();
+        }
+
         giftRepository::update($req->giftid, $request);
+        $newgift=giftRepository::get($req->giftid , $req->userid);
         return response([
             'status'=>'success',
-            'message'=>'The gift is updated successfully'
+            'message'=>'The gift is updated successfully',
+            'gift'=>$newgift
         ],200);
     }
 

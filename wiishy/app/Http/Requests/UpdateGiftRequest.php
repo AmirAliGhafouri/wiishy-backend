@@ -28,7 +28,7 @@ class UpdateGiftRequest extends FormRequest
             'gift_price'=>'sometimes|Nullable|numeric',
             'gift_desc'=>'sometimes|Nullable|string',
             'desire_rate'=>'sometimes|Nullable|max_digits:2',
-            'gift_image_url'=>'sometimes|Nullable|string'
+            'image' => 'required|image|max:2048'
         ];
     }
 }

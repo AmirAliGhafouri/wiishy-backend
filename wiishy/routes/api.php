@@ -36,7 +36,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::get('/gift-share/{giftid}', 'share');
         Route::post('/gift-search', 'search');
         Route::post('/gift-add/{id}', 'add_gift');
-        Route::put('/gift-update/{giftid}/{userid}', 'update_gift');
+        Route::post('/gift-update/{giftid}/{userid}', 'update_gift');
     });
 
     Route::controller(likeController::class)->group(function(){

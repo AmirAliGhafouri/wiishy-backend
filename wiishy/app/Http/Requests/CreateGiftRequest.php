@@ -28,7 +28,7 @@ class CreateGiftRequest extends FormRequest
             'gift_price'=>'required|numeric',
             'gift_desc'=>'required|string',
             'desire_rate'=>'required|max_digits:2',
-            'image' => 'required|image|max:2048'
+            'image' => 'required|image|dimensions:max_width=1000,max_height=1000|max:2048'
         ];
     }
 }
