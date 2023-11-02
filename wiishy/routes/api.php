@@ -47,7 +47,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     });
 
     Route::controller(userController::class)->group(function(){
-        Route::get('/userprofile/{id}', 'user_profile');
+        // Route::get('/userprofile/{id}', 'user_profile');
         Route::get('/user-remove/{id}', 'remove');
         Route::put('/user-update/{userid}', 'update');
         Route::post('/user-add', 'add_user');
@@ -59,5 +59,9 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::get('/isfollow/{userid}/{followid}', 'isfollow');
         Route::get('/follow/{userid}/{followid}', 'follow');
         Route::get('/unfollow/{userid}/{followid}', 'unfollow');
+    });
+
+    Route::group(['middleware'=>'user_access'],function (){
+        Route::get('/userprofile/{userid}',[userController::class,'user_profile']);
     });
 });
