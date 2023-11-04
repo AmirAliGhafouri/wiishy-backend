@@ -30,13 +30,9 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::controller(giftsController::class)->group(function(){
         Route::get('/usergifts/{userid}/{id}', 'user_gifts');
         Route::get('/giftdetail/{giftid}/{userid}', 'gift_detail');
-        Route::get('/followingsgifts/{id}', 'followings_gift');
-        Route::get('/gift-remove/{giftid}/{user_id}','gift_remove');
         Route::get('/gift-view/{giftid}', 'view');
         Route::get('/gift-share/{giftid}', 'share');
         Route::post('/gift-search', 'search');
-        Route::post('/gift-add/{id}', 'add_gift');
-        Route::post('/gift-update/{giftid}/{userid}', 'update_gift');
     });
 
     Route::controller(likeController::class)->group(function(){
@@ -47,10 +43,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     });
 
     Route::controller(userController::class)->group(function(){
-        // Route::get('/userprofile/{id}', 'user_profile');
-        Route::get('/user-remove/{id}', 'remove');
-        Route::put('/user-update/{userid}', 'update');
-        Route::post('/user-add', 'add_user');
+        Route::get('/userprofile/{id}', 'user_profile');
     });
 
     Route::controller(followController::class)->group(function(){
@@ -62,6 +55,22 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     });
 
     Route::group(['middleware'=>'user_access'],function (){
-        Route::get('/userprofile/{userid}',[userController::class,'user_profile']);
+        Route::controller(giftsController::class)->group(function(){
+            Route::get('/followingsgifts/{userid}', 'followings_gift');
+            Route::get('/gift-remove/{giftid}/{userid}','gift_remove');
+            Route::post('/gift-add/{userid}', 'add_gift');
+            Route::post('/gift-update/{giftid}/{userid}', 'update_gift');
+        });
+
+        Route::controller(userController::class)->group(function(){
+            Route::get('/user-remove/{id}', 'remove');
+            Route::put('/user-update/{userid}', 'update');
+            Route::post('/user-add', 'add_user');
+        });
+
+        Route::controller(followController::class)->group(function(){           
+            Route::get('/follow/{userid}/{followid}', 'follow');
+            Route::get('/unfollow/{userid}/{followid}', 'unfollow');
+        });
     });
 });
