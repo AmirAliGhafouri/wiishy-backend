@@ -18,6 +18,12 @@ class userController extends Controller
         return response(['user'=>$user]);
     }
 
+//_____________________ User List
+    function user_list(){
+        $list=userRepository::list();
+        return response(['user'=>$list]);
+    }
+
 //_____________________ Remove User
     function remove($user_id){
         $user=userRepository::destroy($user_id);
