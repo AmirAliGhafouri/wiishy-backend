@@ -28,13 +28,19 @@ class giftsController extends Controller
         $like=likeRepository::check($gift_id , $user_id);
         return response(['islike'=>$like,'gift_detail'=>$gift_detail]);
     }
-
+    
 //_____________________ All the gifts of the users followings
     function followings_gift($id){
         $gifts=giftRepository::followings_gift($id);
         $followings_gift=followingsGiftResource::collection($gifts,$id);
         $count=$gifts->count();
         return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$followings_gift]);
+    }
+
+//_____________________ Explore
+    function gift_explore(){
+        $list=giftRepository::list();
+        return response(['gifts'=>$list]);
     }
 
 //_____________________ Add New Gift

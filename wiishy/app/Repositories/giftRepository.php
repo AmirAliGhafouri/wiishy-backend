@@ -10,6 +10,10 @@ class giftRepository
         return gift::where(['user_id'=>$user_id , 'gift_status'=>1])->get();
     }
 
+    static function list(){
+        return gift::all()->sortByDesc('created_at')->values();
+    }
+
     static function gift_details($gift_id , $user_id){
         return DB::table('gifts')
         ->join('users','users.id','=','gifts.user_id')

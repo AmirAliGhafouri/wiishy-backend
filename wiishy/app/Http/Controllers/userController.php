@@ -15,7 +15,7 @@ class userController extends Controller
 //_____________________ User Profile
     function user_profile($user_id){
         $user=userRepository::all($user_id);
-        return response(['user'=>$user]);
+        return response(['users'=>$user]);
     }
 
 //_____________________ User List
