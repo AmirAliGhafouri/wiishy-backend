@@ -23,9 +23,10 @@ class giftsController extends Controller
     }
 
 //_____________________ A complete gift detail of a user
-    function gift_detail($gift_id , $user_id){
-        $gift_detail=giftRepository::gift_details($gift_id , $user_id);
-        $like=likeRepository::check($gift_id , $user_id);
+    function gift_detail(Request $req){
+        $gift_detail=giftRepository::gift_details($req->giftid );
+        $user_id=$req->user()->id;
+        $like=likeRepository::check($req->gift_id , $user_id);
         return response(['islike'=>$like,'gift_detail'=>$gift_detail]);
     }
     

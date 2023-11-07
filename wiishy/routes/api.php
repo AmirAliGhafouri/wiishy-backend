@@ -29,7 +29,7 @@ Route::get('/Unauthenticated',[userController::class,'Unauthenticated'])->name('
 Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::controller(giftsController::class)->group(function(){
         Route::get('/usergifts/{userid}/{id}', 'user_gifts');
-        Route::get('/giftdetail/{giftid}/{userid}', 'gift_detail');
+        Route::get('/giftdetail/{giftid}', 'gift_detail');
         Route::get('/followingsgifts/{id}', 'followings_gift');
         Route::get('/gift-remove/{giftid}/{user_id}','gift_remove');
         Route::get('/gift-view/{giftid}', 'view');

@@ -14,10 +14,10 @@ class giftRepository
         return gift::all()->sortByDesc('created_at')->values();
     }
 
-    static function gift_details($gift_id , $user_id){
+    static function gift_details($gift_id ){
         return DB::table('gifts')
         ->join('users','users.id','=','gifts.user_id')
-        ->where(['gifts.user_id'=>$user_id , 'gifts.id'=>$gift_id , 'users.status'=>1 , 'gift_status'=>1])
+        ->where(['gifts.id'=>$gift_id , 'gift_status'=>1])
         ->select('user_id','gifts.id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','gifts.created_at','name','family','user_image_url')
         ->get();
     }
