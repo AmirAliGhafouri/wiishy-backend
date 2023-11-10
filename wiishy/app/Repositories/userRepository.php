@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\provider;
 use App\Models\User;
+use Carbon\Carbon;
 
 class userRepository
 {
@@ -45,4 +46,9 @@ class userRepository
     /* static function provider_id_return($id){
         return User::where('id',$id)->first()->provider_id;
     } */
+
+    static function age($user_birthday){
+        $birthday=date_create($user_birthday);
+        return Carbon::parse($birthday)->age;
+    }
 }

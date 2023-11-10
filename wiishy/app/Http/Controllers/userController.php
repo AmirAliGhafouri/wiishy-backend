@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\userProfileResource;
 use App\Repositories\userRepository;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -15,7 +16,8 @@ class userController extends Controller
 //_____________________ User Profile
     function user_profile($user_id){
         $user=userRepository::all($user_id);
-        return response(['users'=>$user]);
+        $profile=userProfileResource::make($user);
+        return response(['users'=>$profile]);
     }
 
 //_____________________ User List
