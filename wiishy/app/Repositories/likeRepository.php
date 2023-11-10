@@ -25,12 +25,12 @@ class likeRepository
         giftlike::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->delete();
     }
 
-    static function increase($gift_id , $user_id){
-        gift::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->increment('gift_like');
+    static function increase($gift_id){
+        gift::where('id', $gift_id)->increment('gift_like');
     }
 
-    static function decrease($gift_id , $user_id){
-        gift::where(['gift_id'=>$gift_id , 'user_id'=>$user_id])->decrement('gift_like');
+    static function decrease($gift_id){
+        gift::where('id', $gift_id)->decrement('gift_like');
     }
 
     static function count($gift_id){

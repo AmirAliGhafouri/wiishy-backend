@@ -16,7 +16,7 @@ class likeController extends Controller
             ],400);
 
         likeRepository::like($gift_id , $user_id);
-        likeRepository::increase($gift_id , $user_id);
+        likeRepository::increase($gift_id);
         return response([
             'status'=>'success',
             'message'=>'The gift is liked successfully'
@@ -39,7 +39,7 @@ class likeController extends Controller
             ],400);
         }
         likeRepository::dislike($gift_id , $user_id);
-        likeRepository::decrease($gift_id , $user_id);      
+        likeRepository::decrease($gift_id);      
         return response([
             'status'=>'success',
             'message'=>'The gift is disliked successfully'
