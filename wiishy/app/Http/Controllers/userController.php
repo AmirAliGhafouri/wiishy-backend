@@ -16,6 +16,12 @@ class userController extends Controller
 //_____________________ User Profile
     function user_profile($user_id){
         $user=userRepository::all($user_id);
+        if(!$user){
+            return response([
+                'status'=>'Error',
+                'message'=>'not found'
+            ],400);
+        }
         $profile=userProfileResource::make($user);
         return response(['users'=>$profile]);
     }
