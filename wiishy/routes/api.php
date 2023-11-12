@@ -52,7 +52,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::get('/userprofile/{id}', 'user_profile');
         Route::get('/user-list', 'user_list');
         Route::get('/user-remove/{id}', 'remove');
-        Route::put('/user-update/{userid}', 'update');
+        Route::post('/user-update/{userid}', 'update');
         Route::post('/user-add', 'add_user');
     });
 
