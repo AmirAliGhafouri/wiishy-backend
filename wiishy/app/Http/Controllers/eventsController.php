@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\eventRepository;
 use App\Http\Requests\CreateEventRequest;
+use App\Http\Resources\eventListResource;
 use Illuminate\Http\Request;
 
 class eventsController extends Controller
@@ -24,9 +25,11 @@ class eventsController extends Controller
     function event_list(Request $req){
         $user_id=$req->user()->id;
         $events=eventRepository::list($user_id);
+        $event_list=eventListResource::collection($events);
+        
         return response([
             'status'=>'success',
-            'event'=>$events
+            'event'=>$event_list
         ],200);
     }
 }
