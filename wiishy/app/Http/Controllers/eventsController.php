@@ -22,7 +22,7 @@ class eventsController extends Controller
         ],200);
     }
 //_____________________ User Events List
-    function event_list(Request $req){
+    function event_user(Request $req){
         $user_id=$req->user()->id;
         $events=eventRepository::list($user_id);
         $event_list=eventListResource::collection($events);
@@ -30,6 +30,22 @@ class eventsController extends Controller
         return response([
             'status'=>'success',
             'event'=>$event_list
+        ],200);
+    }
+
+    function event_list(Request $req){
+        $events=eventRepository::events();    
+        return response([
+            'status'=>'success',
+            'event'=>$events
+        ],200);
+    }
+
+    function relationship_list(Request $req){
+        $relation=eventRepository::relationships();  
+        return response([
+            'status'=>'success',
+            'event'=>$relation
         ],200);
     }
 }

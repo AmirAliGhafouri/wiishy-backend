@@ -38,4 +38,12 @@ class eventRepository
             return "none";
         }
     }
+
+    static function events(){
+        return event::all();
+    }
+
+    static function relationships(){
+        return relationship::all();
+    }
 }
