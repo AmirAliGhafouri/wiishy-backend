@@ -4,6 +4,7 @@ use App\Http\Controllers\followController;
 use App\Http\Controllers\giftsController;
 use App\Http\Controllers\likeController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\eventsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -61,5 +62,10 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::get('/isfollow/{userid}/{followid}', 'isfollow');
         Route::get('/follow/{userid}/{followid}', 'follow');
         Route::get('/unfollow/{userid}/{followid}', 'unfollow');
+    });
+
+    Route::controller(eventsController::class)->group(function(){
+        Route::post('/event-add', 'add_event');
+        Route::get('/event-list', 'event_list');
     });
 });
