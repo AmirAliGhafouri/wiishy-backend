@@ -22,6 +22,7 @@ class eventListResource extends JsonResource
             'gender'=>$this->gender,
             'relationship'=>$this->relationship,
             'event_type'=>eventRepository::type($this->id),
+            'remaining_days'=>eventRepository::remaining_days($this->event_date),
             'event_date'=>$this->event_date,
             'status'=>$this->status,
         ];

@@ -3,7 +3,7 @@ namespace App\Repositories;
 
 use App\Models\userevent;
 use App\Models\event;
-use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class eventRepository
 {
@@ -22,5 +22,10 @@ class eventRepository
         catch(\Exception $exception){
             return "none";
         }
+    }
+
+    static function remaining_days($date){
+        $event_date=date_create($date);
+        return  now()->diffInDays(Carbon::parse($event_date));
     }
 }
