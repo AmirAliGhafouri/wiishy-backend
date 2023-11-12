@@ -3,6 +3,7 @@ namespace App\Repositories;
 
 use App\Models\userevent;
 use App\Models\event;
+use App\Models\relationship;
 use Carbon\Carbon;
 
 class eventRepository
@@ -27,5 +28,14 @@ class eventRepository
     static function remaining_days($date){
         $event_date=date_create($date);
         return  now()->diffInDays(Carbon::parse($event_date));
+    }
+
+    static function rel_type($relation){
+        try{
+            return relationship::where('id',$relation)->first()->name;
+        }
+        catch(\Exception $exception){
+            return "none";
+        }
     }
 }
