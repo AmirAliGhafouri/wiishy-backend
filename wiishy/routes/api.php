@@ -67,6 +67,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::controller(eventsController::class)->group(function(){
         Route::post('/event-add', 'add_event');
         Route::get('/event-user', 'event_user');
+        Route::get('/event-detail/{event_id}', 'event_detail');
         Route::get('/event-list', 'event_list');
         Route::get('/relationship-list', 'relationship_list');
     });

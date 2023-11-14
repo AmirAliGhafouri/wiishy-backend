@@ -12,6 +12,10 @@ class eventRepository
         return userevent::create($req); 
     }
 
+    static function detail($user_id,$event_id){
+        return userevent::where(['user_id'=>$user_id ,'id'=>$event_id ,'status'=>1])->first(); 
+    }
+
     static function list($user_id){
         return userevent::where(['user_id'=>$user_id,'status'=>1])->get()->sortByDesc('created_at')->values();
     }

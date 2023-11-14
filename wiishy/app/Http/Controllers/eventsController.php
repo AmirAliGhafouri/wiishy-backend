@@ -33,6 +33,24 @@ class eventsController extends Controller
         ],200);
     }
 
+//_____________________ Events detail
+    function event_detail(Request $req){
+        $user_id=$req->user()->id;
+        $event=eventRepository::detail($user_id,$req->event_id);
+        if(!$event){
+            return response([
+                'status'=>'Error',
+                'message'=>'not found'
+            ],400);
+        }
+                    
+        return response([
+            'status'=>'success',
+            'event'=>$event
+        ],200);
+    }
+
+//_____________________ Events name List
     function event_list(Request $req){
         $events=eventRepository::events();    
         return response([
@@ -41,6 +59,7 @@ class eventsController extends Controller
         ],200);
     }
 
+//_____________________ relationships name List
     function relationship_list(Request $req){
         $relation=eventRepository::relationships();  
         return response([
