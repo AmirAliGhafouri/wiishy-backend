@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 class followController extends Controller
 {
 //_____________________ All the followers of a user 
-    function user_followers($user_id){
+    function user_followers(Request $req){
         try{
-            $followers_count=followRepository::count($user_id,'followers');
+            $followers_count=followRepository::count($req->id,'followers');
         }
         catch(\Exception $exception){
             return response([
@@ -21,8 +21,9 @@ class followController extends Controller
                 'message'=>'user not found'
             ] , 400);
         }
-        $followers=followRepository::list($user_id,'userfollows.user_id','userfollows.follow_id');
-        $list= followerListResource::collection($followers);
+        $user_id=$req->user()->id;
+        $followers=followRepository::list($req->id,'userfollows.user_id','userfollows.follow_id');
+        $list= followerListResource::collection($followers,$user_id);
         return response([
             'status'=>'success',
             'followers_count'=>$followers_count ,
@@ -31,9 +32,9 @@ class followController extends Controller
     }  
     
 //_____________________ All the following of a user 
-    function user_followings($user_id){
+    function user_followings(Request $req){
         try{
-            $followings_count=followRepository::count($user_id,'followings');
+            $followings_count=followRepository::count($req->id,'followings');
         }
         catch(\Exception $exception){
             return response([
@@ -41,13 +42,14 @@ class followController extends Controller
                 'message'=>'user not found'
             ] , 400);
         }
-        $followings=followRepository::list($user_id,'userfollows.follow_id','userfollows.user_id');  
-        $list= followingListResource::collection($followings);
+        $user_id=$req->user()->id;
+        $followings=followRepository::list($req->id,'userfollows.follow_id','userfollows.user_id');  
+        $list= followingListResource::collection($followings,$user_id);
         return response([
             'status'=>'success',
             'followings_count'=>$followings_count,
             'followings'=>$list
-        ]);
+        ],200);
     }
 
 //_____________________ IS Follow?
