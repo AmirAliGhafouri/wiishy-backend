@@ -2,9 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Repositories\userRepository;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class UpdateUserRequest extends FormRequest
 {
@@ -25,6 +24,7 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules()
     {
+        Log::debug('updateProfileRequest =>' . json_encode($this->input('name')));
         return [
             'name'=>'sometimes|Nullable|string|max:60',
             'family'=>'sometimes|Nullable|string|max:60',
@@ -33,7 +33,7 @@ class UpdateUserRequest extends FormRequest
             'user_gender'=>'sometimes|Nullable|integer|max_digits:2',
             'user_desc'=>'sometimes|Nullable|string',
             'user_code'=>'sometimes|Nullable|unique:users,user_code',
-            'image' => 'sometimes|image|dimensions:max_width=250,max_height=250|max:2048'
+            'image' => 'sometimes|image|dimensions:max_width=1024,max_height=1024|max:2048'
         ];
     }
 }

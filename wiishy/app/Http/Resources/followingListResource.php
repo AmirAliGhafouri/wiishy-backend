@@ -16,7 +16,7 @@ class followingListResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'isfollow'=>followRepository::check($request->user_id,$this->user_id),
+            'isfollow'=>followRepository::check($request->user()->id,$this->user_id),
             'user_id'=>$this->user_id,
             'user_image_url'=>$this->user_image_url,
             'name'=>$this->name,
