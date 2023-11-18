@@ -49,6 +49,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     });
 
     Route::controller(userController::class)->group(function(){
+        Route::get('/user-home', 'home');
         Route::get('/userprofile/{id}', 'user_profile');
         Route::get('/user-list', 'user_list');
         Route::get('/user-remove/{id}', 'remove');

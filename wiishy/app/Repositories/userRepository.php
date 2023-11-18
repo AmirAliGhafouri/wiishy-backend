@@ -4,6 +4,7 @@ namespace App\Repositories;
 use App\Models\provider;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class userRepository
 {

@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Model\User;
+use App\Repositories\giftRepository;
 
 class userController extends Controller
 {
@@ -25,6 +26,18 @@ class userController extends Controller
         }
         $profile=userProfileResource::make($user);
         return response(['users'=>$profile]);
+    }
+
+//_____________________ Home Page
+    function home(Request $req){
+        $user_id=$req->user()->id;
+        $user=userRepository::all($user_id);
+        $gifts=giftRepository::all($user_id);
+            return response([
+                'status'=>'success',
+                'user'=>$user,
+                'gifts'=>$gifts
+            ],200);
     }
 
 //_____________________ User List
@@ -109,12 +122,13 @@ function update(UpdateUserRequest $req){
 
 //_____________________ Auth
     function auth(CreateUserRequest $req ,$provider){
-        $user_provider=userRepository::provider($provider);;
-        if(!$user_provider)
+        $user_provider=userRepository::provider($provider);
+        if(!$user_provider){
             return response([
                 'status'=>'Error',
                 'message'=>'Wrong provider'
             ],400);
+        }        
 
         $user=userRepository::check($req,$user_provider->id);
         if(!$user){
@@ -144,5 +158,6 @@ function update(UpdateUserRequest $req){
     function Unauthenticated(){
         return response(['message'=>'please Login first'],401);
     }
+
 
 }
