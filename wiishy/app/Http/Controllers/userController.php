@@ -87,35 +87,36 @@ class userController extends Controller
  */
 
 //_____________________ Update User
-function update(UpdateUserRequest $req){
-    Log::debug('updateUserRequest',[$req->all()]);
-    if(!$req->all()){
+    function update(UpdateUserRequest $req){
+        Log::debug('updateUserRequest',[$req->all()]);
+        if(!$req->all()){
+            return response([
+                'status'=>'Error',
+                'message'=>'Empty request'
+            ],400);
+        }
+        $user_id=$req->user()->id;
+        $user=userRepository::get($user_id);
+        if(!$user)
+            return response([
+                'status'=>'Error',
+                'message'=>'User not found'
+            ],400);
+        $request =collect($req->validated())->filter(function($item){
+            return $item != null;
+        })->toArray();
+        if($req->image){
+            $fileName = $req->user()->id.'.'.$req->image->getClientOriginalExtension();
+            Storage::disk('public')->putFileAs('/users',$req->image,$fileName);
+            unset($request['image']);
+            $request['user_image_url'] = '/uploads/users/' . $fileName.'?t='.Carbon::now()->getTimestamp();
+        }
+        userRepository::update($user_id, $request);       
         return response([
-            'status'=>'Error',
-            'message'=>'Empty request'
-        ],400);
+            'status'=>'success',
+            'message'=>'UserProfile has updated successfully'
+        ]);
     }
-    $user=userRepository::get($req->userid);
-    if(!$user)
-        return response([
-            'status'=>'Error',
-            'message'=>'User not found'
-        ],400);
-    $request =collect($req->validated())->filter(function($item){
-        return $item != null;
-    })->toArray();
-    if($req->image){
-        $fileName = $req->user()->id.'.'.$req->image->getClientOriginalExtension();
-        Storage::disk('public')->putFileAs('/users',$req->image,$fileName);
-        unset($request['image']);
-        $request['user_image_url'] = '/uploads/users/' . $fileName.'?t='.Carbon::now()->getTimestamp();
-    }
-    userRepository::update($req->userid, $request);       
-    return response([
-        'status'=>'success',
-        'message'=>'UserProfile has updated successfully'
-    ]);
-}
 
 
 
