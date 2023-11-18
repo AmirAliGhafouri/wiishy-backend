@@ -45,9 +45,9 @@ class giftsController extends Controller
     }
 
 //_____________________ Add New Gift
-    function add_gift(CreateGiftRequest $req , $user_id){ 
+    function add_gift(CreateGiftRequest $req){ 
         $request=collect($req)->toArray();
-
+        $user_id=$req->user()->id;
         $file_name= $req->image->getClientOriginalName();
         Storage::disk('public')->putFileAs('/gifts',$req->image,$file_name);
         unset($request['image']);
