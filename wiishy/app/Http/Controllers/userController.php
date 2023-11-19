@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserSearchRequest;
 use App\Http\Resources\userProfileResource;
 use App\Repositories\userRepository;
 use Illuminate\Http\Request;
@@ -153,6 +154,22 @@ class userController extends Controller
             'token'=>$token,
             'user'=>$user
         ],200);       
+    }
+
+//_____________________ User Search
+    function search(UserSearchRequest $req){
+        if(!$req->user_search){
+            return response([
+                'status'=>'Error',
+                'message'=>"not found"
+            ],400);
+        }
+        $user_search=str_replace(" ",'%',$req->user_search);
+        $search=userRepository::search($user_search);
+        return response([
+            'status'=>'success',
+            'search'=>$search
+        ],200);
     }
 
 //_____________________ Unauthenticated

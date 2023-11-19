@@ -55,6 +55,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::get('/user-remove/{id}', 'remove');
         Route::post('/user-update', 'update');
         Route::post('/user-add', 'add_user');
+        Route::post('/user-search', 'search');
     });
 
     Route::controller(followController::class)->group(function(){

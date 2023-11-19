@@ -52,4 +52,8 @@ class userRepository
         $birthday=date_create($user_birthday);
         return Carbon::parse($birthday)->age;
     }
+
+    static function search($request){
+        return User::where('name','like','%'.$request.'%')->get();
+    }
 }
