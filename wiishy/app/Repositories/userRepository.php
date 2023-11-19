@@ -54,6 +54,6 @@ class userRepository
     }
 
     static function search($request){
-        return User::where('name','like','%'.$request.'%')->get();
+        return User::where(DB::raw('concat(name, family)'), 'like', '%'.$request.'%')->get();
     }
 }
