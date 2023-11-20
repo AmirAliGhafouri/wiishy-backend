@@ -3,9 +3,10 @@
 namespace App\Http\Resources;
 
 use App\Repositories\likeRepository;
+use App\Repositories\userRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class followingsGiftResource extends JsonResource
+class exploreResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,9 +25,7 @@ class followingsGiftResource extends JsonResource
             'islike'=>likeRepository::check($this->id,$request->user()->id),
             'gift_like'=>$this->gift_like,
             'gifts_created_at'=>$this->gifts_created_at,
-            'name'=>$this->name,
-            'family'=>$this->family,
-            'user_image_url'=>$this->user_image_url,
+            'user'=>userRepository::details($this->user_id),
         ];
     }
 }

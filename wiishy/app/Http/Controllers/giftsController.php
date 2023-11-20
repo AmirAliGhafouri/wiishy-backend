@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
+use App\Http\Resources\exploreResource;
 use App\Http\Resources\followingsGiftResource;
 use App\Http\Resources\UserGiftResource;
 use App\Repositories\giftRepository;
@@ -31,17 +32,22 @@ class giftsController extends Controller
     }
     
 //_____________________ All the gifts of the users followings
-    function followings_gift($id){
-        $gifts=giftRepository::followings_gift($id);
-        $followings_gift=followingsGiftResource::collection($gifts,$id);
+    function followings_gift(Request $req){
+        $user_id=$req->user()->id;
+        $gifts=giftRepository::followings_gift($user_id);
+        $followings_gift=followingsGiftResource::collection($gifts);
         $count=$gifts->count();
         return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$followings_gift]);
     }
 
 //_____________________ Explore
-    function gift_explore(){
-        $list=giftRepository::list();
-        return response(['gifts'=>$list]);
+    function gift_explore(Request $req){
+        $user_id= $req->user()->id;
+        $list=giftRepository::list($user_id);
+        return response([
+            'status'=>true,
+            'explore'=>$list
+        ],200);
     }
 
 //_____________________ Add New Gift

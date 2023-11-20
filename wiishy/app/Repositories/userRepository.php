@@ -12,6 +12,10 @@ class userRepository
         return User::where(['id'=>$user_id,'status'=>1])->first();
     }
 
+/*     static function details($user_id){
+        return User::where('id',$user_id)->select('name','family','user_image_url');
+    } */
+
     static function list(){
         return User::all();
     }

@@ -31,7 +31,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::controller(giftsController::class)->group(function(){
         Route::get('/usergifts/{userid}/{id}', 'user_gifts');
         Route::get('/giftdetail/{giftid}', 'gift_detail');
-        Route::get('/followingsgifts/{id}', 'followings_gift');
+        Route::get('/user-home', 'followings_gift');
         Route::get('/gift-remove/{giftid}/{user_id}','gift_remove');
         Route::get('/gift-view/{giftid}', 'view');
         Route::get('/gift-share/{giftid}', 'share');
@@ -49,7 +49,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     });
 
     Route::controller(userController::class)->group(function(){
-        Route::get('/user-home', 'home');
+        // Route::get('/user-home', 'home');
         Route::get('/userprofile/{id}', 'user_profile');
         Route::get('/user-list', 'user_list');
         Route::get('/user-remove/{id}', 'remove');
