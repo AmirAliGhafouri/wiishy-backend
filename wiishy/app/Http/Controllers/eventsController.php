@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Repositories\eventRepository;
 use App\Http\Requests\CreateEventRequest;
+use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\eventListResource;
 use Illuminate\Http\Request;
 
@@ -19,6 +20,35 @@ class eventsController extends Controller
             'status'=>'success',
             'message'=>'Your event is saved successfully',
             'event'=>$event
+        ],200);
+    }
+
+//_____________________ Update Event
+    function update_event(UpdateEventRequest $req){
+        if(!$req->all()){
+            return response([
+                'status'=>'Error',
+                'message'=>'Empty request'
+            ],400);
+        }
+        $user_id=$req->user()->id;
+        $event=eventRepository::get($req->event_id);
+        if(!$event)
+        return response([
+            'status'=>'Error',
+            'message'=>'Event not found'
+        ],400);
+
+        $request =collect($req->validated())->filter(function($item){
+            return $item != null;
+        })->toArray();
+
+        eventRepository::update($req->event_id,$request);
+        $new_event=eventRepository::get($req->giftid);
+        return response([
+            'status'=>'success',
+            'message'=>'The event is updated successfully',
+            'event'=>$new_event
         ],200);
     }
 //_____________________ User Events List
