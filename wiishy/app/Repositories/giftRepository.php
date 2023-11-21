@@ -14,7 +14,7 @@ class giftRepository
         return DB::table('gifts')
             ->join('users','users.id','=','gifts.user_id')
             ->where('user_id','!=',$user_id)
-            ->select('gifts.id as gift_id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','gifts.created_at as gifts_created_at','user_id','name','family','user_image_url')
+            ->select('gifts.id as gift_id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','gifts.created_at as gifts_created_at','user_id','name','family','user_image_url','user_birthday')
             ->get()->sortByDesc('gifts_created_at')->values();
     }
 

@@ -46,9 +46,10 @@ class giftsController extends Controller
     function gift_explore(Request $req){
         $user_id= $req->user()->id;
         $list=giftRepository::list($user_id);
+        $explore=exploreResource::collection($list);
         return response([
             'status'=>true,
-            'explore'=>$list
+            'explore'=>$explore
         ],200);
     }
 
@@ -132,6 +133,7 @@ class giftsController extends Controller
         }
 
         giftRepository::update($req->giftid, $request);
+        giftRepository::updaexte($req->giftid, $request);
         $newgift=giftRepository::get($req->giftid , $req->userid);
         return response([
             'status'=>'success',
