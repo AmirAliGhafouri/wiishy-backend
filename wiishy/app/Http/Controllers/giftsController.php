@@ -6,6 +6,7 @@ use App\Http\Requests\CreateGiftRequest;
 use App\Http\Requests\UpdateGiftRequest;
 use App\Http\Resources\exploreResource;
 use App\Http\Resources\followingsGiftResource;
+use App\Http\Resources\giftDetailResource;
 use App\Http\Resources\UserGiftResource;
 use App\Repositories\giftRepository;
 use App\Repositories\likeRepository;
@@ -17,18 +18,19 @@ class giftsController extends Controller
 {
     
 //_____________________ All the gifts of a user
-    function user_gifts($user_id,$id){
+    function user_gifts($user_id){
         $gifts=giftRepository::all($user_id);
-        $gift_user=UserGiftResource::collection($gifts,$id);
+        $gift_user=UserGiftResource::collection($gifts);
         return response(['gifts'=>$gift_user]);
     }
 
 //_____________________ A complete gift detail of a user
     function gift_detail(Request $req){
-        $gift_detail=giftRepository::gift_details($req->giftid );
+        $details=giftRepository::gift_details($req->giftid );
+        $gift_details=giftDetailResource::collection($details);
         $user_id=$req->user()->id;
         $like=likeRepository::check($req->giftid , $user_id);
-        return response(['islike'=>$like,'gift_detail'=>$gift_detail]);
+        return response(['islike'=>$like,'gift_detail'=>$gift_details]);
     }
     
 //_____________________ All the gifts of the users followings

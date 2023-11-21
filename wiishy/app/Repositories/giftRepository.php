@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 class giftRepository
 {
     static function all($user_id){
-        return gift::where(['user_id'=>$user_id , 'gift_status'=>1])->get();
+        return gift::where(['user_id'=>$user_id , 'gift_status'=>1])->get()->sortByDesc('created_at');
     }
 
     static function list($user_id){
@@ -22,7 +22,7 @@ class giftRepository
         return DB::table('gifts')
         ->join('users','users.id','=','gifts.user_id')
         ->where(['gifts.id'=>$gift_id , 'gift_status'=>1])
-        ->select('user_id','gifts.id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','gifts.created_at','name','family','user_image_url')
+        ->select('user_id','gifts.id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','gifts.created_at','name','family','user_image_url','user_birthday')
         ->get();
     }
 
