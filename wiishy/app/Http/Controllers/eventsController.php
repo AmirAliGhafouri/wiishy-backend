@@ -33,11 +33,12 @@ class eventsController extends Controller
         }
         $user_id=$req->user()->id;
         $event=eventRepository::get($req->event_id,$user_id);
-        if(!$event)
-        return response([
-            'status'=>'Error',
-            'message'=>'Event not found'
-        ],400);
+        if(!$event){
+            return response([
+                'status'=>'Error',
+                'message'=>'Event not found'
+            ],400);
+        }
 
         $request =collect($req->validated())->filter(function($item){
             return $item != null;
@@ -52,15 +53,20 @@ class eventsController extends Controller
         ],200);
     }
 
-//_____________________ User Events List
+//_____________________ Remove an Event
     function event_remove(Request $req){
         $user_id=$req->user()->id;
-        $events=eventRepository::list($user_id);
-        $event_list=eventListResource::collection($events);
-        
+        $event=eventRepository::get($req->event_id,$user_id);
+        if(!$event){
+            return response([
+                'status'=>'Error',
+                'message'=>'Event not found'
+            ],400);
+        }
+        eventRepository::destroy($req->event_id);
         return response([
             'status'=>'success',
-            'event'=>$event_list
+            'event'=>'The event is removed successfully'
         ],200);
     }
 

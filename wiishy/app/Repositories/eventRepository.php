@@ -20,6 +20,10 @@ class eventRepository
         return userevent::where(['user_id'=>$user_id ,'id'=>$event_id , 'status'=>1])->first(); 
     }
 
+    static function destroy($event_id){
+        return userevent::where(['id'=>$event_id , 'status'=>1])->update(['status'=>0]); 
+    }
+
     static function detail($user_id,$event_id){
         return userevent::where(['user_id'=>$user_id ,'id'=>$event_id ,'status'=>1])->first(); 
     }
