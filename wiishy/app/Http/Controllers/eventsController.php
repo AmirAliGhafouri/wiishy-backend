@@ -32,7 +32,7 @@ class eventsController extends Controller
             ],400);
         }
         $user_id=$req->user()->id;
-        $event=eventRepository::get($req->event_id);
+        $event=eventRepository::get($req->event_id,$user_id);
         if(!$event)
         return response([
             'status'=>'Error',
@@ -44,13 +44,26 @@ class eventsController extends Controller
         })->toArray();
 
         eventRepository::update($req->event_id,$request);
-        $new_event=eventRepository::get($req->giftid);
+        $new_event=eventRepository::get($req->event_id,$user_id);
         return response([
             'status'=>'success',
             'message'=>'The event is updated successfully',
             'event'=>$new_event
         ],200);
     }
+
+//_____________________ User Events List
+    function event_remove(Request $req){
+        $user_id=$req->user()->id;
+        $events=eventRepository::list($user_id);
+        $event_list=eventListResource::collection($events);
+        
+        return response([
+            'status'=>'success',
+            'event'=>$event_list
+        ],200);
+    }
+
 //_____________________ User Events List
     function event_user(Request $req){
         $user_id=$req->user()->id;

@@ -133,7 +133,7 @@ class giftsController extends Controller
         }
 
         giftRepository::update($req->giftid, $request);
-        giftRepository::updaexte($req->giftid, $request);
+        //giftRepository::updaexte($req->giftid, $request);
         $newgift=giftRepository::get($req->giftid , $req->userid);
         return response([
             'status'=>'success',
