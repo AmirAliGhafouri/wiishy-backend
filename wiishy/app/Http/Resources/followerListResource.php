@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Repositories\followRepository;
+use App\Repositories\userRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -23,6 +24,7 @@ class followerListResource extends JsonResource
             'name'=>$this->name,
             'family'=>$this->family,
             'user_status'=>$this->user_status,
+            'age'=>userRepository::age($this->user_birthday),
         ];
     }
 }

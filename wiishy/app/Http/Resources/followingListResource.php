@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Repositories\followRepository;
+use App\Repositories\userRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class followingListResource extends JsonResource
@@ -22,6 +23,7 @@ class followingListResource extends JsonResource
             'name'=>$this->name,
             'family'=>$this->family,
             'user_status'=>$this->user_status,
+            'age'=>userRepository::age($this->user_birthday),
         ];
     }
 }
