@@ -2,6 +2,7 @@
 namespace App\Repositories;
 
 use App\Models\gift;
+use App\Models\price_unit;
 use Illuminate\Support\Facades\DB;
 
 class giftRepository
@@ -61,4 +62,9 @@ class giftRepository
     static function search($request){
         return gift::where('gift_name','like','%'.$request.'%')->get();
     }
+
+    static function units(){
+        return price_unit::all();
+    }
+    
 }

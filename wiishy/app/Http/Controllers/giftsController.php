@@ -158,4 +158,13 @@ class giftsController extends Controller
         ],200);
     }
 
+//_____________________ search
+    function price_units(){
+        $units=giftRepository::units();
+        return response([
+            'status'=>'success',
+            'price_units'=>$units
+        ],200);
+    }
+
 }

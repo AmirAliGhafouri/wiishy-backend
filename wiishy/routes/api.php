@@ -36,6 +36,7 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::get('/gift-view/{giftid}', 'view');
         Route::get('/gift-share/{giftid}', 'share');
         Route::get('/gift-explore', 'gift_explore');
+        Route::get('/price-units', 'price_units');
         Route::post('/gift-search', 'search');
         Route::post('/gift-add', 'add_gift');
         Route::post('/gift-update/{giftid}/{userid}', 'update_gift');

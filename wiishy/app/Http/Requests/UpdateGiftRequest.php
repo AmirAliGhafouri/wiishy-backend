@@ -29,7 +29,7 @@ class UpdateGiftRequest extends FormRequest
             'gift_desc'=>'sometimes|Nullable|string',
             'gift_url'=>'sometimes|Nullable|string',
             'desire_rate'=>'sometimes|Nullable|max_digits:2',
-            'image' => 'required|image|max:2048'
+            'image' => 'sometimes|image|max:2048'
         ];
     }
 }
