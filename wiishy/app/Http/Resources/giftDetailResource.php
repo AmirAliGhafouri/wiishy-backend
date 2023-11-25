@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Repositories\giftRepository;
 use App\Repositories\userRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,6 +21,7 @@ class giftDetailResource extends JsonResource
             'id'=>$this->id,
             'gift_name'=>$this->gift_name,
             'gift_price'=>$this->gift_price,
+            'price_unit'=>giftRepository::price_unit($this->price_unit_id),
             'gift_desc'=>$this->gift_desc,
             'gift_url'=>$this->gift_url,
             'gift_image_url'=>$this->gift_image_url,
@@ -27,7 +29,7 @@ class giftDetailResource extends JsonResource
             'gift_view'=>$this->gift_view,
             'shared'=>$this->shared,
             'desire_rate'=>$this->desire_rate,
-            'created_at'=>$this->created_at,
+            'created_at'=>$this->gifts_created_at,
             'name'=>$this->name,
             'family'=>$this->family,
             'user_image_url'=>$this->user_image_url,
