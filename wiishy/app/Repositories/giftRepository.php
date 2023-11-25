@@ -16,7 +16,7 @@ class giftRepository
             ->join('users','users.id','=','gifts.user_id')
             ->where('user_id','!=',$user_id)
             ->where('gift_status',1)
-            ->select('gifts.id as gift_id','gift_name','gift_price','gift_desc','gift_url','gift_image_url','gift_like','gift_view','shared','desire_rate','gifts.created_at as gifts_created_at','user_id','name','family','user_image_url','user_birthday')
+            ->select('*','gifts.id as gift_id','gifts.created_at as gifts_created_at')
             ->get()->sortByDesc('gifts_created_at')->values();
     }
 
@@ -61,6 +61,13 @@ class giftRepository
 
     static function search($request){
         return gift::where('gift_name','like','%'.$request.'%')->get();
+    }
+
+    static function price_unit($id){
+        $unit=price_unit::where('id',$id)->first();
+        if(!$unit)
+            return '?';
+        return $unit->symbol; 
     }
 
     static function units(){

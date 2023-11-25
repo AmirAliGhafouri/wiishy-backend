@@ -158,7 +158,7 @@ class giftsController extends Controller
         ],200);
     }
 
-//_____________________ search
+//_____________________ different kinds of price units
     function price_units(){
         $units=giftRepository::units();
         return response([
