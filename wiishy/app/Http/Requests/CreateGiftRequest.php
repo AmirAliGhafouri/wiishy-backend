@@ -26,6 +26,7 @@ class CreateGiftRequest extends FormRequest
         return [
             'gift_name'=>'required|string|max:100',
             'gift_price'=>'required|numeric',
+            'price_unit_id'=>'required|numeric',
             'gift_desc'=>'required|string',
             'desire_rate'=>'required|max_digits:2',
             'image' => 'required|image|dimensions:max_width=1000,max_height=1000|max:2048'

@@ -26,6 +26,7 @@ class UpdateGiftRequest extends FormRequest
         return [
             'gift_name'=>'sometimes|Nullable|string|max:100',
             'gift_price'=>'sometimes|Nullable|numeric',
+            'price_unit_id'=>'sometimes|Nullable|numeric',
             'gift_desc'=>'sometimes|Nullable|string',
             'gift_url'=>'sometimes|Nullable|string',
             'desire_rate'=>'sometimes|Nullable|max_digits:2',
