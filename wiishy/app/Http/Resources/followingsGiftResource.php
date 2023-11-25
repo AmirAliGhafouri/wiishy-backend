@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Repositories\giftRepository;
 use App\Repositories\likeRepository;
 use App\Repositories\userRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,9 +19,10 @@ class followingsGiftResource extends JsonResource
     {
         return [
             'user_id'=>$this->user_id,
-            'gift_id'=>$this->id,
+            'gift_id'=>$this->gift_id,
             'gift_name'=>$this->gift_name,
             'gift_price'=>$this->gift_price,
+            'price_unit'=>giftRepository::price_unit($this->price_unit_id),
             'gift_url'=>$this->gift_url,
             'gift_image_url'=>$this->gift_image_url,
             'islike'=>likeRepository::check($this->id,$request->user()->id),
