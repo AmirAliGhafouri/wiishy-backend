@@ -20,9 +20,44 @@ class followRepository
         ->get();
     }
 
- /*    static function suggestions(){
+    static function suggestions($followings,$my_id){
+        $follow_suggestions=array();
+        $suggestions_userid=array();
+        foreach($followings as $user){
+            $follower_list=followRepository::list($user->user_id,'userfollows.user_id','userfollows.follow_id',$my_id);
+            array_push($follow_suggestions,$follower_list);
+        }
+        foreach($follow_suggestions as $users){
+            foreach($users as $user){
+                array_push($suggestions_userid,$user->user_id);
+            }
+        }
+        return $suggestions_userid;
+    } 
 
-    } */
+    static function unique($fooloweings,$followers){
+        $suggestions=array_merge($fooloweings,$followers);
+        return array_unique($suggestions);
+    }
+
+    static function filter($suggestions,$my_id){
+        $users=array();
+        foreach($suggestions as $item){
+            $check=followRepository::check($my_id,$item);
+            if(!$check)
+                array_push($users,$item);
+       }
+       return $users;
+    }
+
+    static function follow_suggestion($users){
+        $user_details=array();
+        foreach($users as $user){
+            $details=userRepository::all($user);
+            array_push($user_details,$details);
+        }
+        return $user_details;
+    }
 
     static function check($user_id,$follow_id){
         $follow=userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();

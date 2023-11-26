@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\followerListResource;
 use App\Http\Resources\followingListResource;
+use App\Http\Resources\followSuggestionResource;
 use App\Repositories\followRepository;
 use Illuminate\Http\Request;
 
@@ -53,11 +54,26 @@ class followController extends Controller
     }
 
 //_____________________ Suggestions to users to follow
-   /*  function follow_suggestion(Request $req){
+   function follow_suggestion(Request $req){
         $user_id=$req->user()->id;
+        //FOLLOWINGS followers
         $followings=followRepository::list($user_id,'userfollows.follow_id','userfollows.user_id',$user_id);  
-        $following_suggestions=followRepository::suggestions($followings);
-    } */
+        $following_suggestions=followRepository::suggestions($followings,$user_id);
+    
+        //FOLLOWERS followers
+        $followers=followRepository::list($user_id,'userfollows.user_id','userfollows.follow_id',$user_id);  
+        $follower_suggestions=followRepository::suggestions($followers,$user_id);
+
+        $follow_suggestions_users=followRepository::unique($following_suggestions,$follower_suggestions);
+        $remove_users_followings=followRepository::filter($follow_suggestions_users,$user_id);
+        $user_details=followRepository::follow_suggestion($remove_users_followings);
+        $list= followSuggestionResource::collection($user_details);
+
+        return response([
+            'status'=>true,
+            'suggestions'=>$list
+        ]);
+    } 
 
 //_____________________ IS Follow?
     function isfollow($user_id,$follow_id){
