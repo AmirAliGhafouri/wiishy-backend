@@ -11,13 +11,18 @@ class followRepository
         return User::where('id' , $user_id)->first()->$item;
     }
 
-    static function list($user_id,$join,$field){
+    static function list($user_id,$join,$field,$my_id){
         return DB::table('users')
         ->join('userfollows','users.id','=',$join)
         ->where([$field=>$user_id , 'follow_status'=>1])
-        ->select("$join as user_id",'user_image_url' , 'name' , 'family' , 'user_birthday' , 'status as user_status' , "$field as id")
+        ->where($join, '!=' , $my_id)
+        ->select('*',"$join as user_id", 'status as user_status' , "$field as id")
         ->get();
     }
+
+ /*    static function suggestions(){
+
+    } */
 
     static function check($user_id,$follow_id){
         $follow=userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->first();
