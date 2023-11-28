@@ -34,7 +34,7 @@ class giftRepository
         ->join('userfollows','gifts.user_id','=','userfollows.follow_id')
         ->where('userfollows.user_id',$id )
         ->where(['follow_status'=>1 , 'gift_status'=>1])
-        ->select('*','gifts.id as gift_id','gifts.created_at as gifts_created_at')
+        ->select('*','gifts.id as gift_id','gifts.user_id as uid','gifts.created_at as gifts_created_at')
         ->get()->sortByDesc('gifts_created_at')->values();
     }
 
