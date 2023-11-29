@@ -84,6 +84,12 @@ class followController extends Controller
 
 //_____________________ Follow
     function follow($user_id,$follow_id){
+        if($user_id==$follow_id){
+            return response([
+                'status'=>'Error',
+                'message'=>'you cant follow yourself !'
+            ],400);
+        }
         $follow=followRepository::check($user_id,$follow_id);
         if($follow)
             return response([
