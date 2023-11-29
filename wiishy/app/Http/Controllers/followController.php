@@ -72,7 +72,7 @@ class followController extends Controller
         return response([
             'status'=>true,
             'suggestions'=>$list
-        ]);
+        ],200);
     } 
 
 //_____________________ IS Follow?
