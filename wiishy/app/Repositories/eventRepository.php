@@ -42,8 +42,13 @@ class eventRepository
     }
 
     static function remaining_days($date){
-        $event_date=date_create($date);
-        return  now()->diffInDays(Carbon::parse($event_date));
+        $event_date= Carbon::create($date);
+        $currentDate = Carbon::now();
+        $eventThisYear = $event_date->copy()->year($currentDate->year);
+        if ($currentDate > $eventThisYear) {
+            $eventThisYear->addYear();
+        }
+        return  now()->diffInDays(Carbon::parse($eventThisYear));
     }
 
     static function rel_type($relation){
