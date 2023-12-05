@@ -28,6 +28,7 @@ class eventListResource extends JsonResource
             'event_type'=>eventRepository::type($this->event_type),
             'remaining_days'=>eventRepository::remaining_days($this->event_date),
             'event_date'=>$this->event_date,
+            'repeatable'=>$this->repeatable,
             'status'=>$this->status,
         ];
     }
