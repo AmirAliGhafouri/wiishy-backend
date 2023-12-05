@@ -95,7 +95,7 @@ class eventsController extends Controller
                     
         return response([
             'status'=>'success',
-            'event'=>$event
+            'message'=>$event
         ],200);
     }
 
