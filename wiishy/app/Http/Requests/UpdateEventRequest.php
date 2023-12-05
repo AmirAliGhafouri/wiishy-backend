@@ -28,6 +28,7 @@ class UpdateEventRequest extends FormRequest
             'family'=>'sometimes|string|max:60',
             'gender'=>'sometimes|max_digits:1',
             'relationship'=>'sometimes|max_digits:1',
+            'repeatable'=>'sometimes|max_digits:1',
             'event_type'=>'sometimes|max_digits:1',
             'event_date'=>'sometimes',
         ];
