@@ -28,6 +28,7 @@ class CreateEventRequest extends FormRequest
             'family'=>'required|string|max:60',
             'gender'=>'required|max_digits:1',
             'relationship'=>'required|max_digits:1',
+            'repeatable'=>'required|max_digits:1',
             'event_type'=>'required|max_digits:1',
             'event_date'=>'required',
         ];

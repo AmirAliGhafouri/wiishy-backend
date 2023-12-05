@@ -13,7 +13,7 @@ class eventsController extends Controller
 //_____________________ Add Event
     function add_event(CreateEventRequest $req){
         $user_id=$req->user()->id;
-        $reqest=collect($req)->toArray();
+        $reqest=collect($req->validate())->toArray();
         $reqest['user_id']=$user_id;
         $event=eventRepository::create($reqest);
         return response([
