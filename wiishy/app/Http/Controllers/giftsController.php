@@ -57,11 +57,13 @@ class giftsController extends Controller
     function add_gift(CreateGiftRequest $req){ 
         $request=collect($req)->toArray();
         $user_id=$req->user()->id;
-        $file_name= $req->image->getClientOriginalName();
-        Storage::disk('public')->putFileAs('/gifts',$req->image,$file_name);
-        unset($request['image']);
-        $request['gift_image_url'] = '/uploads/gifts/' . $file_name.'?t='.Carbon::now()->getTimestamp();
-
+        if($req->image){
+            $file_name= $req->image->getClientOriginalName();
+            Storage::disk('public')->putFileAs('/gifts',$req->image,$file_name);
+            unset($request['image']);
+            $request['gift_image_url'] = '/uploads/gifts/' . $file_name.'?t='.Carbon::now()->getTimestamp();
+        }
+            
         $request['user_id'] = $user_id;
         $gift=giftRepository::create($request);
         if(!$gift){

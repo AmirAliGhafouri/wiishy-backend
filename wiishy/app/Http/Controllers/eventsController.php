@@ -6,6 +6,7 @@ use App\Repositories\eventRepository;
 use App\Http\Requests\CreateEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\eventListResource;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class eventsController extends Controller
@@ -79,6 +80,24 @@ class eventsController extends Controller
         return response([
             'status'=>'success',
             'event'=>$event_list
+        ],200);
+    }
+
+//_____________________ Events with deadlines less than 20 days
+    function user_near_events(Request $req){
+        $user_id=$req->user()->id;
+        $events=eventRepository::list($user_id);
+        
+        $event_list = collect(EventListResource::collection($events));
+        $filtered_events = $event_list->filter(function ($eventResource) {
+            $remainingDays = eventRepository::remaining_days($eventResource['event_date']);
+            return $remainingDays < 20;
+        });
+        $filtered_events_array = $filtered_events->toArray();
+        
+        return response([
+            'status'=>'success',
+            'event'=>$filtered_events_array
         ],200);
     }
 
