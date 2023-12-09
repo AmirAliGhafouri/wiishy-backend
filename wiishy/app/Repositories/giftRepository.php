@@ -24,7 +24,7 @@ class giftRepository
         return DB::table('gifts')
         ->join('users','users.id','=','gifts.user_id')
         ->where(['gifts.id'=>$gift_id , 'gift_status'=>1])
-        ->select('*','gifts.created_at as gifts_created_at')
+        ->select('*','gifts.id as gift_id','gifts.created_at as gifts_created_at')
         ->get();
     }
 
