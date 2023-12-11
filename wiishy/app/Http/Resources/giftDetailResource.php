@@ -18,7 +18,7 @@ class giftDetailResource extends JsonResource
     {
         return [
             'user_id'=>$this->user_id,
-            'id'=>$this->id,
+            'gift_id'=>$this->gift_id,
             'gift_name'=>$this->gift_name,
             'gift_price'=>$this->gift_price,
             'price_unit'=>giftRepository::price_unit($this->price_unit_id),

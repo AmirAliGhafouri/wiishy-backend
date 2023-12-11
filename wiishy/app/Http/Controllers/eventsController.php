@@ -6,6 +6,8 @@ use App\Repositories\eventRepository;
 use App\Http\Requests\CreateEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\eventListResource;
+use App\Http\Resources\followingsBirthdayResource;
+use App\Repositories\followRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -91,7 +93,7 @@ class eventsController extends Controller
         $event_list = collect(EventListResource::collection($events));
         $filtered_events = $event_list->filter(function ($eventResource) {
             $remainingDays = eventRepository::remaining_days($eventResource['event_date']);
-            return $remainingDays < 20;
+            return $remainingDays < 30;
         });
         $filtered_events_array = $filtered_events->toArray();
         
@@ -117,6 +119,21 @@ class eventsController extends Controller
             'message'=>$event
         ],200);
     }
+
+//_____________________ Events and followings Birthday
+function followings_birthday(Request $req){
+    $user_id=$req->user()->id;
+    $events=eventRepository::list($user_id);
+    $event_list=eventListResource::collection($events);
+    $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
+    $followings_birthday=followingsBirthdayResource::collection($followings);
+    
+    return response([
+        'status'=>'success',
+        'events'=>$event_list,
+        'followings_birthday'=>$followings_birthday
+    ],200);
+}
 
 //_____________________ Events name List
     function event_list(Request $req){
