@@ -29,6 +29,7 @@ class CreateGiftRequest extends FormRequest
             'price_unit_id'=>'required|numeric',
             'gift_desc'=>'required|string',
             'desire_rate'=>'required|max_digits:2',
+            'my_product'=>'sometimes|Nullable|integer|max_digits:2',
             //'image' => 'required|image|dimensions:max_width=1000,max_height=1000|max:2048',
             'image' => $this->input('gift_image_url') ? 'nullable' : 'required|image|dimensions:max_width=6000,max_height=6000|max:2048', 
             'gift_image_url' => 'sometimes|url',

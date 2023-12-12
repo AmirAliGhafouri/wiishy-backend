@@ -29,6 +29,7 @@ class userProfileResource extends JsonResource
             "provider_id"=> $this->provider_id,
             "status"=> $this->status,
             "user_code"=> $this->user_code,
+            "producer"=>$this->producer,
             "followers"=> $this->followers,
             "followings"=> $this->followings,
             "created_at"=> $this->created_at,

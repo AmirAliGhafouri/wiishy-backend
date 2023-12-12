@@ -28,6 +28,7 @@ class UserGiftResource extends JsonResource
             'gift_desc'=>$this->gift_desc,
             'gift_image_url'=>$this->gift_image_url,
             'islike'=>likeRepository::check($this->id,$request->user()->id),
+            'my_product'=>$this->my_product,
         ];
     }
 }

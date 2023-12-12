@@ -30,6 +30,7 @@ class CreateUserRequest extends FormRequest
             'user_birthday'=>'required|date',
             'user_location_id'=>'required | integer',
             'user_gender'=>'required|integer|max_digits:2',
+            'producer'=>'sometimes|Nullable|integer|max_digits:2',
             // 'user_desc'=>'required|string',
             // 'user_code'=>'required|unique:users,user_code'
         ];

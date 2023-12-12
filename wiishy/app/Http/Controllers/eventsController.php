@@ -121,19 +121,30 @@ class eventsController extends Controller
     }
 
 //_____________________ Events and followings Birthday
-function followings_birthday(Request $req){
-    $user_id=$req->user()->id;
-    $events=eventRepository::list($user_id);
-    $event_list=eventListResource::collection($events);
-    $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
-    $followings_birthday=followingsBirthdayResource::collection($followings);
-    
-    return response([
-        'status'=>'success',
-        'events'=>$event_list,
-        'followings_birthday'=>$followings_birthday
-    ],200);
-}
+    function followings_birthday(Request $req){
+        $user_id=$req->user()->id;
+        $events=eventRepository::list($user_id);
+        $event_list=eventListResource::collection($events);
+        $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
+        $followings_list = collect($followings);
+        $following_B_events = $followings_list->filter(function ($user_birthday) {
+            $event_date= Carbon::create( $user_birthday['event_date']);
+            $currentDate = Carbon::now();
+            $eventThisYear = $event_date->copy()->year($currentDate->year);
+            if ($currentDate > $eventThisYear) {
+                $eventThisYear->addYear();
+            }
+            $fb=now()->diffInDays(Carbon::parse($eventThisYear));
+            return $fb < 30;
+        });
+        $followings_birthday=followingsBirthdayResource::collection($following_B_events);
+        
+        return response([
+            'status'=>'success',
+            'events'=>$event_list,
+            'followings_birthday'=>$followings_birthday
+        ],200);
+    }
 
 //_____________________ Events name List
     function event_list(Request $req){
