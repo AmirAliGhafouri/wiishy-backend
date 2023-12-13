@@ -128,7 +128,7 @@ class eventsController extends Controller
         $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
         $followings_list = collect($followings);
         $following_B_events = $followings_list->filter(function ($user_birthday) {
-            $event_date= Carbon::create( $user_birthday['event_date']);
+            $event_date= Carbon::create( $user_birthday->user_birthday);
             $currentDate = Carbon::now();
             $eventThisYear = $event_date->copy()->year($currentDate->year);
             if ($currentDate > $eventThisYear) {
@@ -144,6 +144,7 @@ class eventsController extends Controller
             'events'=>$event_list,
             'followings_birthday'=>$followings_birthday
         ],200);
+
     }
 
 //_____________________ Events name List
