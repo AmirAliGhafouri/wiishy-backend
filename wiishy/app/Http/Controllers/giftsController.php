@@ -24,6 +24,24 @@ class giftsController extends Controller
         return response(['gifts'=>$gift_user]);
     }
 
+//_____________________ All the gifts of a user Based on my_product
+    function user_products($user_id, $my_product){
+        return $my_product;
+        if($my_product!="1" or $my_product!="0"){
+            return response([
+                'status'=>'Error',
+                'message'=>'Wrong product status'
+            ],400);
+        }
+
+        $gifts=giftRepository::all_basedOnProduct($user_id,$my_product);
+        $gift_user=UserGiftResource::collection($gifts);
+        return response([
+            'status'=>'success',
+            'gifts'=>$gift_user
+        ],200);
+    }
+
 //_____________________ A complete gift detail of a user
     function gift_detail(Request $req){
         $details=giftRepository::gift_details($req->giftid );

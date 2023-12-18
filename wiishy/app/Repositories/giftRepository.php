@@ -11,6 +11,10 @@ class giftRepository
         return gift::where(['user_id'=>$user_id , 'gift_status'=>1])->get()->sortByDesc('created_at');
     }
 
+    static function all_basedOnProduct($user_id, $my_product){
+        return gift::where(['user_id'=>$user_id , 'my_product'=>$my_product , 'gift_status'=>1])->get()->sortByDesc('created_at');
+    }
+
     static function list($user_id){
         return DB::table('gifts')
             ->join('users','users.id','=','gifts.user_id')
