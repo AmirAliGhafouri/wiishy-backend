@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\eventRepository;
 use App\Http\Requests\CreateEventRequest;
 use App\Http\Requests\UpdateEventRequest;
+use App\Http\Resources\event_followingbirthdayResource;
 use App\Http\Resources\eventListResource;
 use App\Http\Resources\followingsBirthdayResource;
 use App\Repositories\followRepository;
@@ -122,12 +123,19 @@ class eventsController extends Controller
 
 //_____________________ Events and followings Birthday
     function followings_birthday(Request $req){
+        
         $user_id=$req->user()->id;
         $events=eventRepository::list($user_id);
-        $event_list=eventListResource::collection($events);
+        
+        $event_list = collect(EventListResource::collection($events));
+        $filtered_events = $event_list->filter(function ($eventResource) {
+            $remainingDays = eventRepository::remaining_days($eventResource['event_date']);
+            return $remainingDays < 30;
+        });
+        $filtered_events_array = $filtered_events->toArray();
         $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
-        $followings_list = collect($followings);
-        $following_B_events = $followings_list->filter(function ($user_birthday) {
+        // $followings_list = collect($followings);
+        $following_B_events = $followings->filter(function ($user_birthday) {
             $event_date= Carbon::create( $user_birthday->user_birthday);
             $currentDate = Carbon::now();
             $eventThisYear = $event_date->copy()->year($currentDate->year);
@@ -137,13 +145,20 @@ class eventsController extends Controller
             $fb=now()->diffInDays(Carbon::parse($eventThisYear));
             return $fb < 30;
         });
-        $followings_birthday=followingsBirthdayResource::collection($following_B_events);
+        // Add event_tyoe to followingbirthday
+        foreach($following_B_events as $following){
+            $following->event_type=1;
+            $following->event_date=$following->user_birthday;
+
+        }
+        
+        $merged_events=$filtered_events->merge($following_B_events);
+        $events_fb=event_followingbirthdayResource::collection($merged_events);
         
         return response([
             'status'=>'success',
-            'events'=>$event_list,
-            'followings_birthday'=>$followings_birthday
-        ],200);
+            'events'=>$events_fb,
+        ],200); 
 
     }
 

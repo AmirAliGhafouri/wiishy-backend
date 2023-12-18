@@ -30,6 +30,7 @@ Route::get('/Unauthenticated',[userController::class,'Unauthenticated'])->name('
 Route::group(['middleware'=>'auth:sanctum'],function (){
     Route::controller(giftsController::class)->group(function(){
         Route::get('/usergifts/{userid}', 'user_gifts');
+        Route::get('/user-products/{userid}/{my_product}', 'user_products');
         Route::get('/giftdetail/{giftid}', 'gift_detail');
         Route::get('/user-home', 'followings_gift');
         Route::get('/gift-remove/{giftid}/{user_id}','gift_remove');
