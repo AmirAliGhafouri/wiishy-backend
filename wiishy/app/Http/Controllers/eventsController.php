@@ -134,18 +134,19 @@ class eventsController extends Controller
         });
         $filtered_events_array = $filtered_events->toArray();
         $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
-        // $followings_list = collect($followings);
+
         $following_B_events = $followings->filter(function ($user_birthday) {
-            $event_date= Carbon::create( $user_birthday->user_birthday);
+            /* $event_date= Carbon::create( $user_birthday->user_birthday);
             $currentDate = Carbon::now();
             $eventThisYear = $event_date->copy()->year($currentDate->year);
             if ($currentDate > $eventThisYear) {
                 $eventThisYear->addYear();
             }
-            $fb=now()->diffInDays(Carbon::parse($eventThisYear));
+            $fb=now()->diffInDays(Carbon::parse($eventThisYear)); */
+            $fb=eventRepository::remaining_days($user_birthday->user_birthday);
             return $fb < 30;
         });
-        // Add event_tyoe to followingbirthday
+        // Add event_type to followingbirthday
         foreach($following_B_events as $following){
             $following->event_type=1;
             $following->event_date=$following->user_birthday;
