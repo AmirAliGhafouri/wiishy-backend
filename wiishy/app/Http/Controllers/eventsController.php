@@ -7,7 +7,6 @@ use App\Http\Requests\CreateEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use App\Http\Resources\event_followingbirthdayResource;
 use App\Http\Resources\eventListResource;
-use App\Http\Resources\followingsBirthdayResource;
 use App\Repositories\followRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
