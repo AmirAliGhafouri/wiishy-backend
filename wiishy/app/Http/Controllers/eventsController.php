@@ -86,7 +86,7 @@ class eventsController extends Controller
         ],200);
     }
 
-//_____________________ Events with deadlines less than 20 days
+//_____________________ Events with deadlines less than 30 days
     function user_near_events(Request $req){
         $user_id=$req->user()->id;
         $events=eventRepository::list($user_id);
@@ -97,10 +97,11 @@ class eventsController extends Controller
             return $remainingDays < 30;
         });
         $filtered_events_array = $filtered_events->toArray();
+        $sorted_events_array=$filtered_events->sortBy('remaining_days');
         
         return response([
             'status'=>'success',
-            'event'=>$filtered_events_array
+            'event'=>$sorted_events_array
         ],200);
     }
 
