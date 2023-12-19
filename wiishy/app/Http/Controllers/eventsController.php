@@ -150,11 +150,11 @@ class eventsController extends Controller
         foreach($following_B_events as $following){
             $following->event_type=1;
             $following->event_date=$following->user_birthday;
-
         }
         
         $merged_events=$filtered_events->merge($following_B_events);
-        $events_fb=event_followingbirthdayResource::collection($merged_events);
+        $sorted_events=$merged_events->sortBy('remaining_days');
+        $events_fb=event_followingbirthdayResource::collection($sorted_events);
         
         return response([
             'status'=>'success',
