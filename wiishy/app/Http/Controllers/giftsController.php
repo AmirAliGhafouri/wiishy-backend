@@ -8,6 +8,8 @@ use App\Http\Resources\exploreResource;
 use App\Http\Resources\followingsGiftResource;
 use App\Http\Resources\giftDetailResource;
 use App\Http\Resources\UserGiftResource;
+use App\Models\Category;
+use App\Models\gift;
 use App\Repositories\giftRepository;
 use App\Repositories\likeRepository;
 use Illuminate\Support\Facades\Storage;
@@ -186,5 +188,4 @@ class giftsController extends Controller
             'price_units'=>$units
         ],200);
     }
-
 }

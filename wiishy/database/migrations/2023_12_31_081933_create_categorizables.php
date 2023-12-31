@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('giftuser', function (Blueprint $table) {
+        Schema::create('categorizables', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->bigInteger('gift_id');
-            $table->integer('desire_rate');
-            $table->integer('gift_like')->default(0);
-            $table->integer('gift_view')->default(0);
-            $table->integer('shared')->default(0);
-            $table->integer('gift_status')->default(1);
+            $table->unsignedBigInteger('category_id');
+            $table->morphs('categorizable');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('giftuser');
+        Schema::dropIfExists('categorizables');
     }
 };

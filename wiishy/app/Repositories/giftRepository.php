@@ -39,7 +39,8 @@ class giftRepository
         ->where('userfollows.user_id',$id )
         ->where(['follow_status'=>1 , 'gift_status'=>1])
         ->select('*','gifts.id as gift_id','gifts.user_id as uid','gifts.created_at as gifts_created_at')
-        ->get()->sortByDesc('gifts_created_at')->values();
+        ->orderByDesc('gifts_created_at')
+        ->paginate(10);
     }
 
     static function increase($gift_id , $field){

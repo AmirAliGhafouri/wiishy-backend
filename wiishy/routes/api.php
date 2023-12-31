@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\followController;
 use App\Http\Controllers\giftsController;
 use App\Http\Controllers\likeController;
@@ -48,6 +49,12 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::get('/gift-like/{giftid}/{userid}', 'like');
         Route::get('/gift-islike/{giftid}/{userid}', 'islike');
         Route::delete('/gift-dislike/{giftid}/{userid}', 'dislike');
+    });
+
+    Route::controller(CategoryController::class)->group(function(){
+        Route::get('/categories', 'categories');
+        Route::get('/gift-add-category/{giftid}/{categoryid}', 'addGiftCategory');
+        Route::get('/user-add-category/{userid}/{categoryid}', 'addUserCategory');
     });
 
     Route::controller(userController::class)->group(function(){

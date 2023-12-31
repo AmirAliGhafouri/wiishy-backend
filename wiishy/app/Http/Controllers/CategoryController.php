@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Category;
+use App\Models\gift;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class CategoryController extends Controller
+{
+
+    /**
+     * all types of categories
+     */
+    public function categories()
+    {
+        $categories = Category::all();
+        return response([
+            'status' => 'success',
+            'categories' => $categories
+        ] , 200);
+    }
+
+    /**
+     * add a category to a gift
+     */
+    public function addGiftCategory($gift_id, $category_id)
+    {
+        try{
+            $gift = gift::findOrFail($gift_id);
+            $category = Category::findOrFail($category_id);
+        }
+        catch(\Exception $exception){
+            return response([
+                'status' => 'Error',
+                'message '=> 'not found'
+            ] , 400);
+        }
+
+        $gift->categories()->attach($category);
+
+        return response([
+            'status' => 'success',
+            'message' => 'The desired category has been successfully added to the gift'
+        ] , 200);
+    }
+
+    /**
+     * add a category to a user
+     */
+    public function addUserCategory($gift_id, $category_id)
+    {
+        try{
+            $user = User::findOrFail($gift_id);
+            $category = Category::findOrFail($category_id);
+        }
+        catch(\Exception $exception){
+            return response([
+                'status' => 'Error',
+                'message' => 'not found'
+            ] , 400);
+        }
+
+        $user->categories()->attach($category);
+
+        return response([
+            'status' => 'success',
+            'message' => 'The desired category has been successfully added to your favorites'
+        ], 200);
+    }
+
+}
