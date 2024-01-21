@@ -7,6 +7,9 @@ use App\Models\gift;
 use App\Models\User;
 use Illuminate\Http\Request;
 
+/**
+ * This class is for category management
+ */
 class CategoryController extends Controller
 {
 
@@ -42,6 +45,10 @@ class CategoryController extends Controller
 
     /**
      * add a category to a gift
+     * 
+     * @param int $gift_id
+     * @param int $category_id
+     * @return Illuminate\Http\Respons
      */
     public function addGiftCategory($gift_id, $category_id)
     {
@@ -66,6 +73,10 @@ class CategoryController extends Controller
 
     /**
      * add a category to a user
+     * 
+     * @param int $user_id
+     * @param int $category_id
+     * @return Illuminate\Http\Respons
      */
     public function addUserCategory($gift_id, $category_id)
     {
