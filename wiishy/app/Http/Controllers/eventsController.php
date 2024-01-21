@@ -146,16 +146,10 @@ class eventsController extends Controller
         $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
 
         $following_B_events = $followings->filter(function ($user_birthday) {
-            /* $event_date= Carbon::create( $user_birthday->user_birthday);
-            $currentDate = Carbon::now();
-            $eventThisYear = $event_date->copy()->year($currentDate->year);
-            if ($currentDate > $eventThisYear) {
-                $eventThisYear->addYear();
-            }
-            $fb=now()->diffInDays(Carbon::parse($eventThisYear)); */
             $fb=eventRepository::remaining_days($user_birthday->user_birthday);
             return $fb < 30;
         });
+        
         // Add event_type to followingbirthday
         foreach($following_B_events as $following) {
             $following->event_type = 1;
