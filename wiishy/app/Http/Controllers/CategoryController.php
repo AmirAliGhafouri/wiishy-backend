@@ -11,11 +11,29 @@ class CategoryController extends Controller
 {
 
     /**
-     * all types of categories
+     * all parent categories
+     * 
+     * @return Illuminate\Http\Respons
      */
     public function categories()
     {
-        $categories = Category::all();
+        $categories = Category::where('parent', 0)->get();
+        return response([
+            'status' => 'success',
+            'categories' => $categories
+        ] , 200);
+    }
+
+    
+    /**
+     * all sub categories
+     * 
+     * @param int $id id of a paret_category
+     * @return Illuminate\Http\Respons
+     */
+    public function subCategories($id)
+    {
+        $categories = Category::where('parent', $id)->get();
         return response([
             'status' => 'success',
             'categories' => $categories
