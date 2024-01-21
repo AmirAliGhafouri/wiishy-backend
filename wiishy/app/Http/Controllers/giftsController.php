@@ -58,8 +58,17 @@ class giftsController extends Controller
         $user_id=$req->user()->id;
         $gifts=giftRepository::followings_gift($user_id);
         $followings_gift=followingsGiftResource::collection($gifts);
-        $count=$gifts->count();
-        return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$followings_gift]);
+        return $followings_gift->additional([
+            'pagination' => [
+                'total' => $gifts->total(),
+                'count' => $gifts->count(),
+                'per_page' => $gifts->perPage(),
+                'current_page' => $gifts->currentPage(),
+                'total_pages' => $gifts->lastPage(),
+            ],
+        ]);
+   /*      $count=$gifts->count();
+        return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$followings_gift]); */
     }
 
 //_____________________ Explore

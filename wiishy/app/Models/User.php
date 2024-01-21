@@ -55,4 +55,19 @@ class User extends Authenticatable
     {
         return $this->morphToMany(Category::class, 'categorizables');
     }
+
+    /**
+     * followings gifts
+     */
+
+   /*   public function gifts()
+    {
+        return $this->hasMany(Gift::class, 'user_id');
+    }
+
+    public function followingGifts()
+    {
+        return $this->hasManyThrough(Gift::class, userfollow::class, 'user_id', 'user_id', 'id', 'follow_id')
+            ->where(['userfollows.follow_status' => 1, 'gifts.gift_status' => 1]);;
+    } */
 }
