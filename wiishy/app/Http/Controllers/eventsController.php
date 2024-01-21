@@ -121,7 +121,12 @@ class eventsController extends Controller
         ],200);
     }
 
-//_____________________ Events and followings Birthday
+    /**
+     * Events and followings Birthday
+     *  
+     * @param \Illuminate\Http\Request $req
+     * @return Illuminate\Http\Respons
+     */ 
     function followings_birthday(Request $req){
         
         $user_id=$req->user()->id;
@@ -133,6 +138,11 @@ class eventsController extends Controller
             return $remainingDays < 30;
         });
         $filtered_events_array = $filtered_events->toArray();
+
+        // Add flad is_my_event
+        foreach ($filtered_events as $item) {
+            $item['is_my_event'] = true;
+        }
         $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
 
         $following_B_events = $followings->filter(function ($user_birthday) {
@@ -147,9 +157,10 @@ class eventsController extends Controller
             return $fb < 30;
         });
         // Add event_type to followingbirthday
-        foreach($following_B_events as $following){
-            $following->event_type=1;
-            $following->event_date=$following->user_birthday;
+        foreach($following_B_events as $following) {
+            $following->event_type = 1;
+            $following->event_date = $following->user_birthday;
+            $following->is_my_event = false;
         }
         
         $merged_events=$filtered_events->merge($following_B_events);
@@ -157,8 +168,8 @@ class eventsController extends Controller
         $events_fb=event_followingbirthdayResource::collection($sorted_events);
         
         return response([
-            'status'=>'success',
-            'events'=>$events_fb,
+            'status' => 'success',
+            'events' => $events_fb,
         ],200); 
 
     }
