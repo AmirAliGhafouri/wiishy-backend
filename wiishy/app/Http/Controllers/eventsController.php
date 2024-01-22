@@ -171,7 +171,7 @@ class eventsController extends Controller
     {
         $user_id = $req->user()->id;
         $event = eventRepository::detail($user_id, $req->event_id);
-        if(!$event){
+        if (!$event) {
             return response([
                 'status' => 'Error',
                 'message' => 'not found'
@@ -190,12 +190,15 @@ class eventsController extends Controller
      * @param \Illuminate\Http\Request $req
      * @return Illuminate\Http\Respons
      */ 
-    function followings_birthday(Request $req){
-        
-        $user_id=$req->user()->id;
-        $events=eventRepository::list($user_id);
-        
+    public function followings_birthday(Request $req)
+    {
+        $user_id = $req->user()->id;
+
+        // events of user
+        $events = eventRepository::list($user_id);
         $event_list = collect(EventListResource::collection($events));
+
+        // filter events with deadline less than 30 days
         $filtered_events = $event_list->filter(function ($eventResource) {
             $remainingDays = eventRepository::remaining_days($eventResource['event_date']);
             return $remainingDays < 30;
@@ -206,10 +209,13 @@ class eventsController extends Controller
         foreach ($filtered_events as $item) {
             $item['is_my_event'] = true;
         }
-        $followings=followRepository::follow_list($user_id,'userfollows.follow_id','userfollows.user_id');
 
+        // list of followings
+        $followings = followRepository::follow_list($user_id, 'userfollows.follow_id', 'userfollows.user_id');
+
+        // filter followings birthday with deadline less than 30 days
         $following_B_events = $followings->filter(function ($user_birthday) {
-            $fb=eventRepository::remaining_days($user_birthday->user_birthday);
+            $fb = eventRepository::remaining_days($user_birthday->user_birthday);
             return $fb < 30;
         });
         
@@ -220,14 +226,14 @@ class eventsController extends Controller
             $following->is_my_event = false;
         }
         
-        $merged_events=$filtered_events->merge($following_B_events);
-        $sorted_events=$merged_events->sortBy('remaining_days');
-        $events_fb=event_followingbirthdayResource::collection($sorted_events);
+        $merged_events = $filtered_events->merge($following_B_events);
+        $sorted_events = $merged_events->sortBy('remaining_days');
+        $events_fb = event_followingbirthdayResource::collection($sorted_events);
         
         return response([
             'status' => 'success',
             'events' => $events_fb,
-        ],200); 
+        ], 200); 
 
     }
 
