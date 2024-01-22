@@ -11,14 +11,17 @@ use App\Repositories\followRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+/**
+ * This class is for events management
+ */
 class eventsController extends Controller
 {
-/**
- * Add new event
- * 
- * @param \App\Http\Requests\CreateEventRequest $req 
- * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
- */
+    /**
+     * Add new event
+     * 
+     * @param \App\Http\Requests\CreateEventRequest $req 
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     function add_event(CreateEventRequest $req){
         $user_id = $req->user()->id;
         $reqest = collect($req->validate())->toArray();
@@ -31,34 +34,39 @@ class eventsController extends Controller
         ], 200);
     }
 
-//_____________________ Update Event
+    /**
+     * Update an event
+     * 
+     * @param \App\Http\Requests\UpdateEventRequest $req
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     function update_event(UpdateEventRequest $req){
         if(!$req->all()){
             return response([
-                'status'=>'Error',
-                'message'=>'Empty request'
-            ],400);
+                'status' => 'Error',
+                'message' => 'Empty request'
+            ], 400);
         }
-        $user_id=$req->user()->id;
-        $event=eventRepository::get($req->event_id,$user_id);
+        $user_id = $req->user()->id;
+        $event = eventRepository::get($req->event_id,$user_id);
         if(!$event){
             return response([
-                'status'=>'Error',
-                'message'=>'Event not found'
-            ],400);
+                'status' => 'Error',
+                'message' => 'Event not found'
+            ], 400);
         }
 
-        $request =collect($req->validated())->filter(function($item){
+        $request = collect($req->validated())->filter(function($item){
             return $item != null;
         })->toArray();
 
         eventRepository::update($req->event_id,$request);
-        $new_event=eventRepository::get($req->event_id,$user_id);
+        $new_event = eventRepository::get($req->event_id,$user_id);
         return response([
-            'status'=>'success',
-            'message'=>'The event is updated successfully',
-            'event'=>$new_event
-        ],200);
+            'status' => 'success',
+            'message' => 'The event is updated successfully',
+            'event' => $new_event
+        ], 200);
     }
 
 //_____________________ Remove an Event
