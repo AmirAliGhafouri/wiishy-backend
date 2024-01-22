@@ -13,17 +13,22 @@ use Illuminate\Http\Request;
 
 class eventsController extends Controller
 {
-//_____________________ Add Event
+/**
+ * Add new event
+ * 
+ * @param \App\Http\Requests\CreateEventRequest $req 
+ * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+ */
     function add_event(CreateEventRequest $req){
-        $user_id=$req->user()->id;
-        $reqest=collect($req->validate())->toArray();
-        $reqest['user_id']=$user_id;
-        $event=eventRepository::create($reqest);
+        $user_id = $req->user()->id;
+        $reqest = collect($req->validate())->toArray();
+        $reqest['user_id'] = $user_id;
+        $event = eventRepository::create($reqest);
         return response([
-            'status'=>'success',
-            'message'=>'Your event is saved successfully',
-            'event'=>$event
-        ],200);
+            'status' => 'success',
+            'message' => 'Your event is saved successfully',
+            'event' => $event
+        ], 200);
     }
 
 //_____________________ Update Event
