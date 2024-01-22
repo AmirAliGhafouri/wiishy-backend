@@ -56,6 +56,8 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
         Route::get('/subcategories/{id}', 'subCategories');
         Route::get('/gift-add-category/{giftid}/{categoryid}', 'addGiftCategory');
         Route::get('/user-add-category/{userid}/{categoryid}', 'addUserCategory');
+        Route::post('/category-add', 'addParent');
+        Route::post('/subcategory-add', 'addSubCategoryt');
     });
 
     Route::controller(userController::class)->group(function(){

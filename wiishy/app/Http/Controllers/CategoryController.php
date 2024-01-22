@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\gift;
 use App\Models\User;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
 
 /**
  * This class is for category management
@@ -20,7 +21,7 @@ class CategoryController extends Controller
      */
     public function categories()
     {
-        $categories = Category::where('parent', 0)->get();
+        $categories = Category::where('parent_id', 0)->get();
         return response([
             'status' => 'success',
             'categories' => $categories
@@ -36,7 +37,7 @@ class CategoryController extends Controller
      */
     public function subCategories($id)
     {
-        $categories = Category::where('parent', $id)->get();
+        $categories = Category::where('parent_id', $id)->get();
         return response([
             'status' => 'success',
             'categories' => $categories
@@ -98,5 +99,70 @@ class CategoryController extends Controller
             'message' => 'The desired category has been successfully added to your favorites'
         ], 200);
     }
+
+    /**
+     * موقت برای پر کردن دیتابیس
+     */
+    public function addParent(Request $req)
+    {
+        $req = collect($req)->toArray();
+        // try {
+            if(Category::where('name', $req['name'])->first()) {
+                return response([
+                    'status' => 'Error',
+                    'message' => 'this category is already exist'
+                ]);
+            }
+                
+            $parentCategory = Category::create($req);
+       /*  } catch (\Exception $exception) {
+            return response([
+                'status' => 'Error',
+                'message' => 'faild to add',
+            ], 400);
+        } */
+        return response([
+            'status' => 'success',
+            'parent_category' => $parentCategory
+        ], 200);
+    }
+
+    /**
+     * موقت
+     */
+    public function addSubCategoryt(Request $req)
+    {
+        $req->validate([
+            'parent_id' => 'required',
+            'name' => 'required',
+        ]);
+        $req = collect($req)->toArray();
+        if(!Category::where('id', $req['parent_id'])->first()) {
+            return response([
+                'status' => 'Error',
+                'message' => 'this parent category is not exist'
+            ]);
+        }
+        // try {
+            if(Category::where(['name' => $req['name'], 'parent_id' => $req['parent_id']])->first()) {
+                return response([
+                    'status' => 'Error',
+                    'message' => 'this category is already exist'
+                ]);
+            }
+                
+            $parentCategory = Category::create($req);
+       /*  } catch (\Exception $exception) {
+            return response([
+                'status' => 'Error',
+                'message' => 'faild to add',
+            ], 400);
+        } */
+        return response([
+            'status' => 'success',
+            'parent_category' => $parentCategory
+        ], 200);
+    }
+
 
 }
