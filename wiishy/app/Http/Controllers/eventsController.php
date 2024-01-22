@@ -23,8 +23,11 @@ class eventsController extends Controller
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     function add_event(CreateEventRequest $req){
+        // get user_id from Request
         $user_id = $req->user()->id;
         $reqest = collect($req->validate())->toArray();
+
+        // Add user_id to request
         $reqest['user_id'] = $user_id;
         $event = eventRepository::create($reqest);
         return response([
@@ -38,17 +41,23 @@ class eventsController extends Controller
      * Update an event
      * 
      * @param \App\Http\Requests\UpdateEventRequest $req
+     * @param int $id event_id
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
     function update_event(UpdateEventRequest $req){
+        // Checking that the request is not empty
         if(!$req->all()){
             return response([
                 'status' => 'Error',
                 'message' => 'Empty request'
             ], 400);
         }
+
+        // get user_id
         $user_id = $req->user()->id;
-        $event = eventRepository::get($req->event_id,$user_id);
+
+        // checking that event is exist
+        $event = eventRepository::get($req->event_id, $user_id);
         if(!$event){
             return response([
                 'status' => 'Error',
@@ -56,12 +65,13 @@ class eventsController extends Controller
             ], 400);
         }
 
+        // remove empty requests
         $request = collect($req->validated())->filter(function($item){
             return $item != null;
         })->toArray();
 
-        eventRepository::update($req->event_id,$request);
-        $new_event = eventRepository::get($req->event_id,$user_id);
+        eventRepository::update($req->event_id, $request);
+        $new_event = eventRepository::get($req->event_id, $user_id);
         return response([
             'status' => 'success',
             'message' => 'The event is updated successfully',
@@ -69,21 +79,30 @@ class eventsController extends Controller
         ], 200);
     }
 
-//_____________________ Remove an Event
+    /**
+     * remove an event
+     * 
+     * @param \Illuminate\Http\Request $req
+     * @param int $id event_id
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     function event_remove(Request $req){
-        $user_id=$req->user()->id;
-        $event=eventRepository::get($req->event_id,$user_id);
+        $user_id = $req->user()->id;
+
+        // checking that event is exist
+        $event = eventRepository::get($req->event_id, $user_id);
         if(!$event){
             return response([
-                'status'=>'Error',
-                'message'=>'Event not found'
-            ],400);
+                'status' => 'Error',
+                'message' => 'Event not found'
+            ], 400);
         }
+        
         eventRepository::destroy($req->event_id);
         return response([
-            'status'=>'success',
-            'event'=>'The event is removed successfully'
-        ],200);
+            'status' => 'success',
+            'event' => 'The event is removed successfully'
+        ], 200);
     }
 
 //_____________________ User Events List
