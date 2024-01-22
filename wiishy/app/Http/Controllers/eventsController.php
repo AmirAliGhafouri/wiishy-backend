@@ -237,21 +237,27 @@ class eventsController extends Controller
 
     }
 
-//_____________________ Events name List
-    function event_list(Request $req){
-        $events=eventRepository::events();    
+    /**
+     * list of events types from DataBase
+     */
+    public function event_list(Request $req)
+    {
+        $events = eventRepository::events();    
         return response([
-            'status'=>'success',
-            'event'=>$events
-        ],200);
+            'status' => 'success',
+            'event' => $events
+        ], 200);
     }
 
-//_____________________ relationships name List
-    function relationship_list(Request $req){
-        $relation=eventRepository::relationships();  
+    /**
+     * list of relationship types from DataBase 
+     */
+    public function relationship_list(Request $req)
+    {
+        $relation = eventRepository::relationships();  
         return response([
-            'status'=>'success',
-            'event'=>$relation
-        ],200);
+            'status' => 'success',
+            'event' => $relation
+        ], 200);
     }
 }
