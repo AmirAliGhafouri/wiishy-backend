@@ -26,22 +26,39 @@ class eventRepository
 
     static function get($event_id, $user_id)
     {
-        return userevent::where(['user_id' => $user_id, 'id' => $event_id, 'status' => 1])->first(); 
+        return userevent::where([
+            'user_id' => $user_id,
+            'id' => $event_id, 
+            'status' => 1
+        ])->first(); 
     }
 
     static function destroy($event_id)
     {
-        return userevent::where(['id' => $event_id, 'status' => 1])->update(['status' => 0]); 
+        return userevent::where([
+            'id' => $event_id,
+            'status' => 1
+        ])->update(['status' => 0]); 
     }
 
     static function detail($user_id, $event_id)
     {
-        return userevent::where(['user_id' => $user_id, 'id' => $event_id, 'status' => 1])->first(); 
+        return userevent::where([
+            'user_id' => $user_id, 
+            'id' => $event_id, 
+            'status' => 1
+        ])->first(); 
     }
 
     static function list($user_id)
     {
-        return userevent::where(['user_id' => $user_id, 'status' => 1])->get()->sortByDesc('created_at')->values();
+        return userevent::where([
+            'user_id' => $user_id, 
+            'status' => 1
+            ])
+        ->get()
+        ->sortByDesc('created_at')
+        ->values();
     }
 
     static function type($id)
