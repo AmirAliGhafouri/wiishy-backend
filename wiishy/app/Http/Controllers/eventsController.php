@@ -137,7 +137,8 @@ class eventsController extends Controller
      * @param \Illuminate\Http\Request $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function user_near_events(Request $req){
+    public function user_near_events(Request $req)
+    {
         $user_id = $req->user()->id;
 
         // get list of users events
@@ -160,21 +161,27 @@ class eventsController extends Controller
         ], 200);
     }
 
-//_____________________ Events detail
-    function event_detail(Request $req){
-        $user_id=$req->user()->id;
-        $event=eventRepository::detail($user_id,$req->event_id);
+    /**
+     * details of an event
+     * 
+     * @param \Illuminate\Http\Request $req
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function event_detail(Request $req)
+    {
+        $user_id = $req->user()->id;
+        $event = eventRepository::detail($user_id, $req->event_id);
         if(!$event){
             return response([
-                'status'=>'Error',
-                'message'=>'not found'
-            ],400);
+                'status' => 'Error',
+                'message' => 'not found'
+            ], 400);
         }
                     
         return response([
-            'status'=>'success',
-            'message'=>$event
-        ],200);
+            'status' => 'success',
+            'message' => $event
+        ], 200);
     }
 
     /**
