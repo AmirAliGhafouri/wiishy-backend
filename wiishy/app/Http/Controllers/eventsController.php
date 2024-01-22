@@ -131,23 +131,33 @@ class eventsController extends Controller
         ], 200);
     }
 
-//_____________________ Events with deadlines less than 30 days
+    /**
+     * Events with deadlines less than 30 days
+     * 
+     * @param \Illuminate\Http\Request $req
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     function user_near_events(Request $req){
-        $user_id=$req->user()->id;
-        $events=eventRepository::list($user_id);
+        $user_id = $req->user()->id;
+
+        // get list of users events
+        $events = eventRepository::list($user_id);
         
+        // prepare event_list and add relation, type, and remaining days
         $event_list = collect(EventListResource::collection($events));
+
+        // filter events with deadline less than 30 days
         $filtered_events = $event_list->filter(function ($eventResource) {
             $remainingDays = eventRepository::remaining_days($eventResource['event_date']);
             return $remainingDays < 30;
         });
         $filtered_events_array = $filtered_events->toArray();
-        $sorted_events_array=$filtered_events->sortBy('remaining_days');
+        $sorted_events_array = $filtered_events->sortBy('remaining_days');
         
         return response([
-            'status'=>'success',
-            'event'=>$sorted_events_array
-        ],200);
+            'status' => 'success',
+            'event' => $sorted_events_array
+        ], 200);
     }
 
 //_____________________ Events detail
