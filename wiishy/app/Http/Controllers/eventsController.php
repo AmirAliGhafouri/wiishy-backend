@@ -22,7 +22,8 @@ class eventsController extends Controller
      * @param \App\Http\Requests\CreateEventRequest $req 
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function add_event(CreateEventRequest $req){
+    public function add_event(CreateEventRequest $req)
+    {
         // get user_id from Request
         $user_id = $req->user()->id;
         $reqest = collect($req->validate())->toArray();
@@ -44,9 +45,10 @@ class eventsController extends Controller
      * @param int $id event_id
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function update_event(UpdateEventRequest $req){
+    public function update_event(UpdateEventRequest $req)
+    {
         // Checking that the request is not empty
-        if(!$req->all()){
+        if (!$req->all()) {
             return response([
                 'status' => 'Error',
                 'message' => 'Empty request'
@@ -58,7 +60,7 @@ class eventsController extends Controller
 
         // checking that event is exist
         $event = eventRepository::get($req->event_id, $user_id);
-        if(!$event){
+        if (!$event) {
             return response([
                 'status' => 'Error',
                 'message' => 'Event not found'
@@ -86,18 +88,19 @@ class eventsController extends Controller
      * @param int $id event_id
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function event_remove(Request $req){
+    public function event_remove(Request $req)
+    {
         $user_id = $req->user()->id;
 
         // checking that event is exist
         $event = eventRepository::get($req->event_id, $user_id);
-        if(!$event){
+        if (!$event) {
             return response([
                 'status' => 'Error',
                 'message' => 'Event not found'
             ], 400);
         }
-        
+
         eventRepository::destroy($req->event_id);
         return response([
             'status' => 'success',
