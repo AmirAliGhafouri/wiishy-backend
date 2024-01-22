@@ -102,22 +102,33 @@ class eventsController extends Controller
         }
 
         eventRepository::destroy($req->event_id);
+
         return response([
             'status' => 'success',
             'event' => 'The event is removed successfully'
         ], 200);
     }
 
-//_____________________ User Events List
-    function event_user(Request $req){
-        $user_id=$req->user()->id;
-        $events=eventRepository::list($user_id);
-        $event_list=eventListResource::collection($events);
+    /**
+     * List of user defined events
+     * 
+     * @param \Illuminate\Http\Request $req
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function event_user(Request $req)
+    {
+        $user_id = $req->user()->id;
+
+        // get list of users events
+        $events = eventRepository::list($user_id);
+
+        // prepare event_list and add relation, type, and remaining days
+        $event_list = eventListResource::collection($events);
         
         return response([
-            'status'=>'success',
-            'event'=>$event_list
-        ],200);
+            'status' => 'success',
+            'event' => $event_list
+        ], 200);
     }
 
 //_____________________ Events with deadlines less than 30 days
