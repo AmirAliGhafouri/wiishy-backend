@@ -171,9 +171,10 @@ class userController extends Controller
      * 
      * @param \App\Http\Requests\CreateUserRequest $req
      * @param string $provider
-     * 
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function auth(CreateUserRequest $req, $provider){
+    public function auth(CreateUserRequest $req, $provider)
+    {
         $user_provider = userRepository::provider($provider);
 
         // check if provider is valide
@@ -205,7 +206,13 @@ class userController extends Controller
         ], 200);       
     }
 
-//_____________________ User Search
+
+    /**
+     * search user by name and family
+     * 
+     * @param \App\Http\Requests\UserSearchRequest $req
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     function search(UserSearchRequest $req){
         if (!$req->user_search) {
             return response([
