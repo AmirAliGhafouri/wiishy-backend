@@ -213,7 +213,8 @@ class userController extends Controller
      * @param \App\Http\Requests\UserSearchRequest $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function search(UserSearchRequest $req){
+    public function search(UserSearchRequest $req)
+    {
         if (!$req->user_search) {
             return response([
                 'status' => 'Error',
@@ -232,7 +233,7 @@ class userController extends Controller
     public function Unauthenticated()
     {
         return response([
-            'message'=>'please Login first'
+            'message' => 'please Login first'
         ], 401);
     }
 
