@@ -59,6 +59,9 @@ class likeController extends Controller
 
     /**
      * Dislike a gift
+     * 
+     * @param int $giftId
+     * @param int $userId
      */
     public function dislike($giftId, $userId)
     {
@@ -67,14 +70,15 @@ class likeController extends Controller
             return response([
                 'status' => 'Error',
                 'message' => 'The gift hasnt been liked before'
-            ],400);
+            ], 400);
         }
+
         likeRepository::dislike($giftId, $userId);
-        likeRepository::decrease($giftId);      
+        likeRepository::decrease($giftId);
         return response([
             'status' => 'success',
             'message' => 'The gift is disliked successfully'
-        ],200);
+        ], 200);
     }
 
 //_____________________ Likes List
