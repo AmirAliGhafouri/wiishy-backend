@@ -47,7 +47,8 @@ class userController extends Controller
      * @param \Illuminate\Http\Request $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function home(Request $req){
+    public function home(Request $req)
+    {
         $user_id = $req->user()->id;
         $user = userRepository::all($user_id);
         $gifts = giftRepository::all($user_id);
@@ -63,7 +64,8 @@ class userController extends Controller
      * 
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function user_list(){
+    public function user_list()
+    {
         $list = userRepository::list();
         return response([
             'status' => $list ? 'success' : 'Error',
@@ -77,7 +79,8 @@ class userController extends Controller
      * @param int $userId
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function remove($userId){
+    public function remove($userId)
+    {
         $remove = userRepository::destroy($userId);
           
         return response([
@@ -118,7 +121,8 @@ class userController extends Controller
      * @param \App\Http\Requests\UpdateUserRequest $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function update(UpdateUserRequest $req){
+    public function update(UpdateUserRequest $req)
+    {
         Log::debug('updateUserRequest', [$req->all()]);
 
         // check empty request
@@ -152,7 +156,7 @@ class userController extends Controller
         }
 
         userRepository::update($user_id, $request);  
-             
+
         return response([
             'status' => 'success',
             'message' => 'UserProfile has updated successfully'
@@ -162,9 +166,17 @@ class userController extends Controller
 
 
 
-//_____________________ Auth
+    /**
+     * Authentication
+     * 
+     * @param \App\Http\Requests\CreateUserRequest $req
+     * @param string $provider
+     * 
+     */
     function auth(CreateUserRequest $req, $provider){
         $user_provider = userRepository::provider($provider);
+
+        // check if provider is valide
         if (!$user_provider) {
             return response([
                 'status' => 'Error',
@@ -173,26 +185,23 @@ class userController extends Controller
         }        
 
         $user = userRepository::check($req,$user_provider->id);
+
+        // if there is no account for user register user
+        $register = [];
         if (!$user) {
             $req['provider_id'] = $user_provider->id;
             $register = userRepository::create($req->toArray());
-            $token = userRepository::token($register);
-            return response([
-                'status' => 'success',
-                'new_user' => true,
-                'message' => 'Registration is done successfully',
-                'token' => $token,
-                'user' => $register
-            ], 200);
         }
 
-        $token = userRepository::token($user);
+        // if user have accout login user
+        $token = userRepository::token($user ? $user : $register);
+
         return response([
             'status' => 'success',
-            'new_user' => false,
-            'message' => 'User logged in successfully',
+            'new_user' => $user ? false : true,
+            'message' => $user ? 'User logged in successfully' : 'Registration is done successfully',
             'token' => $token,
-            'user' => $user
+            'user' => $user ? $user : $register
         ], 200);       
     }
 
