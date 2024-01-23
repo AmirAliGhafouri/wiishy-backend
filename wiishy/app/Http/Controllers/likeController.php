@@ -15,7 +15,7 @@ class likeController extends Controller
      * @param int $giftId
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function like($giftId , $userId)
+    public function like($giftId, $userId)
     {
         $giftLike = likeRepository::check($giftId, $userId);
 
@@ -57,20 +57,23 @@ class likeController extends Controller
         ], 200);
     }
 
-//_____________________ DisLike
-    function dislike($gift_id , $user_id){
-        $like=likeRepository::check($gift_id , $user_id);
-        if(!$like){
+    /**
+     * Dislike a gift
+     */
+    public function dislike($giftId, $userId)
+    {
+        $like=likeRepository::check($giftId, $userId);
+        if (!$like) {
             return response([
-                'status'=>'Error',
-                'message'=>'The gift hasnt been liked before'
+                'status' => 'Error',
+                'message' => 'The gift hasnt been liked before'
             ],400);
         }
-        likeRepository::dislike($gift_id , $user_id);
-        likeRepository::decrease($gift_id);      
+        likeRepository::dislike($giftId, $userId);
+        likeRepository::decrease($giftId);      
         return response([
-            'status'=>'success',
-            'message'=>'The gift is disliked successfully'
+            'status' => 'success',
+            'message' => 'The gift is disliked successfully'
         ],200);
     }
 
