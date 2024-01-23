@@ -58,10 +58,17 @@ class userController extends Controller
             ], 200);
     }
 
-//_____________________ User List
+    /**
+     * List of all users
+     * 
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     function user_list(){
         $list = userRepository::list();
-        return response(['user' => $list]);
+        return response([
+            'status' => $list ? 'success' : 'Error',
+            'user' => $list
+        ], $list ? 200 : 400);
     }
 
 //_____________________ Remove User
