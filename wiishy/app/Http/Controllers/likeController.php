@@ -81,23 +81,28 @@ class likeController extends Controller
         ], 200);
     }
 
-//_____________________ Likes List
-    function likeslist($gift_id){       
+    /**
+     * List of users who like a gift
+     * 
+     * @param int $giftId
+     */
+    public function likeslist($giftId)
+    {       
         try{
-            $count=likeRepository::count($gift_id);
+            $count = likeRepository::count($giftId);
         }
         catch(\Exception $exception){
             return response([
-                'status'=>'Error',
-                'message'=>'Gift not found'
-            ] , 400);
+                'status' => 'Error',
+                'message' => 'Gift not found'
+            ], 400);
         }
-        $likers=likeRepository::list($gift_id);
+        $likers = likeRepository::list($giftId);
         return response([
-            'status'=>'success',
-            'like_count'=>$count,
-            'users'=>$likers
-        ],200);
+            'status' => 'success',
+            'like_count' => $count,
+            'users' => $likers
+        ], 200);
     }
 
 }

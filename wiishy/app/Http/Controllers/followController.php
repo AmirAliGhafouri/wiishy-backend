@@ -8,28 +8,35 @@ use App\Http\Resources\followSuggestionResource;
 use App\Repositories\followRepository;
 use Illuminate\Http\Request;
 
-
+/**
+ * This class is for Follow management
+ */
 class followController extends Controller
 {
-//_____________________ All the followers of a user 
-    function user_followers(Request $req){
+    /**
+     * Followers of a user
+     * 
+     * @param \Illuminate\Http\Request $req
+     */
+    public function user_followers(Request $req)
+    {
         try{
-            $followers_count=followRepository::count($req->id,'followers');
-        }
-        catch(\Exception $exception){
+            $followers_count = followRepository::count($req->id, 'followers');
+        } catch(\Exception $exception){
             return response([
-                'status'=>'Error',
-                'message'=>'user not found'
-            ] , 400);
+                'status' => 'Error',
+                'message' => 'user not found'
+            ], 400);
         }
-        $user_id=$req->user()->id;
-        $followers=followRepository::follow_list($req->id,'userfollows.user_id','userfollows.follow_id');
-        $list= followerListResource::collection($followers,$user_id);
+
+        $user_id = $req->user()->id;
+        $followers = followRepository::follow_list($req->id, 'userfollows.user_id', 'userfollows.follow_id');
+        $list = followerListResource::collection($followers, $user_id);
         return response([
-            'status'=>'success',
-            'followers_count'=>$followers_count ,
-            'followers'=>$list
-        ],200);
+            'status' => 'success',
+            'followers_count' => $followers_count,
+            'followers' => $list
+        ], 200);
     }  
     
 //_____________________ All the following of a user 
