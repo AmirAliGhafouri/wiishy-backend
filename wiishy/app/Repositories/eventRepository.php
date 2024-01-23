@@ -14,17 +14,17 @@ class eventRepository
      * @param array $req
      * @return array
      */
-    static function create($req)
+    public static function create($req)
     {
         return userevent::create($req); 
     }
 
-    static function update($event_id, $request)
+    public static function update($event_id, $request)
     {
         return userevent::where('id', $event_id)->update($request); 
     }
 
-    static function get($event_id, $user_id)
+    public static function get($event_id, $user_id)
     {
         return userevent::where([
             'user_id' => $user_id,
@@ -33,7 +33,7 @@ class eventRepository
         ])->first(); 
     }
 
-    static function destroy($event_id)
+    public static function destroy($event_id)
     {
         return userevent::where([
             'id' => $event_id,
@@ -41,7 +41,7 @@ class eventRepository
         ])->update(['status' => 0]); 
     }
 
-    static function detail($user_id, $event_id)
+    public static function detail($user_id, $event_id)
     {
         return userevent::where([
             'user_id' => $user_id, 
@@ -50,7 +50,7 @@ class eventRepository
         ])->first(); 
     }
 
-    static function list($user_id)
+    public static function list($user_id)
     {
         return userevent::where([
             'user_id' => $user_id, 
@@ -61,7 +61,7 @@ class eventRepository
         ->values();
     }
 
-    static function type($id)
+    public static function type($id)
     {
         try{
             return event::where('id', $id)->first()->name;
@@ -71,7 +71,7 @@ class eventRepository
         }
     }
 
-    static function remaining_days($date)
+    public static function remaining_days($date)
     {
         $event_date = Carbon::create($date);
         $currentDate = Carbon::now();
@@ -82,7 +82,7 @@ class eventRepository
         return  now()->diffInDays(Carbon::parse($eventThisYear));
     }
 
-    static function rel_type($relation)
+    public static function rel_type($relation)
     {
         try{
             return relationship::where('id', $relation)->first()->name;
@@ -92,12 +92,12 @@ class eventRepository
         }
     }
 
-    static function events()
+    public static function events()
     {
         return event::all();
     }
 
-    static function relationships()
+    public static function relationships()
     {
         return relationship::all();
     }
