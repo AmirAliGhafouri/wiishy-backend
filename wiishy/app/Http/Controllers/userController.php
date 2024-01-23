@@ -112,38 +112,51 @@ class userController extends Controller
     }
  */
 
-//_____________________ Update User
+    /**
+     * Update users profile
+     * 
+     * @param \App\Http\Requests\UpdateUserRequest $req
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     function update(UpdateUserRequest $req){
         Log::debug('updateUserRequest', [$req->all()]);
-        if(!$req->all()){
+
+        // check empty request
+        if (!$req->all()) {
             return response([
                 'status' => 'Error',
                 'message' => 'Empty request'
             ], 400);
         }
+
         $user_id = $req->user()->id;
         $user = userRepository::get($user_id);
-        if(!$user) {
+        if (!$user) {
             return response([
                 'status' => 'Error',
                 'message' => 'User not found'
             ], 400);
         }
            
+        // remove null fields
         $request = collect($req->validated())->filter(function($item){
             return $item != null;
         })->toArray();
-        if($req->image){
+
+        // if there is image move it to right folder
+        if ($req->image) {
             $fileName = $req->user()->id.'.'.$req->image->getClientOriginalExtension();
             Storage::disk('public')->putFileAs('/users', $req->image, $fileName);
             unset($request['image']);
             $request['user_image_url'] = '/uploads/users/' . $fileName.'?t='.Carbon::now()->getTimestamp();
         }
-        userRepository::update($user_id, $request);       
+
+        userRepository::update($user_id, $request);  
+             
         return response([
             'status' => 'success',
             'message' => 'UserProfile has updated successfully'
-        ]);
+        ], 200);
     }
 
 
