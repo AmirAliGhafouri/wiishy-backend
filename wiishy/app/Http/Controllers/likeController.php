@@ -4,23 +4,43 @@ namespace App\Http\Controllers;
 
 use App\Repositories\likeRepository;
 
+/**
+ * this class is for likes managment
+ */
 class likeController extends Controller
 {
-//_____________________ Like a gift
-    function like($gift_id , $user_id){
-        $like=likeRepository::check($gift_id , $user_id);
-        if($like)
-            return response([
-                'status'=>'Error',
-                'message'=>'The gift has been liked before'
-            ],400);
+    /**
+     * like a gift
+     * 
+     * @param int $giftId
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function like($giftId , $userId)
+    {
+        $giftLike = likeRepository::check($giftId, $userId);
 
-        likeRepository::like($gift_id , $user_id);
-        likeRepository::increase($gift_id);
+        // check if the gift is liked or no
+        if ($giftLike) {
+            return response([
+                'status' => 'Error',
+                'message' => 'The gift has been liked before'
+            ], 400);
+        }
+        
+        $error = false;
+        $like = likeRepository::like($giftId, $userId);
+        if ($like) {
+            $increase = likeRepository::increase($giftId);
+        }
+
+        if (!$like || !$increase) {
+            $error = true;
+        }
+
         return response([
-            'status'=>'success',
-            'message'=>'The gift is liked successfully'
-        ],200);
+            'status' => $error ? 'Error' : 'success',
+            'message' => $error ? 'something went wrong' : 'The gift is liked successfully'
+        ], $error ? 400 : 200);
     }
 
 //_____________________ Is Like?

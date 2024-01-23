@@ -14,6 +14,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Model\User;
 use App\Repositories\giftRepository;
 
+/**
+ * This class is for user management
+ */
 class userController extends Controller
 {
     /**
