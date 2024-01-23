@@ -95,10 +95,18 @@ class followController extends Controller
         ], 200);
     } 
 
-//_____________________ IS Follow?
-    function isfollow($user_id,$follow_id){
-        $follow=followRepository::check($user_id,$follow_id);
-        return response(['isfollow'=>$follow]);
+    /**
+     * check if someone is followed
+     * 
+     * @param int $giftId | int $userId
+     */
+    public function isfollow($userId, $followId)
+    {
+        $follow = followRepository::check($userId, $followId);
+        return response([
+            'status' => 'success',
+            'isfollow' => $follow
+        ], 200);
     }
 
 
