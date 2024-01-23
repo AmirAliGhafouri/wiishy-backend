@@ -32,7 +32,7 @@ class followController extends Controller
         $user_id = $req->user()->id;
         $followers = followRepository::follow_list($req->id, 'userfollows.user_id', 'userfollows.follow_id');
         $list = followerListResource::collection($followers, $user_id);
-        
+
         return response([
             'status' => 'success',
             'followers_count' => $followers_count,
@@ -45,7 +45,8 @@ class followController extends Controller
      * 
      * @param \Illuminate\Http\Request $req
      */
-    function user_followings(Request $req){
+    public function user_followings(Request $req)
+    {
         try{
             $followings_count = followRepository::count($req->id, 'followings');
         } catch(\Exception $exception){
@@ -66,26 +67,32 @@ class followController extends Controller
         ], 200);
     }
 
-//_____________________ Suggestions to users to follow
-   function follow_suggestion(Request $req){
-        $user_id=$req->user()->id;
-        //FOLLOWINGS followers
-        $followings=followRepository::list($user_id,'userfollows.follow_id','userfollows.user_id',$user_id);  
-        $following_suggestions=followRepository::suggestions($followings,$user_id);
-    
-        //FOLLOWERS followers
-        $followers=followRepository::list($user_id,'userfollows.user_id','userfollows.follow_id',$user_id);  
-        $follower_suggestions=followRepository::suggestions($followers,$user_id);
+    /**
+     * Suggestions for users to follow
+     * 
+     * @param \Illuminate\Http\Request $req
+     */
+    public function follow_suggestion(Request $req)
+    {
+        $user_id = $req->user()->id;
 
-        $follow_suggestions_users=followRepository::unique($following_suggestions,$follower_suggestions);
-        $remove_users_followings=followRepository::filter($follow_suggestions_users,$user_id);
-        $user_details=followRepository::follow_suggestion($remove_users_followings);
-        $list= followSuggestionResource::collection($user_details);
+        // FOLLOWINGS followers
+        $followings = followRepository::list($user_id, 'userfollows.follow_id', 'userfollows.user_id', $user_id);  
+        $following_suggestions = followRepository::suggestions($followings, $user_id);
+    
+        // FOLLOWERS followers
+        $followers = followRepository::list($user_id, 'userfollows.user_id', 'userfollows.follow_id', $user_id);  
+        $follower_suggestions = followRepository::suggestions($followers, $user_id);
+
+        $follow_suggestions_users = followRepository::unique($following_suggestions, $follower_suggestions);
+        $remove_users_followings = followRepository::filter($follow_suggestions_users, $user_id);
+        $user_details = followRepository::follow_suggestion($remove_users_followings);
+        $list = followSuggestionResource::collection($user_details);
 
         return response([
-            'status'=>true,
-            'suggestions'=>$list
-        ],200);
+            'status' => 'success',
+            'suggestions' => $list
+        ], 200);
     } 
 
 //_____________________ IS Follow?
