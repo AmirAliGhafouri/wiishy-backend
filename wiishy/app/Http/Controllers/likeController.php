@@ -43,10 +43,18 @@ class likeController extends Controller
         ], $error ? 400 : 200);
     }
 
-//_____________________ Is Like?
-    function islike($gift_id , $user_id){
-        $like=likeRepository::check($gift_id , $user_id);
-        return response(['islike'=>$like],200);
+    /**
+     * check if a gift is liked or no
+     * 
+     * @param int $giftId
+     * @param int $userId
+     */
+    public function islike($giftId, $userId)
+    {
+        $like = likeRepository::check($giftId, $userId);
+        return response([
+            'islike' => $like
+        ], 200);
     }
 
 //_____________________ DisLike
