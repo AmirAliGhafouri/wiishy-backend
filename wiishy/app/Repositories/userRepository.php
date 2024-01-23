@@ -17,7 +17,7 @@ class userRepository
     } */
 
     static function list(){
-        return User::all();
+        return User::paginate(15);
     }
 
     static function destroy($user_id){
