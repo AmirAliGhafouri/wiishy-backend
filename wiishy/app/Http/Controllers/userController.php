@@ -71,20 +71,19 @@ class userController extends Controller
         ], $list ? 200 : 400);
     }
 
-//_____________________ Remove User
-    function remove($user_id){
-        $user = userRepository::destroy($user_id);
-        if (!$user) {
-            return response([
-                'status' => 'Error',
-                'message' => 'User not found'
-            ], 400);
-        }
+    /**
+     * delete a user from DataBase
+     * 
+     * @param int $userId
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    function remove($userId){
+        $remove = userRepository::destroy($userId);
           
         return response([
-            'status' => 'success',
-            'message' => 'User is removed successfully'
-        ], 200);
+            'status' => $remove ? 'success' : 'Error',
+            'message' => $remove ? 'User is removed successfully' : 'User not found'
+        ], $remove ? 200 : 400);
     }
 
 //_____________________ Update User
