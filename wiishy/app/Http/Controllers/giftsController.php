@@ -16,17 +16,30 @@ use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
+/**
+ * this class is for gift management
+ */
 class giftsController extends Controller
 {
     
-//_____________________ All the gifts of a user
-    function user_gifts($user_id){
-        $gifts=giftRepository::all($user_id);
-        $gift_user=UserGiftResource::collection($gifts);
-        return response(['gifts'=>$gift_user]);
+    /**
+     * All the gifts of a user
+     * 
+     * @param int $userId
+     */
+    public function user_gifts($userId)
+    {
+        $gifts = giftRepository::all($userId);
+        $gift_user = UserGiftResource::collection($gifts);
+        return response([
+            'status' => 'success',
+            'gifts' => $gift_user
+        ], 200);
     }
 
-//_____________________ All the gifts of a user Based on my_product
+    /**
+     * All the gifts of a user Based on my_product
+     */
     function user_products($user_id, $my_product){
         return $my_product;
         if($my_product!="1" or $my_product!="0"){
