@@ -113,7 +113,8 @@ class followController extends Controller
     /**
      * follow proccess
      * 
-     * @param int useId | int followId
+     * @param int $userId
+     * @param int $followId
      */
     public function follow($userId, $followId)
     {
@@ -146,22 +147,32 @@ class followController extends Controller
         ], $result ? 200 : 400);
     }
 
-//_____________________ UnFollow
-    function unfollow($user_id,$follow_id){
-        $follow=followRepository::check($user_id,$follow_id);
-        if(!$follow)
+    /**
+     * Unfollow proccess
+     * 
+     * @param int $userId
+     * @param int $followId
+     */
+    public function unfollow($userId, $followId)
+    {
+        $follow = followRepository::check($userId, $followId);
+        if (!$follow) {
             return response([
-                'status'=>'Error',
-                'message'=>'user hasnt been followed'
-            ],400);
+                'status' => 'Error',
+                'message' => 'user hasnt been followed'
+            ], 400);
+        }
 
-        followRepository::unfollow($user_id,$follow_id);
+        $result = followRepository::unfollow($userId, $followId);
 
-        followRepository::decrease($user_id,'followings');
-        followRepository::decrease($follow_id,'followers');    
+        if($result) {
+            followRepository::decrease($userId, 'followings');
+            followRepository::decrease($followId, 'followers');    
+        }
+       
         return response([
-            'status'=>'success',
-            'message'=>'The Unfollow process is done successfully'
-        ]);
+            'status' => $result ? 'success' : 'Error',
+            'message' => $result ? 'The Unfollow process is done successfully' : 'Fail to unfollow'
+        ], $result ? 200 : 400);
     }
 }
