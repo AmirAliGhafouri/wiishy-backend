@@ -235,20 +235,26 @@ class giftsController extends Controller
         ], 200);
     }
 
-//_____________________ search
-    function search(Request $req){
-        $gift_search=str_replace(" ",'%',$req->gift_search);
-        $search=giftRepository::search($gift_search);
+    /**
+     * search for a gift by gifttName
+     * 
+     * @param \Illuminate\Http\Request $req
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
+    public function search(Request $req)
+    {
+        $giftSearch = str_replace(" ", '%', $req->gift_search);
+        $search = giftRepository::search($giftSearch);
         if(!$search->all()){
             return response([
-                'status'=>'Error',
-                'message'=>"not found"
-            ],400);
+                'status' => 'Error',
+                'message' => 'not found'
+            ], 400);
         }
         return response([
-            'status'=>'success',
-            'search'=>$search
-        ],200);
+            'status' => 'success',
+            'search' => $search
+        ], 200);
     }
 
 //_____________________ different kinds of price units
