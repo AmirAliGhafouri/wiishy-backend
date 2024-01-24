@@ -120,29 +120,28 @@ class giftsController extends Controller
         ], 200);
     }
 
-//_____________________ Add New Gift
+    /**
+     * Add New Gift
+     * 
+     * @param \App\Http\Requests\CreateGiftRequest $req
+     * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
+     */
     function add_gift(CreateGiftRequest $req){ 
-        $request=collect($req)->toArray();
-        $user_id=$req->user()->id;
-        if($req->image){
-            $file_name= $req->image->getClientOriginalName();
-            Storage::disk('public')->putFileAs('/gifts',$req->image,$file_name);
+        $request = collect($req)->toArray();
+        $userId = $req->user()->id;
+        if ($req->image) {
+            $fileName = $req->image->getClientOriginalName();
+            Storage::disk('public')->putFileAs('/gifts', $req->image, $fileName);
             unset($request['image']);
-            $request['gift_image_url'] = '/uploads/gifts/' . $file_name.'?t='.Carbon::now()->getTimestamp();
+            $request['gift_image_url'] = '/uploads/gifts/' . $fileName . '?t=' . Carbon::now()->getTimestamp();
         }
             
-        $request['user_id'] = $user_id;
-        $gift=giftRepository::create($request);
-        if(!$gift){
-            return response([
-                'status'=>'Error',
-                'message'=>"Failed to add gift"
-            ]);
-        }
+        $request['user_id'] = $userId;
+        $gift = giftRepository::create($request);
 
         return response([
-            'status'=>'success',
-            'message'=>'The gift is added successfully',
+            'status' => $gift ? 'success' : 'Error',
+            'message'=> $gift ? 'The gift is added successfully' : 'Failed to add gift',
             'gift'=>$gift
         ]);
     }
