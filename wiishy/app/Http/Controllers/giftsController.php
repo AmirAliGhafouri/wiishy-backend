@@ -257,12 +257,15 @@ class giftsController extends Controller
         ], 200);
     }
 
-//_____________________ different kinds of price units
-    function price_units(){
-        $units=giftRepository::units();
+    /**
+     * different kinds of price units
+     */
+    public function price_units()
+    {
+        $units = giftRepository::units();
         return response([
-            'status'=>'success',
-            'price_units'=>$units
-        ],200);
+            'status' => 'success',
+            'price_units' => $units
+        ], 200);
     }
 }
