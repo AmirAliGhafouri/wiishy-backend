@@ -110,29 +110,41 @@ class followController extends Controller
     }
 
 
-//_____________________ Follow
-    function follow($user_id,$follow_id){
-        if($user_id==$follow_id){
+    /**
+     * follow proccess
+     * 
+     * @param int useId | int followId
+     */
+    public function follow($userId, $followId)
+    {
+        if ($userId == $followId) {
             return response([
-                'status'=>'Error',
-                'message'=>'you cant follow yourself !'
-            ],400);
+                'status' => 'Error',
+                'message' => 'you cant follow yourself !'
+            ], 400);
         }
-        $follow=followRepository::check($user_id,$follow_id);
-        if($follow)
+
+        $follow = followRepository::check($userId, $followId);
+        if ($follow) {
             return response([
-                'status'=>'Error',
-                'message'=>'user has been already followed'
-            ],400);
+                'status' => 'Error',
+                'message' => 'user has been already followed'
+            ], 400);
+        }
+            
 
-        followRepository::follow($user_id,$follow_id);
+        $result = followRepository::follow($userId, $followId);
 
-        followRepository::increase($user_id,'followings');
-        followRepository::increase($follow_id,'followers');
+        if ($result) {
+            followRepository::increase($userId, 'followings');
+            followRepository::increase($followId, 'followers');
+        }
+
+
         return response([
-            'status'=>'success',
-            'message'=>'The follow process is done successfully'
-        ]);
+            'status' => $result ? 'success' : 'Error',
+            'message' => $result ? 'The follow process is done successfully' : 'Fail to follow'
+        ], $result ? 200 : 400);
     }
 
 //_____________________ UnFollow

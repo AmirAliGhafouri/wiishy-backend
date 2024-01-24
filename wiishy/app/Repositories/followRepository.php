@@ -78,7 +78,7 @@ class followRepository
     }
 
     static function follow($user_id,$follow_id){
-        userfollow::create([
+        return userfollow::create([
             'user_id'=>$user_id,
             'follow_id'=>$follow_id
         ]);
