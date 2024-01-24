@@ -104,15 +104,20 @@ class giftsController extends Controller
         return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$followings_gift]); */
     }
 
-//_____________________ Explore
-    function gift_explore(Request $req){
-        $user_id= $req->user()->id;
-        $list=giftRepository::list($user_id);
-        $explore=exploreResource::collection($list);
+    /**
+     * Explore
+     * 
+     * @param  \Illuminate\Http\Request $req
+     */
+    public function gift_explore(Request $req)
+    {
+        $userId = $req->user()->id;
+        $list = giftRepository::list($userId);
+        $explore = exploreResource::collection($list);
         return response([
-            'status'=>true,
-            'explore'=>$explore
-        ],200);
+            'status' => 'success',
+            'explore' => $explore
+        ], 200);
     }
 
 //_____________________ Add New Gift
