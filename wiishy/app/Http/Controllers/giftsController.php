@@ -39,22 +39,26 @@ class giftsController extends Controller
 
     /**
      * All the gifts of a user Based on my_product
+     * 
+     * @param int $userId
+     * @param int $myProduct
      */
-    function user_products($user_id, $my_product){
-        return $my_product;
-        if($my_product!="1" or $my_product!="0"){
+    public function user_products($userId, $myProduct)
+    {
+        if ($myProduct != "1" or $myProduct != "0") {
             return response([
-                'status'=>'Error',
-                'message'=>'Wrong product status'
-            ],400);
+                'status' => 'Error',
+                'message' => 'Wrong product status'
+            ], 400);
         }
 
-        $gifts=giftRepository::all_basedOnProduct($user_id,$my_product);
-        $gift_user=UserGiftResource::collection($gifts);
+        $gifts = giftRepository::all_basedOnProduct($userId, $myProduct);
+        $giftUser = UserGiftResource::collection($gifts);
+        
         return response([
-            'status'=>'success',
-            'gifts'=>$gift_user
-        ],200);
+            'status' => 'success',
+            'gifts' => $giftUser
+        ], 200);
     }
 
 //_____________________ A complete gift detail of a user
