@@ -163,7 +163,8 @@ class giftsController extends Controller
      * 
      * @param $giftId
      */
-    function share($giftId){
+    public function share($giftId)
+    {
         giftRepository::increase($giftId, 'shared');
         return response(['message' => 'share increased']);
     }
@@ -191,41 +192,47 @@ class giftsController extends Controller
         ],$result ? 200 : 400);
     }
 
-//_____________________ Update
-    function update_gift(UpdateGiftRequest $req){      
-        $gift=giftRepository::get($req->giftid , $req->userid);
-        if(!$gift)
+    /**
+     * Update details of a gift
+     * 
+     * @param \App\Http\Requests\UpdateGiftRequest $req
+     */
+    public function update_gift(UpdateGiftRequest $req)
+    {      
+        $gift = giftRepository::get($req->giftid, $req->userid);
+        if (!$gift) {
             return response([
-                'status'=>'Error',
-                'message'=>'Gift not found'
-            ],400);
-            
-        if(!$req->all()){
-            return response([
-                'status'=>'Error',
-                'message'=>'Empty request'
-            ],400);
+                'status' => 'Error',
+                'message' => 'Gift not found'
+            ], 400);
         }
 
-        $request =collect($req->validated())->filter(function($item){
+        if (!$req->all()) {
+            return response([
+                'status' => 'Error',
+                'message' => 'Empty request'
+            ], 400);
+        }
+
+        $request = collect($req->validated())->filter(function($item){
             return $item != null;
         })->toArray();
 
         if($req->image){
-            $file_name= $req->image->getClientOriginalName();
+            $file_name = $req->image->getClientOriginalName();
             Storage::disk('public')->putFileAs('/gifts',$req->image,$file_name);
             unset($request['image']);
             $request['gift_image_url'] = '/uploads/gifts/' . $file_name.'?t='.Carbon::now()->getTimestamp();
         }
 
         giftRepository::update($req->giftid, $request);
-        //giftRepository::updaexte($req->giftid, $request);
-        $newgift=giftRepository::get($req->giftid , $req->userid);
+
+        $newgift = giftRepository::get($req->giftid, $req->userid);
         return response([
-            'status'=>'success',
-            'message'=>'The gift is updated successfully',
-            'gift'=>$newgift
-        ],200);
+            'status' => 'success',
+            'message' => 'The gift is updated successfully',
+            'gift' => $newgift
+        ], 200);
     }
 
 //_____________________ search
