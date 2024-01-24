@@ -126,7 +126,8 @@ class giftsController extends Controller
      * @param \App\Http\Requests\CreateGiftRequest $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    function add_gift(CreateGiftRequest $req){ 
+    public function add_gift(CreateGiftRequest $req)
+    { 
         $request = collect($req)->toArray();
         $userId = $req->user()->id;
         if ($req->image) {

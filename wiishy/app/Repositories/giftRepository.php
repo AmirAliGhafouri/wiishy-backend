@@ -52,7 +52,7 @@ class giftRepository
     }
 
     static function destroy($gift_id , $user_id){
-        gift::where(['id'=>$gift_id , 'user_id'=>$user_id , 'gift_status'=>1])->update(['gift_status'=>0]);
+        return gift::where(['id'=>$gift_id , 'user_id'=>$user_id , 'gift_status'=>1])->update(['gift_status'=>0]);
 
     }
 
