@@ -30,18 +30,18 @@ Route::get('/Unauthenticated',[userController::class,'Unauthenticated'])->name('
 
 Route::group(['middleware' => 'auth:sanctum'],function (){
     Route::controller(giftsController::class)->group(function(){
-        Route::get('/usergifts/{userid}', 'user_gifts');
-        Route::get('/user-products/{userid}/{my_product}', 'user_products');
-        Route::get('/giftdetail/{giftid}', 'gift_detail');
-        Route::get('/user-home', 'followings_gift');
-        Route::get('/gift-remove/{giftid}/{user_id}','gift_remove');
+        Route::get('/usergifts/{userid}', 'userGifts');
+        Route::get('/user-products/{userid}/{my_product}', 'userProducts');
+        Route::get('/giftdetail/{giftid}', 'giftDetail');
+        Route::get('/user-home', 'followingsGift');
+        Route::get('/gift-remove/{giftid}/{user_id}','remove');
         Route::get('/gift-view/{giftid}', 'view');
         Route::get('/gift-share/{giftid}', 'share');
-        Route::get('/gift-explore', 'gift_explore');
-        Route::get('/price-units', 'price_units');
+        Route::get('/gift-explore', 'explore');
+        Route::get('/price-units', 'priceUnits');
         Route::post('/gift-search', 'search');
-        Route::post('/gift-add', 'add_gift');
-        Route::post('/gift-update/{giftid}/{userid}', 'update_gift');
+        Route::post('/gift-add', 'create');
+        Route::post('/gift-update/{giftid}/{userid}', 'update');
     });
 
     Route::controller(likeController::class)->group(function(){
@@ -72,7 +72,7 @@ Route::group(['middleware' => 'auth:sanctum'],function (){
         Route::get('/followerlist/{id}', 'followers');
         Route::get('/followinglist/{id}', 'followings');
         Route::get('/follow-suggestion', 'suggestion');
-        Route::get('/isfollow/{userid}/{followid}', 'isfollow');
+        Route::get('/isfollow/{userid}/{followid}', 'isollow');
         Route::get('/follow/{userid}/{followid}', 'follow');
         Route::get('/unfollow/{userid}/{followid}', 'unfollow');
     });

@@ -27,7 +27,7 @@ class giftsController extends Controller
      * 
      * @param int $userId
      */
-    public function user_gifts($userId)
+    public function userGifts($userId)
     {
         $gifts = giftRepository::all($userId);
         $gift_user = UserGiftResource::collection($gifts);
@@ -43,7 +43,7 @@ class giftsController extends Controller
      * @param int $userId
      * @param int $myProduct
      */
-    public function user_products($userId, $myProduct)
+    public function userProducts($userId, $myProduct)
     {
         if ($myProduct != "1" or $myProduct != "0") {
             return response([
@@ -66,7 +66,7 @@ class giftsController extends Controller
      * 
      * @param \Illuminate\Http\Request $req
      */
-    public function gift_detail(Request $req)
+    public function giftDetail(Request $req)
     {
         $details = giftRepository::gift_details($req->giftid);
         $giftDetails = giftDetailResource::collection($details);
@@ -86,7 +86,7 @@ class giftsController extends Controller
      * 
      * @param \Illuminate\Http\Request $req
      */
-    public function followings_gift(Request $req)
+    public function followingsGift(Request $req)
     {
         $userId = $req->user()->id;
         $gifts = giftRepository::followings_gift($userId);
@@ -109,7 +109,7 @@ class giftsController extends Controller
      * 
      * @param  \Illuminate\Http\Request $req
      */
-    public function gift_explore(Request $req)
+    public function explore(Request $req)
     {
         $userId = $req->user()->id;
         $list = giftRepository::list($userId);
@@ -126,7 +126,7 @@ class giftsController extends Controller
      * @param \App\Http\Requests\CreateGiftRequest $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function add_gift(CreateGiftRequest $req)
+    public function create(CreateGiftRequest $req)
     { 
         $request = collect($req)->toArray();
         $userId = $req->user()->id;
@@ -175,7 +175,7 @@ class giftsController extends Controller
      * @param int $giftId
      * @param int $userId
      */
-    public function gift_remove($giftId, $userId)
+    public function remove($giftId, $userId)
     {
         $gift = giftRepository::get($giftId, $userId);
         if(!$gift) {
@@ -197,7 +197,7 @@ class giftsController extends Controller
      * 
      * @param \App\Http\Requests\UpdateGiftRequest $req
      */
-    public function update_gift(UpdateGiftRequest $req)
+    public function update(UpdateGiftRequest $req)
     {      
         $gift = giftRepository::get($req->giftid, $req->userid);
         if (!$gift) {
@@ -260,7 +260,7 @@ class giftsController extends Controller
     /**
      * different kinds of price units
      */
-    public function price_units()
+    public function priceUnits()
     {
         $units = giftRepository::units();
         return response([
