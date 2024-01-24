@@ -78,14 +78,14 @@ Route::group(['middleware' => 'auth:sanctum'],function (){
     });
 
     Route::controller(eventsController::class)->group(function(){
-        Route::post('/event-add', 'add_event');
-        Route::post('/event-update/{event_id}', 'update_event');
-        Route::get('/event-remove/{event_id}', 'event_remove');
-        Route::get('/event-user', 'event_user');
-        Route::get('/event-followings_birthday', 'followings_birthday');
-        Route::get('/event-near-user', 'user_near_events');
-        Route::get('/event-detail/{event_id}', 'event_detail');
-        Route::get('/event-list', 'event_list');
-        Route::get('/relationship-list', 'relationship_list');
+        Route::post('/event-add', 'create');
+        Route::post('/event-update/{event_id}', 'update');
+        Route::get('/event-remove/{event_id}', 'remove');
+        Route::get('/event-user', 'list');
+        Route::get('/event-followings_birthday', 'followingsBirthday');
+        Route::get('/event-near-user', 'userNearEvents');
+        Route::get('/event-detail/{event_id}', 'eventDetail');
+        Route::get('/event-list', 'eventList');
+        Route::get('/relationship-list', 'relationshipList');
     });
 });

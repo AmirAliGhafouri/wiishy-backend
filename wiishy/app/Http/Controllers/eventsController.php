@@ -22,7 +22,7 @@ class eventsController extends Controller
      * @param \App\Http\Requests\CreateEventRequest $req 
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function add_event(CreateEventRequest $req)
+    public function create(CreateEventRequest $req)
     {
         // get user_id from Request
         $user_id = $req->user()->id;
@@ -45,7 +45,7 @@ class eventsController extends Controller
      * @param int $id event_id
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function update_event(UpdateEventRequest $req)
+    public function update(UpdateEventRequest $req)
     {
         // Checking that the request is not empty
         if (!$req->all()) {
@@ -88,7 +88,7 @@ class eventsController extends Controller
      * @param int $id event_id
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function event_remove(Request $req)
+    public function remove(Request $req)
     {
         $user_id = $req->user()->id;
 
@@ -115,7 +115,7 @@ class eventsController extends Controller
      * @param \Illuminate\Http\Request $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function event_user(Request $req)
+    public function list(Request $req)
     {
         $user_id = $req->user()->id;
 
@@ -137,7 +137,7 @@ class eventsController extends Controller
      * @param \Illuminate\Http\Request $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function user_near_events(Request $req)
+    public function userNearEvents(Request $req)
     {
         $user_id = $req->user()->id;
 
@@ -167,7 +167,7 @@ class eventsController extends Controller
      * @param \Illuminate\Http\Request $req
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function event_detail(Request $req)
+    public function eventDetail(Request $req)
     {
         $user_id = $req->user()->id;
         $event = eventRepository::detail($user_id, $req->event_id);
@@ -190,7 +190,7 @@ class eventsController extends Controller
      * @param \Illuminate\Http\Request $req
      * @return Illuminate\Http\Respons
      */ 
-    public function followings_birthday(Request $req)
+    public function followingsBirthday(Request $req)
     {
         $user_id = $req->user()->id;
 
@@ -240,7 +240,7 @@ class eventsController extends Controller
     /**
      * list of events types from DataBase
      */
-    public function event_list(Request $req)
+    public function eventList(Request $req)
     {
         $events = eventRepository::events();    
         return response([
@@ -252,7 +252,7 @@ class eventsController extends Controller
     /**
      * list of relationship types from DataBase 
      */
-    public function relationship_list(Request $req)
+    public function relationshipList(Request $req)
     {
         $relation = eventRepository::relationships();  
         return response([
