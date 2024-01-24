@@ -147,31 +147,48 @@ class giftsController extends Controller
         ]);
     }
 
-//_____________________ View
-    function view($gift_id){
-        giftRepository::increase($gift_id,'gift_view');
-        return response(['message'=>'view increased']);
+    /**
+     * increase count of view of a gift
+     * 
+     * @param $giftId
+     */
+    public function view($giftId)
+    {
+        giftRepository::increase($giftId, 'gift_view');
+        return response(['message' => 'view increased']);
     }
 
-//_____________________ share
-    function share($gift_id){
-        giftRepository::increase($gift_id,'shared');
-        return response(['message'=>'share increased']);
+    /**
+     * increase count of share of a gift
+     * 
+     * @param $giftId
+     */
+    function share($giftId){
+        giftRepository::increase($giftId, 'shared');
+        return response(['message' => 'share increased']);
     }
 
-//_____________________ Remove
-    function gift_remove($gift_id , $user_id){
-        $gift=giftRepository::get($gift_id , $user_id);
-        if(!$gift)
+    /**
+     * Delete a gift
+     * 
+     * @param int $giftId
+     * @param int $userId
+     */
+    public function gift_remove($giftId, $userId)
+    {
+        $gift = giftRepository::get($giftId, $userId);
+        if(!$gift) {
             return response([
-                'status'=>'Error',
-                'message'=>'Gift not found'
-            ],400);
-        giftRepository::destroy($gift_id , $user_id);
+                'status' => 'Error',
+                'message' => 'Gift not found'
+            ], 400);
+        }
+            
+        $result = giftRepository::destroy($giftId, $userId);
         return response([
-            'status'=>'success',
-            'message'=>'The gift is removed successfully'
-        ],200);
+            'status' => $result ? 'success' : 'Error',
+            'message'=> $result ? 'The gift is removed successfully' : 'faild to remove'
+        ],$result ? 200 : 400);
     }
 
 //_____________________ Update
