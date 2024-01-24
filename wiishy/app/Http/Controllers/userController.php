@@ -25,7 +25,7 @@ class userController extends Controller
      * @param int $user_id
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function user_profile($user_id)
+    public function profile($user_id)
     {
         $user = userRepository::all($user_id);
 
@@ -67,7 +67,7 @@ class userController extends Controller
      * 
      * @return \Illuminate\Http\Response|\Illuminate\Contracts\Routing\ResponseFactory
      */
-    public function user_list()
+    public function list()
     {
         $list = userRepository::list();
         return response([

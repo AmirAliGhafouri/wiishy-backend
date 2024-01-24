@@ -28,7 +28,7 @@ Route::post('/auth/{provider}',[userController::class,'auth']);
 Route::get('/Unauthenticated',[userController::class,'Unauthenticated'])->name('login');
 
 
-Route::group(['middleware'=>'auth:sanctum'],function (){
+Route::group(['middleware' => 'auth:sanctum'],function (){
     Route::controller(giftsController::class)->group(function(){
         Route::get('/usergifts/{userid}', 'user_gifts');
         Route::get('/user-products/{userid}/{my_product}', 'user_products');
@@ -61,12 +61,10 @@ Route::group(['middleware'=>'auth:sanctum'],function (){
     });
 
     Route::controller(userController::class)->group(function(){
-        // Route::get('/user-home', 'home');
-        Route::get('/userprofile/{id}', 'user_profile');
-        Route::get('/user-list', 'user_list');
+        Route::get('/userprofile/{id}', 'profile');
+        Route::get('/user-list', 'list');
         Route::get('/user-remove/{id}', 'remove');
         Route::post('/user-update', 'update');
-        Route::post('/user-add', 'add_user');
         Route::post('/user-search', 'search');
     });
 
