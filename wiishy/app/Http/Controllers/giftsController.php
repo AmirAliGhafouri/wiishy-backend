@@ -54,20 +54,31 @@ class giftsController extends Controller
 
         $gifts = giftRepository::all_basedOnProduct($userId, $myProduct);
         $giftUser = UserGiftResource::collection($gifts);
-        
+
         return response([
             'status' => 'success',
             'gifts' => $giftUser
         ], 200);
     }
 
-//_____________________ A complete gift detail of a user
-    function gift_detail(Request $req){
-        $details=giftRepository::gift_details($req->giftid );
-        $gift_details=giftDetailResource::collection($details);
-        $user_id=$req->user()->id;
-        $like=likeRepository::check($req->giftid , $user_id);
-        return response(['islike'=>$like,'gift_detail'=>$gift_details]);
+    /**
+     * A complete gift detail of a user
+     * 
+     * @param \Illuminate\Http\Request $req
+     */
+    public function gift_detail(Request $req)
+    {
+        $details = giftRepository::gift_details($req->giftid);
+        $giftDetails = giftDetailResource::collection($details);
+
+        $userId = $req->user()->id;
+        $like = likeRepository::check($req->giftid, $userId);
+
+        return response([
+            'status' => 'success',
+            'islike' => $like,
+            'gift_detail' => $giftDetails
+        ]);
     }
     
 //_____________________ All the gifts of the users followings
