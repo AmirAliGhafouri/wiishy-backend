@@ -85,7 +85,7 @@ class followRepository
     }
 
     static function unfollow($user_id,$follow_id){
-        userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->update(['follow_status'=>0]);
+        return userfollow::where(['user_id'=>$user_id , 'follow_id'=>$follow_id])->update(['follow_status'=>0]);
     }
 
     static function increase($id , $field){

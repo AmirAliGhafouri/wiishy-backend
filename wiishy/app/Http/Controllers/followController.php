@@ -130,8 +130,7 @@ class followController extends Controller
                 'status' => 'Error',
                 'message' => 'user has been already followed'
             ], 400);
-        }
-            
+        }        
 
         $result = followRepository::follow($userId, $followId);
 
