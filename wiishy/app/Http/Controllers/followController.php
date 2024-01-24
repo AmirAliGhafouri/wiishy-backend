@@ -18,7 +18,7 @@ class followController extends Controller
      * 
      * @param \Illuminate\Http\Request $req
      */
-    public function user_followers(Request $req)
+    public function followers(Request $req)
     {
         try{
             $followers_count = followRepository::count($req->id, 'followers');
@@ -45,7 +45,7 @@ class followController extends Controller
      * 
      * @param \Illuminate\Http\Request $req
      */
-    public function user_followings(Request $req)
+    public function followings(Request $req)
     {
         try{
             $followings_count = followRepository::count($req->id, 'followings');
@@ -72,7 +72,7 @@ class followController extends Controller
      * 
      * @param \Illuminate\Http\Request $req
      */
-    public function follow_suggestion(Request $req)
+    public function suggestion(Request $req)
     {
         $user_id = $req->user()->id;
 
