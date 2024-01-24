@@ -81,11 +81,16 @@ class giftsController extends Controller
         ]);
     }
     
-//_____________________ All the gifts of the users followings
-    function followings_gift(Request $req){
-        $user_id=$req->user()->id;
-        $gifts=giftRepository::followings_gift($user_id);
-        $followings_gift=followingsGiftResource::collection($gifts);
+    /**
+     * All the gifts of the users followings
+     * 
+     * @param \Illuminate\Http\Request $req
+     */
+    public function followings_gift(Request $req)
+    {
+        $userId = $req->user()->id;
+        $gifts = giftRepository::followings_gift($userId);
+        $followings_gift = followingsGiftResource::collection($gifts);
         return $followings_gift->additional([
             'pagination' => [
                 'total' => $gifts->total(),
