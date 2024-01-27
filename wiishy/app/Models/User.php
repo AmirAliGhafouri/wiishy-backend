@@ -57,14 +57,14 @@ class User extends Authenticatable
     }
 
     /**
-     * followings gifts
+     * 
      */
-
-   /*   public function gifts()
+    /* public function gifts()
     {
-        return $this->hasMany(Gift::class, 'user_id');
-    }
+        return $this->hasMany(Gift::class);
+    } */
 
+    /*
     public function followingGifts()
     {
         return $this->hasManyThrough(Gift::class, userfollow::class, 'user_id', 'user_id', 'id', 'follow_id')

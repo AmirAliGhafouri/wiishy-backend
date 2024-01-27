@@ -21,6 +21,12 @@ class giftRepository
 
     public static function list($user_id)
     {
+       /*  return gift::with('user')
+        ->where('user_id', '!=', $user_id)
+        ->where('gift_status', 1)
+        ->select('*', 'gifts.id as gift_id', 'gifts.created_at as gifts_created_at')
+        ->get()->sortByDesc('gifts_created_at')->values(); */
+       
         return DB::table('gifts')
             ->join('users', 'users.id', '=', 'gifts.user_id')
             ->where('user_id', '!=', $user_id)
