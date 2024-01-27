@@ -28,13 +28,13 @@ Route::post('/auth/{provider}',[userController::class,'auth']);
 Route::get('/Unauthenticated',[userController::class,'Unauthenticated'])->name('login');
 
 
-Route::group(['middleware' => 'auth:sanctum'],function (){
-    Route::controller(giftsController::class)->group(function(){
+Route::group(['middleware' => 'auth:sanctum'],function () {
+    Route::controller(giftsController::class)->group(function() {
         Route::get('/usergifts/{userid}', 'userGifts');
         Route::get('/user-products/{userid}/{my_product}', 'userProducts');
         Route::get('/giftdetail/{giftid}', 'giftDetail');
         Route::get('/user-home', 'followingsGift');
-        Route::get('/gift-remove/{giftid}/{user_id}','remove');
+        Route::get('/gift-remove/{giftid}/{user_id}', 'remove');
         Route::get('/gift-view/{giftid}', 'view');
         Route::get('/gift-share/{giftid}', 'share');
         Route::get('/gift-explore', 'explore');
@@ -44,14 +44,14 @@ Route::group(['middleware' => 'auth:sanctum'],function (){
         Route::post('/gift-update/{giftid}/{userid}', 'update');
     });
 
-    Route::controller(likeController::class)->group(function(){
+    Route::controller(likeController::class)->group(function() {
         Route::get('/gift-likeslist/{giftid}', 'likeslist');
         Route::get('/gift-like/{giftid}/{userid}', 'like');
         Route::get('/gift-islike/{giftid}/{userid}', 'islike');
         Route::delete('/gift-dislike/{giftid}/{userid}', 'dislike');
     });
 
-    Route::controller(CategoryController::class)->group(function(){
+    Route::controller(CategoryController::class)->group(function() {
         Route::get('/categories', 'categories');
         Route::get('/subcategories/{id}', 'subCategories');
         Route::get('/gift-add-category/{giftid}/{categoryid}', 'addGiftCategory');
@@ -60,7 +60,7 @@ Route::group(['middleware' => 'auth:sanctum'],function (){
         Route::post('/subcategory-add', 'addSubCategoryt');
     });
 
-    Route::controller(userController::class)->group(function(){
+    Route::controller(userController::class)->group(function() {
         Route::get('/userprofile/{id}', 'profile');
         Route::get('/user-list', 'list');
         Route::get('/user-remove/{id}', 'remove');
@@ -68,7 +68,7 @@ Route::group(['middleware' => 'auth:sanctum'],function (){
         Route::post('/user-search', 'search');
     });
 
-    Route::controller(followController::class)->group(function(){
+    Route::controller(followController::class)->group(function() {
         Route::get('/followerlist/{id}', 'followers');
         Route::get('/followinglist/{id}', 'followings');
         Route::get('/follow-suggestion', 'suggestion');
@@ -77,7 +77,7 @@ Route::group(['middleware' => 'auth:sanctum'],function (){
         Route::get('/unfollow/{userid}/{followid}', 'unfollow');
     });
 
-    Route::controller(eventsController::class)->group(function(){
+    Route::controller(eventsController::class)->group(function() {
         Route::post('/event-add', 'create');
         Route::post('/event-update/{event_id}', 'update');
         Route::get('/event-remove/{event_id}', 'remove');
