@@ -38,8 +38,7 @@ class giftRepository
 
     public static function gift_details($gift_id )
     {
-        return DB::table('gifts')
-        ->join('users', 'users.id', '=', 'gifts.user_id')
+        return gift::with('user')
         ->where(['gifts.id' => $gift_id, 'gift_status' => 1])
         ->select('*', 'gifts.id as gift_id', 'gifts.created_at as gifts_created_at')
         ->get();

@@ -16,10 +16,10 @@ class UserReource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'=>$this->name,
-            'family'=>$this->family,
-            'user_image_url'=>$this->user_image_url,
-            'age'=>userRepository::age($this->user_birthday),
+            'name' => $this->name,
+            'family' => $this->family,
+            'user_image_url' => $this->user_image_url,
+            'age' => userRepository::age($this->user_birthday),
         ];
     }
 }

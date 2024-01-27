@@ -78,7 +78,7 @@ class giftsController extends Controller
             'status' => 'success',
             'islike' => $like,
             'gift_detail' => $giftDetails
-        ]);
+        ], 200);
     }
     
     /**
