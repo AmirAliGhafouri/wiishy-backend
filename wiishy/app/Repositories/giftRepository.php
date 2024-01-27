@@ -25,7 +25,8 @@ class giftRepository
         ->where('user_id', '!=', $user_id)
         ->where('gift_status', 1)
         ->select('*', 'gifts.id as gift_id', 'gifts.created_at as gifts_created_at')
-        ->get()->sortByDesc('gifts_created_at')->values();
+        ->orderByDesc('gifts_created_at')
+        ->paginate(20);
        
         /* return DB::table('gifts')
             ->join('users', 'users.id', '=', 'gifts.user_id')
