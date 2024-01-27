@@ -91,17 +91,14 @@ class giftsController extends Controller
         $userId = $req->user()->id;
         $gifts = giftRepository::followings_gift($userId);
         $followings_gift = followingsGiftResource::collection($gifts);
-        return $followings_gift->additional([
-            'pagination' => [
-                'total' => $gifts->total(),
-                'count' => $gifts->count(),
-                'per_page' => $gifts->perPage(),
-                'current_page' => $gifts->currentPage(),
-                'total_pages' => $gifts->lastPage(),
-            ],
-        ]);
-   /*      $count=$gifts->count();
-        return response(['followings_gifts_count'=>$count ,'followings_gifts'=>$followings_gift]); */
+        return response([
+            'total' => $gifts->total(),
+            'count' => $gifts->count(),
+            'per_page' => $gifts->perPage(),
+            'current_page' => $gifts->currentPage(),
+            'total_pages' => $gifts->lastPage(),
+            'followings_gifts' => $followings_gift
+        ], 200);
     }
 
     /**
@@ -116,6 +113,11 @@ class giftsController extends Controller
         $explore = exploreResource::collection($list);
         return response([
             'status' => 'success',
+            'total' => $explore->total(),
+            'count' => $explore->count(),
+            'per_page' => $explore->perPage(),
+            'current_page' => $explore->currentPage(),
+            'total_pages' => $explore->lastPage(),
             'explore' => $explore
         ], 200);
     }
