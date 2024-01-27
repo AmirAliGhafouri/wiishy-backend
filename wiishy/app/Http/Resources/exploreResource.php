@@ -31,11 +31,7 @@ class exploreResource extends JsonResource
             'gift_view'=>$this->gift_view,
             'shared'=>$this->shared,
             'gifts_created_at'=>$this->gifts_created_at,
-            'user_id'=>$this->user_id,
-            'name'=>$this->name,
-            'family'=>$this->family,
-            'user_image_url'=>$this->user_image_url,
-            'age'=>userRepository::age($this->user_birthday),
+            'user' => UserReource::make($this->user),
         ]; 
     }
 }

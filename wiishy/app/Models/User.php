@@ -56,13 +56,10 @@ class User extends Authenticatable
         return $this->morphToMany(Category::class, 'categorizables');
     }
 
-    /**
-     * 
-     */
-    /* public function gifts()
+    public function gifts()
     {
         return $this->hasMany(Gift::class);
-    } */
+    }
 
     /*
     public function followingGifts()
