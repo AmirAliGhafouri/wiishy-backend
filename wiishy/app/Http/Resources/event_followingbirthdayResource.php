@@ -16,14 +16,14 @@ class event_followingbirthdayResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'user_id'=>$this->user_id,
-            'name'=>$this->name,
-            'family'=>$this->family,
-            'event_type_id'=>$this->event_type,
-            'event_type'=>eventRepository::type($this->event_type),
-            'remaining_days'=>eventRepository::remaining_days($this->event_date),
-            'event_date'=>$this->event_date,
-            'status'=>$this->status,
+            'user_id' => $this->user_id,
+            'name' => $this->name,
+            'family' => $this->family,
+            'event_type_id' => $this->event_type,
+            'event_type' => eventRepository::type($this->event_type),
+            'remaining_days' => eventRepository::remaining_days($this->event_date),
+            'event_date' => $this->event_date,
+            'status' => $this->status,
         ];
     }
 }
