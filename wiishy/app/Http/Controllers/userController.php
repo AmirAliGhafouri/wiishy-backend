@@ -166,9 +166,6 @@ class userController extends Controller
         ], 200);
     }
 
-
-
-
     /**
      * Authentication
      * 
@@ -189,6 +186,10 @@ class userController extends Controller
         }        
 
         $user = userRepository::check($req,$user_provider->id);
+        // TODO set cookie for authentication
+        /* if ($user && $req->cookie('wiishy_token')) {
+            return $req->cookie('wiishy_token');
+        } */
 
         // if there is no account for user register user
         $register = [];
@@ -206,7 +207,8 @@ class userController extends Controller
             'message' => $user ? 'User logged in successfully' : 'Registration is done successfully',
             'token' => $token,
             'user' => $user ? $user : $register
-        ], 200);       
+        ], 200)
+       /*  ->cookie('wiishy_token', $token, 420) */;  
     }
 
 
