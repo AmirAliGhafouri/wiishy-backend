@@ -9,5 +9,14 @@ class giftlike extends Model
 {
     use HasFactory;
     protected $table='giftlike';
-    protected $fillable=['user_id','gift_id'];
+
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'user_id',
+        'gift_id'
+    ];
 }

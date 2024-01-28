@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class userfollow extends Model
 {
     use HasFactory;
-    protected $fillable=['user_id','follow_id'];
+
+     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'user_id',
+        'follow_id'
+    ];
 
 }
