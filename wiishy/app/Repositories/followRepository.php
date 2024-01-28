@@ -36,6 +36,11 @@ class followRepository
         return User::find($user_id)->followers()->get();
     }
 
+    public static function followings($user_id)
+    {
+        return User::find($user_id)->followings()->get();
+    }
+
     public static function suggestions($followings, $my_id)
     {
         $follow_suggestions = array();

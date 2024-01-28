@@ -70,11 +70,11 @@ class User extends Authenticatable
 
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'userfollows', 'follow_id', 'user_id')->wherePivot('follow_status', 1);;
+        return $this->belongsToMany(User::class, 'userfollows', 'follow_id', 'user_id')->wherePivot('follow_status', 1);
     }
 
     public function followings()
     {
-        return $this->belongsToMany(User::class, 'userfollows', 'follow_id', 'user_id');
+        return $this->belongsToMany(User::class, 'userfollows', 'user_id', 'follow_id')->wherePivot('follow_status', 1);
     }
 }
