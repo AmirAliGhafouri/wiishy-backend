@@ -30,7 +30,7 @@ class followController extends Controller
         }
 
         $user_id = $req->user()->id;
-        $followers = followRepository::follow_list($req->id, 'userfollows.user_id', 'userfollows.follow_id');
+        $followers = followRepository::followers($req->id);
         $list = followerListResource::collection($followers, $user_id);
 
         return response([

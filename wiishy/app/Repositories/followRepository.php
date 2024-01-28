@@ -31,11 +31,16 @@ class followRepository
         ->get();
     }
 
+    public static function followers($user_id)
+    {
+        return User::find($user_id)->followers()->get();
+    }
+
     public static function suggestions($followings, $my_id)
     {
         $follow_suggestions = array();
         $suggestions_userid = array();
-        foreach($followings as $user) {
+        foreach ($followings as $user) {
             $follower_list = followRepository::list($user->user_id, 'userfollows.user_id', 'userfollows.follow_id', $my_id);
             array_push($follow_suggestions, $follower_list);
         }

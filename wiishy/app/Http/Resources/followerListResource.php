@@ -18,12 +18,12 @@ class followerListResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            'isfollow'=>followRepository::check($request->user()->id,$this->user_id),
-            'user_id'=>$this->user_id,
+            'isfollow'=>followRepository::check($request->user()->id,$this->id),
+            'user_id'=>$this->id,
             'user_image_url'=>$this->user_image_url,
             'name'=>$this->name,
             'family'=>$this->family,
-            'user_status'=>$this->user_status,
+            'user_status'=>$this->status,
             'age'=>userRepository::age($this->user_birthday),
         ];
     }

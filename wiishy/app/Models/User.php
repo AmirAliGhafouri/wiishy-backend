@@ -67,4 +67,14 @@ class User extends Authenticatable
         return $this->hasManyThrough(Gift::class, userfollow::class, 'user_id', 'user_id', 'id', 'follow_id')
             ->where(['userfollows.follow_status' => 1, 'gifts.gift_status' => 1]);;
     } */
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'userfollows', 'follow_id', 'user_id')->wherePivot('follow_status', 1);;
+    }
+
+    public function followings()
+    {
+        return $this->belongsToMany(User::class, 'userfollows', 'follow_id', 'user_id');
+    }
 }
