@@ -12,14 +12,14 @@ class followRepository
         return User::where('id' ,$user_id)->first()->$item;
     }
 
-    public static function follow_list($user_id, $join, $field)
+    /* public static function follow_list($user_id, $join, $field)
     {
         return DB::table('users')
         ->join('userfollows' ,'users.id', '=', $join)
         ->where([$field => $user_id ,'follow_status' => 1])
         ->select('*', "$join as user_id", 'status as user_status', "$field as id")
         ->get();
-    }
+    } */
 
     public static function list($user_id, $join, $field, $my_id)
     {
